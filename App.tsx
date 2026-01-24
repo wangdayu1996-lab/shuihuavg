@@ -326,8 +326,12 @@ const App: React.FC = () => {
 
         {currentNode.characterId && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
-            {/* 关键修复：对话场景使用 sprite (PNG) */}
-            <img src={characters.find(c => c.id === currentNode.characterId)?.sprite} className="h-[105vh] w-auto animate-fade-up object-contain origin-bottom" alt="portrait" />
+            {/* 关键修复：卢俊义立绘缩小到 0.9 倍 (105 * 0.9 = 94.5) 并保持水平居中 */}
+            <img 
+              src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
+              className={`w-auto animate-fade-up object-contain origin-bottom ${currentNode.characterId === 'lujunyi' ? 'h-[94.5vh]' : 'h-[105vh]'}`} 
+              alt="portrait" 
+            />
           </div>
         )}
 
