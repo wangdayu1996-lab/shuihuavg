@@ -4,7 +4,7 @@ export enum GameState {
   STORY = 'STORY',
   FREE_TALK = 'FREE_TALK',
   GALLERY = 'GALLERY',
-  DIVINATION = 'DIVINATION' // 卜卦界面
+  DIVINATION = 'DIVINATION' 
 }
 
 export interface DivinationBuff {
@@ -31,9 +31,9 @@ export interface Character {
   name: string;
   title: string;
   description: string;
-  avatar: string;
-  portrait: string;
-  galleryImage?: string;
+  avatar: string;    // 小头像
+  portrait: string;  // 名册/画廊大图 (JPG)
+  sprite: string;    // 对话立绘 (PNG)
   personality: string;
   affection: number;
   interactionCount: number;
@@ -50,7 +50,7 @@ export interface StoryNode {
   characterId?: string;
   choices?: Choice[];
   nextId?: string;
-  isNameInput?: boolean; // 新增：是否为姓名输入节点
+  isNameInput?: boolean;
 }
 
 export interface Choice {

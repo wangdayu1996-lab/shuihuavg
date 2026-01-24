@@ -41,7 +41,7 @@ const DivinationModal: React.FC<{
           <div className="py-10">
             <div className={`text-9xl mb-10 transition-transform duration-1000 ${isDrawing ? 'animate-spin' : ''}`}>☯️</div>
             <button onClick={handleDraw} disabled={isDrawing} className={`px-12 py-4 rounded-full font-bold text-xl transition-all ${isDrawing ? 'bg-gray-800' : 'bg-yellow-600 hover:bg-yellow-500 text-white'}`}>
-              {isDrawing ? '推演中...' : '掷茭求卦'}
+              {isDrawing ? '掷茭求卦' : '掷茭求卦'}
             </button>
           </div>
         )}
@@ -231,7 +231,7 @@ const App: React.FC = () => {
   }, [currentNodeId, playerName]);
 
   const handleNextDialogue = () => {
-    if (currentNode.isNameInput) return; // 输入界面不响应普通点击
+    if (currentNode.isNameInput) return;
     
     if (isTyping) { 
       setTypedContent(currentNode.content.replace(/{playerName}/g, playerName)); 
@@ -323,7 +323,7 @@ const App: React.FC = () => {
 
         {currentNode.characterId && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
-            <img src={characters.find(c => c.id === currentNode.characterId)?.portrait} className="h-[105vh] w-auto animate-fade-up object-contain origin-bottom" alt="portrait" />
+            <img src={characters.find(c => c.id === currentNode.characterId)?.sprite} className="h-[105vh] w-auto animate-fade-up object-contain origin-bottom" alt="portrait" />
           </div>
         )}
 
