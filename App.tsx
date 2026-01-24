@@ -216,7 +216,7 @@ const App: React.FC = () => {
     setShowChoices(false);
     
     // 处理占位符
-    const processedContent = currentNode.content.replace(/{playerName}/g, playerName);
+    const processedContent = (currentNode.content || "").replace(/{playerName}/g, playerName);
     
     let charIndex = 0;
     const interval = setInterval(() => {
@@ -228,22 +228,25 @@ const App: React.FC = () => {
       }
     }, 25); 
     return () => clearInterval(interval);
-  }, [currentNodeId, playerName]);
+  }, [currentNodeId, playerName, currentNode.content]);
 
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
     
+    // 如果正在打字，点击则瞬间显示全部文字
     if (isTyping) { 
-      setTypedContent(currentNode.content.replace(/{playerName}/g, playerName)); 
+      setTypedContent((currentNode.content || "").replace(/{playerName}/g, playerName)); 
       setIsTyping(false);
       return; 
     }
     
+    // 关键修复：如果节点有选项且当前没显示选项，点击后才显示选项
     if (currentNode.choices && !showChoices) { 
       setShowChoices(true); 
       return; 
     }
     
+    // 只有在没选项或者还没显示选项时，才进入下一个节点
     if (currentNode.nextId && !currentNode.choices) {
       setCurrentNodeId(currentNode.nextId);
     }
@@ -323,6 +326,7 @@ const App: React.FC = () => {
 
         {currentNode.characterId && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
+            {/* 关键修复：对话场景使用 sprite (PNG) */}
             <img src={characters.find(c => c.id === currentNode.characterId)?.sprite} className="h-[105vh] w-auto animate-fade-up object-contain origin-bottom" alt="portrait" />
           </div>
         )}
