@@ -59,7 +59,6 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_yan_greet': { id: 'hall_yan_greet', speaker: '燕青', characterId: 'yanqing', content: '“小可燕青，见过阁下。观阁下服饰奇异，言谈失措，莫非……并非此世之人？”', background: BG_CAMP, nextId: 'hall_junyi_stern' },
   'hall_junyi_stern': { id: 'hall_junyi_stern', speaker: '卢俊义', characterId: 'lujunyi', content: '“小乙休要妄言。此子来历不明，当有个交代。”', background: BG_CAMP, nextId: 'hall_gongsun_entry' },
 
-  // 公孙胜预言
   'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“慢着！”（入云龙公孙胜缓步上前，双目如炬盯着你）“诸位兄弟且慢，此子身上缠绕着一股极为浓烈的‘天罡灵气’。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
   'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“他并非此界凡人，乃是受星辰感召穿越而来。然而异界之身难容星宿之力，百零八日内若无法引星宿之力调和，必将魂飞魄散！”', background: BG_CAMP, nextId: 'hall_reaction_song' },
   'hall_reaction_song': { id: 'hall_reaction_song', speaker: '宋江', content: '“竟有此事？既然是上天送来的缘分，梁山绝无见死不救之理！”', background: BG_CAMP, nextId: 'hall_reaction_all' },
@@ -76,12 +75,41 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '（礼貌地）好，明天我去竹林找大师。', nextId: 'day2_choice_accept_lu', affectionBonus: { charId: 'luzhishen', points: 15 } }
   ]},
 
-  // 答应鲁智深的分支
+  // 分支：跟李逵继续学 (10页特训)
+  'day2_choice_stay_kui': { id: 'day2_choice_stay_kui', speaker: '李逵', characterId: 'likui', content: '“哈哈！够意思！那老和尚只会打坐，闷得死人。还是俺带你练带劲！”', background: BG_FOREST, nextId: 'day2_kui_t_1' },
+  'day2_kui_t_1': { id: 'day2_kui_t_1', speaker: '李逵', characterId: 'likui', content: '“来，接着吼！别像个娘们似的。要把肚子里那口恶气全撒出来！”', background: BG_FOREST, nextId: 'day2_kui_t_2' },
+  'day2_kui_t_2': { id: 'day2_kui_t_2', speaker: '{playerName}', content: '你深吸一口气，学着他的样子，“哇——呀！！”', background: BG_FOREST, nextId: 'day2_kui_t_3' },
+  'day2_kui_t_3': { id: 'day2_kui_t_3', speaker: '李逵', characterId: 'likui', content: '“不对！再大声点！想象那老虎要叼走你的奖金！”（他比划着夸张的手势）', background: BG_FOREST, nextId: 'day2_kui_t_4' },
+  'day2_kui_t_4': { id: 'day2_kui_t_4', speaker: '{playerName}', content: '“为了年终奖！！滚！！！”你用尽全身力气咆哮，惊起一片飞鸟。', background: BG_FOREST, nextId: 'day2_kui_t_5' },
+  'day2_kui_t_5': { id: 'day2_kui_t_5', speaker: '李逵', characterId: 'likui', content: '“好！就是这股狠劲！走，带你去搬大石头，练练力气！”', background: BG_FOREST, nextId: 'day2_kui_t_6' },
+  'day2_kui_t_6': { id: 'day2_kui_t_6', speaker: '系统', content: '你费力地搬着磨盘大的青石，李逵在一旁轻巧地抛接他的板斧，眼神里难得露出一丝关切。', background: BG_FOREST, nextId: 'day2_kui_t_7' },
+  'day2_kui_t_7': { id: 'day2_kui_t_7', speaker: '李逵', characterId: 'likui', content: '“娃娃，俺其实觉得你这文弱样也挺好，像个读书人。但梁山乱，你得能护住自己。”', background: BG_FOREST, nextId: 'day2_kui_t_8' },
+  'day2_kui_t_8': { id: 'day2_kui_t_8', speaker: '{playerName}', content: '“铁牛大哥，没想到你还会关心人。”', background: BG_FOREST, nextId: 'day2_kui_t_9' },
+  'day2_kui_t_9': { id: 'day2_kui_t_9', speaker: '李逵', characterId: 'likui', content: '“呸！谁关心你了！俺是怕你死了，没人给哥哥写账目！”（他涨红了脸，转过头去）', background: BG_FOREST, nextId: 'day2_kui_t_10' },
+  'day2_kui_t_10': { id: 'day2_kui_t_10', speaker: '系统', content: '夕阳西下，你们并肩走回营地。李逵偷偷往你手里塞了一块刚烤好的肉饼。', background: BG_BLACK, nextId: 'day3_kui_yiling_1' },
+
+  // --- 第三天：李逵心动剧情 - 沂岭杀四虎 (15页) ---
+  'day3_kui_yiling_1': { id: 'day3_kui_yiling_1', speaker: '系统', content: '第三天。天刚蒙蒙亮，李逵就火急火燎地把你从被窝里拽了出来。', background: BG_CAVE, nextId: 'day3_kui_yiling_2' },
+  'day3_kui_yiling_2': { id: 'day3_kui_yiling_2', speaker: '李逵', characterId: 'likui', content: '“快走！俺要回沂岭接老娘上山，这路上不平，俺怕俺这粗手笨脚的照顾不好，你心思细，陪俺走一趟！”', background: BG_CAVE, nextId: 'day3_kui_yiling_3' },
+  'day3_kui_yiling_3': { id: 'day3_kui_yiling_3', speaker: '系统', content: '你们一路疾行至沂州境内的沂岭。山路崎岖，林木幽深，隐约透着股不安的寂静。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_4' },
+  'day3_kui_yiling_4': { id: 'day3_kui_yiling_4', speaker: '李逵', characterId: 'likui', content: '“娘！俺铁牛回来接您了！”（李逵背着老母，步履轻快。老母眼盲，只是不住地抚摸着他的头）', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_5' },
+  'day3_kui_yiling_5': { id: 'day3_kui_yiling_5', speaker: '李母', content: '“铁牛啊，你慢些……这位小友是？”', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_6' },
+  'day3_kui_yiling_6': { id: 'day3_kui_yiling_6', speaker: '{playerName}', content: '“老人家，我是李大哥的朋友，叫我{playerName}就行。”', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_7' },
+  'day3_kui_yiling_7': { id: 'day3_kui_yiling_7', speaker: '系统', content: '午后时分，老母口渴。李逵让你陪着老母坐在一块青石上，自己拎着朴刀去寻水。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_8' },
+  'day3_kui_yiling_8': { id: 'day3_kui_yiling_8', speaker: '系统', content: '突然，腥风扑面！林中猛地窜出两头斑斓猛虎，直扑惊恐的老母！', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_9' },
+  'day3_kui_yiling_9': { id: 'day3_kui_yiling_9', speaker: '{playerName}', content: '“救命！！铁牛大哥！！老虎！！！”你下意识护在老母身前，心脏快要跳出喉咙。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_10' },
+  'day3_kui_yiling_10': { id: 'day3_kui_yiling_10', speaker: '李逵', characterId: 'likui', content: '“畜生敢尔！！！”一声雷鸣般的暴喝从崖下炸响，黑色的人影瞬间而至！', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_11' },
+  'day3_kui_yiling_11': { id: 'day3_kui_yiling_11', speaker: '系统', content: '那是你从未见过的李逵。他的双目通红，甚至比猛虎还要狂暴。他手起刀落，瞬间劈开一头大虎的头骨。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_12' },
+  'day3_kui_yiling_12': { id: 'day3_kui_yiling_12', speaker: '系统', content: '草丛里竟还伏着两头幼虎！李逵杀得性起，朴刀翻飞，温热的鲜血溅了一地，染红了他的整张脸。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_13' },
+  'day3_kui_yiling_13': { id: 'day3_kui_yiling_13', speaker: '系统', content: '他在血泊中击毙最后一头猛虎，朴刀深深没入泥土。整座山似乎都被他的杀气震慑，变得死一般寂静。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_14' },
+  'day3_kui_yiling_14': { id: 'day3_kui_yiling_14', speaker: '系统', content: '他喘着粗气回过头看向被吓坏的你，眼神瞬间从野兽变成了做错事的孩子。那种极度的凶狠突然消失，取而代之的是一种手足无措的温柔。', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_15' },
+  'day3_kui_yiling_15': { id: 'day3_kui_yiling_15', speaker: '李逵', characterId: 'likui', content: '他小心翼翼地走到你面前，递过一只还带着体温的虎爪，呐呐道：“娃娃，别怕，有俺在。这虎爪拿着压惊……没伤着吧？”', background: BG_MOUNTAIN, nextId: 'day4_start' },
+
+  // 分支：答应鲁智深 (按用户指令不变)
   'day2_choice_accept_lu': { id: 'day2_choice_accept_lu', speaker: '李逵', characterId: 'likui', content: '“呸！大师抢俺徒弟！说明天就明天，今天还没完呢！”', background: BG_FOREST, nextId: 'day2_kui_cont_1' },
   'day2_kui_cont_1': { id: 'day2_kui_cont_1', speaker: '系统', content: '李逵为了“赢”过鲁智深，接下来半天对你疯狂特训，教你如何像野兽一样感知危险。', background: BG_FOREST, nextId: 'day2_kui_cont_2' },
   'day2_kui_cont_2': { id: 'day2_kui_cont_2', speaker: '李逵', characterId: 'likui', content: '“不错，你这娃儿学得还挺快。明天虽然去那老和尚那，但可别忘了俺教你的！”', background: BG_FOREST, nextId: 'day3_lu_path_start' },
 
-  // 第三天：鲁智深路径 (15页)
   'day3_lu_path_start': { id: 'day3_lu_path_start', speaker: '系统', content: '第三天。你如约来到后山竹林，鲁智深已等候多时。', background: BG_FOREST, nextId: 'day3_lu_1' },
   'day3_lu_1': { id: 'day3_lu_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“来，随洒家静坐。修行不仅是力，更是心。感受这林间的一草一木。”', background: BG_FOREST, nextId: 'day3_lu_2' },
   'day3_lu_2': { id: 'day3_lu_2', speaker: '鲁智深', characterId: 'luzhishen', content: '“闭上眼。试着引导你体内那些乱窜的‘星气’。别去压它，随它去。”', background: BG_FOREST, nextId: 'day3_lu_3' },
@@ -90,17 +118,12 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_lu_5': { id: 'day3_lu_5', speaker: '系统', content: '接下来的几个时辰，他耐心地向你展示如何将禅意融入防御。', background: BG_FOREST, nextId: 'day3_lu_15' },
   'day3_lu_15': { id: 'day3_lu_15', speaker: '鲁智深', characterId: 'luzhishen', content: '“好！今日就练到这。肚子在抗议了吧？去伙房吧，那儿刚蒸好了梁山最好吃的白面大馒头！”', background: BG_CAMP, nextId: 'day3_kitchen_1' },
 
-  // 第三天：后厨对话 (10页)
   'day3_kitchen_1': { id: 'day3_kitchen_1', speaker: '系统', content: '梁山后厨。麦香和柴火味扑面而来。', background: BG_CAMP, nextId: 'day3_kitchen_2' },
   'day3_kitchen_2': { id: 'day3_kitchen_2', speaker: '老厨师', content: '“哟！是那位未来的小官人啊！鲁大师刚打过招呼。快，刚出锅的馒头，热乎着呢。”', background: BG_CAMP, nextId: 'day3_kitchen_3' },
   'day3_kitchen_3': { id: 'day3_kitchen_3', speaker: '{playerName}', content: '“谢谢大叔。您在山上待很久了吧？能跟我讲讲李逵和鲁大师吗？”', background: BG_CAMP, nextId: 'day3_kitchen_4' },
   'day3_kitchen_4': { id: 'day3_kitchen_4', speaker: '老厨师', content: '“那黑旋风李逵，看着凶，其实就是个长不大的大孩子，心里藏不住事，对人那是一片赤诚。”', background: BG_CAMP, nextId: 'day3_kitchen_5' },
   'day3_kitchen_5': { id: 'day3_kitchen_5', speaker: '老厨师', content: '“至于鲁大师，那是天上的罗汉下凡，一颗菩萨心肠。他在山上，大伙儿心里都踏实。”', background: BG_CAMP, nextId: 'day3_kitchen_10' },
   'day3_kitchen_10': { id: 'day3_kitchen_10', speaker: '系统', content: '你听着老陶的絮叨，吃着暄软的馒头，心中泛起阵阵暖意。饱餐一顿后，你回到房间。', background: BG_BLACK, nextId: 'day4_start' },
-
-  // 如果选择跟李逵继续学
-  'day2_choice_stay_kui': { id: 'day2_choice_stay_kui', speaker: '李逵', characterId: 'likui', content: '“哈哈！够意思！俺就知道你这娃娃对俺胃口！”', background: BG_FOREST, nextId: 'day3_kui_yiling_1' },
-  'day3_kui_yiling_1': { id: 'day3_kui_yiling_1', speaker: '系统', content: '（李逵沂岭杀四虎剧情分支，15页，略……）', background: BG_MOUNTAIN, nextId: 'day4_start' },
 
   // --- 第四天：导师正式选择 ---
   'day4_start': { id: 'day4_start', speaker: '系统', content: '第四天。这一日，你需要正式决定跟随哪位英雄开启正式的专项特训。', background: BG_CAMP, nextId: 'day4_choice' },
