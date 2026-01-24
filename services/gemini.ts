@@ -6,14 +6,19 @@ import { Message, Character, HeartbeatEvent } from "../types";
 export const generateCharacterResponse = async (
   character: Character,
   chatHistory: Message[],
-  userInput: string
+  userInput: string,
+  playerName: string = "玩家"
 ): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const model = 'gemini-3-flash-preview';
   
   const systemInstruction = `
     你现在是《水浒传》甜宠恋爱文字游戏中的男主角：${character.name}（${character.title}）。
-    玩家身份是梁山小文书。禁现代职场词。保持英雄气概与柔情。
+    玩家的姓名是：${playerName}。
+    玩家的身份是梁山小文书。
+    在对话中请自然地使用玩家的名字 ${playerName} 来称呼对方。
+    请禁现代职场词。保持英雄气概与柔情。
+    你的性格特点：${character.personality}。
   `;
 
   const formattedHistory = chatHistory.map(m => ({

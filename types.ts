@@ -1,3 +1,4 @@
+
 export enum GameState {
   START = 'START',
   STORY = 'STORY',
@@ -49,6 +50,7 @@ export interface StoryNode {
   characterId?: string;
   choices?: Choice[];
   nextId?: string;
+  isNameInput?: boolean; // 新增：是否为姓名输入节点
 }
 
 export interface Choice {

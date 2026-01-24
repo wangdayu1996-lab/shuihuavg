@@ -89,11 +89,12 @@ const GalleryPage: React.FC<{
 // --- 子组件：传信对话 ---
 const ChatWindow: React.FC<{
   character: Character,
+  playerName: string,
   messages: Message[],
   onSend: (text: string, style: string) => void,
   onClose: () => void,
   isResponding: boolean
-}> = ({ character, messages, onSend, onClose, isResponding }) => {
+}> = ({ character, playerName, messages, onSend, onClose, isResponding }) => {
   const [input, setInput] = useState('');
   const [style, setStyle] = useState('gentle');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -148,7 +149,7 @@ const ChatWindow: React.FC<{
               ))}
             </div>
             <div className="flex gap-4">
-              <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && onSend(input, style)} placeholder="在这尺素之上写下你想说的话..." className="flex-1 bg-transparent border-b-2 border-gray-400 p-3 focus:border-yellow-800 outline-none font-serif text-xl" />
+              <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && onSend(input, style)} placeholder={`寄给${character.name}的话...`} className="flex-1 bg-transparent border-b-2 border-gray-400 p-3 focus:border-yellow-800 outline-none font-serif text-xl" />
               <button onClick={() => {onSend(input, style); setInput('')}} className="px-8 py-3 bg-[#2a1a10] text-yellow-500 rounded-xl font-calligraphy text-xl hover:bg-black transition-all shadow-md">寄出</button>
             </div>
           </div>
@@ -165,6 +166,9 @@ const App: React.FC = () => {
   const [typedContent, setTypedContent] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [showChoices, setShowChoices] = useState<boolean>(false);
+  const [playerName, setPlayerName] = useState(() => localStorage.getItem('shuihu_player_name') || '小文书');
+  const [tempName, setTempName] = useState('');
+  
   const [characters, setCharacters] = useState<Character[]>(() => {
     const saved = localStorage.getItem('shuihu_chars');
     return saved ? JSON.parse(saved) : CHARACTERS;
@@ -183,7 +187,6 @@ const App: React.FC = () => {
   const [isAiResponding, setIsAiResponding] = useState<boolean>(false);
 
   const [showDivination, setShowDivination] = useState(false);
-  const [showShareToast, setShowShareToast] = useState(false);
 
   const currentNode = STORY_DATA[currentNodeId] || STORY_DATA['start'];
   const [displayBackground, setDisplayBackground] = useState(currentNode.background);
@@ -194,7 +197,8 @@ const App: React.FC = () => {
     localStorage.setItem('shuihu_day', currentDay.toString());
     localStorage.setItem('shuihu_node', currentNodeId);
     localStorage.setItem('shuihu_chat', JSON.stringify(chatHistory));
-  }, [characters, currentDay, currentNodeId, chatHistory]);
+    localStorage.setItem('shuihu_player_name', playerName);
+  }, [characters, currentDay, currentNodeId, chatHistory, playerName]);
 
   useEffect(() => {
     if (currentNode.background !== displayBackground) {
@@ -210,32 +214,45 @@ const App: React.FC = () => {
     setTypedContent('');
     setIsTyping(true);
     setShowChoices(false);
+    
+    // 处理占位符
+    const processedContent = currentNode.content.replace(/{playerName}/g, playerName);
+    
     let charIndex = 0;
     const interval = setInterval(() => {
       charIndex++;
-      setTypedContent(currentNode.content.slice(0, charIndex));
-      if (charIndex >= currentNode.content.length) { 
+      setTypedContent(processedContent.slice(0, charIndex));
+      if (charIndex >= processedContent.length) { 
         clearInterval(interval); 
         setIsTyping(false); 
       }
     }, 25); 
     return () => clearInterval(interval);
-  }, [currentNodeId]);
+  }, [currentNodeId, playerName]);
 
   const handleNextDialogue = () => {
+    if (currentNode.isNameInput) return; // 输入界面不响应普通点击
+    
     if (isTyping) { 
-      setTypedContent(currentNode.content); 
+      setTypedContent(currentNode.content.replace(/{playerName}/g, playerName)); 
       setIsTyping(false);
       return; 
     }
     
-    // 改动：如果有选项，只有在打字机完成后的第二次点击（且 showChoices 为 false）才弹出选项
     if (currentNode.choices && !showChoices) { 
       setShowChoices(true); 
       return; 
     }
     
     if (currentNode.nextId && !currentNode.choices) {
+      setCurrentNodeId(currentNode.nextId);
+    }
+  };
+
+  const handleNameSubmit = () => {
+    if (!tempName.trim()) return;
+    setPlayerName(tempName.trim());
+    if (currentNode.nextId) {
       setCurrentNodeId(currentNode.nextId);
     }
   };
@@ -260,7 +277,7 @@ const App: React.FC = () => {
     setActionPoints(p => p - 1);
     setIsAiResponding(true);
     
-    const response = await generateCharacterResponse(selectedCharForChat, chatHistory[charId] || [], text);
+    const response = await generateCharacterResponse(selectedCharForChat, chatHistory[charId] || [], text, playerName);
     setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), { role: 'model', text: response }] }));
     setIsAiResponding(false);
     setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
@@ -288,6 +305,9 @@ const App: React.FC = () => {
                 <div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />
               ))}
             </div>
+            <div className="text-yellow-600/50 text-xs font-serif italic border-l border-yellow-900/40 pl-4">
+              当前姓名: {playerName}
+            </div>
           </div>
           <div className="flex gap-4 items-center">
             <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl">☯️</button>
@@ -314,12 +334,33 @@ const App: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl cursor-pointer hover:border-yellow-600" onClick={handleNextDialogue}>
-            <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">{currentNode.speaker || '梁山秘史'}</div>
-            <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">{typedContent}</div>
-            <div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">
-                {isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : '▼ 继续剧幕')}
+          <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`} onClick={handleNextDialogue}>
+            <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">
+              {currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}
             </div>
+            
+            <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">
+              {typedContent}
+              {currentNode.isNameInput && (
+                <div className="mt-8 flex gap-4 animate-fade-in">
+                  <input 
+                    autoFocus
+                    value={tempName}
+                    onChange={e => setTempName(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleNameSubmit()}
+                    placeholder="请输入你的名号..."
+                    className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl"
+                  />
+                  <button onClick={handleNameSubmit} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button>
+                </div>
+              )}
+            </div>
+            
+            {!currentNode.isNameInput && (
+              <div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">
+                  {isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : '▼ 继续剧幕')}
+              </div>
+            )}
           </div>
         )}
 
@@ -327,6 +368,7 @@ const App: React.FC = () => {
         {isChatWindowOpen && selectedCharForChat && (
           <ChatWindow 
             character={selectedCharForChat} 
+            playerName={playerName}
             messages={chatHistory[selectedCharForChat.id] || []} 
             onSend={handleSendMessage} 
             onClose={() => setIsChatWindowOpen(false)} 
