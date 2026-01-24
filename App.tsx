@@ -105,7 +105,6 @@ const ChatWindow: React.FC<{
   return (
     <div className="fixed inset-0 z-[250] bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 md:p-10">
       <div className="w-full max-w-5xl h-[85vh] bg-[#fdfaf2] rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-[0_0_80px_rgba(0,0,0,0.5)] border-4 border-[#2a1a10]">
-        {/* 左侧：英雄立绘 */}
         <div className="hidden md:block w-1/3 bg-[#1a110a] relative overflow-hidden">
           <img src={character.portrait} className="absolute inset-0 w-full h-full object-cover object-top opacity-80" alt="char" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a110a] via-transparent to-transparent" />
@@ -115,7 +114,6 @@ const ChatWindow: React.FC<{
           </div>
         </div>
 
-        {/* 右侧：书信区域 */}
         <div className="flex-1 flex flex-col relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')]">
           <div className="p-6 border-b border-gray-300 flex items-center justify-between">
             <span className="font-calligraphy text-2xl text-gray-800">往来书信</span>
@@ -123,9 +121,6 @@ const ChatWindow: React.FC<{
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 scrollbar-hide">
-            {messages.length === 0 && (
-              <div className="text-center py-20 text-gray-400 italic font-serif">暂无书信往来，提笔诉说衷肠...</div>
-            )}
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}>
                 <div className={`max-w-[85%] p-6 rounded-2xl shadow-sm font-serif text-lg leading-relaxed ${
@@ -177,7 +172,6 @@ const App: React.FC = () => {
   
   const [currentDay, setCurrentDay] = useState(() => Number(localStorage.getItem('shuihu_day')) || 1);
   const [actionPoints, setActionPoints] = useState(3);
-  const [currentBuff, setCurrentBuff] = useState<DivinationBuff | null>(null);
   const [divinationUsedToday, setDivinationUsedToday] = useState(false);
 
   const [isChatWindowOpen, setIsChatWindowOpen] = useState<boolean>(false);
@@ -189,14 +183,12 @@ const App: React.FC = () => {
   const [isAiResponding, setIsAiResponding] = useState<boolean>(false);
 
   const [showDivination, setShowDivination] = useState(false);
-  const [activeCGEvent, setActiveCGEvent] = useState<HeartbeatEvent | null>(null);
   const [showShareToast, setShowShareToast] = useState(false);
 
   const currentNode = STORY_DATA[currentNodeId] || STORY_DATA['start'];
   const [displayBackground, setDisplayBackground] = useState(currentNode.background);
   const [isBlackout, setIsBlackout] = useState(false);
 
-  // 存档机制
   useEffect(() => {
     localStorage.setItem('shuihu_chars', JSON.stringify(characters));
     localStorage.setItem('shuihu_day', currentDay.toString());
@@ -204,7 +196,6 @@ const App: React.FC = () => {
     localStorage.setItem('shuihu_chat', JSON.stringify(chatHistory));
   }, [characters, currentDay, currentNodeId, chatHistory]);
 
-  // 转场效果
   useEffect(() => {
     if (currentNode.background !== displayBackground) {
       setIsBlackout(true);
@@ -215,7 +206,6 @@ const App: React.FC = () => {
     }
   }, [currentNode.background]);
 
-  // 打字机效果
   useEffect(() => {
     setTypedContent('');
     setIsTyping(true);
@@ -233,9 +223,21 @@ const App: React.FC = () => {
   }, [currentNodeId]);
 
   const handleNextDialogue = () => {
-    if (isTyping) { setTypedContent(currentNode.content); return; }
-    if (currentNode.choices && !showChoices) { setShowChoices(true); return; }
-    if (currentNode.nextId) setCurrentNodeId(currentNode.nextId);
+    if (isTyping) { 
+      setTypedContent(currentNode.content); 
+      setIsTyping(false);
+      return; 
+    }
+    
+    // 改动：如果有选项，只有在打字机完成后的第二次点击（且 showChoices 为 false）才弹出选项
+    if (currentNode.choices && !showChoices) { 
+      setShowChoices(true); 
+      return; 
+    }
+    
+    if (currentNode.nextId && !currentNode.choices) {
+      setCurrentNodeId(currentNode.nextId);
+    }
   };
 
   const handleChoice = (choice: Choice) => {
@@ -264,21 +266,6 @@ const App: React.FC = () => {
     setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
   };
 
-  const nextDay = () => {
-    setCurrentDay(d => Math.min(108, d + 1));
-    setActionPoints(3);
-    setDivinationUsedToday(false);
-    setCurrentBuff(null);
-  };
-
-  const handleShare = () => {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        setShowShareToast(true);
-        setTimeout(() => setShowShareToast(false), 3000);
-    });
-  };
-
   const renderContent = () => {
     if (gameState === GameState.START) {
       return <LandingPage onStart={() => setGameState(GameState.STORY)} onGallery={() => setGameState(GameState.GALLERY)} />;
@@ -290,7 +277,6 @@ const App: React.FC = () => {
 
     return (
       <div className="relative w-full h-screen bg-black overflow-hidden font-serif">
-        {/* 资源栏 */}
         <div className="fixed top-0 left-0 right-0 z-[100] h-16 bg-black/60 backdrop-blur-md border-b border-yellow-900/30 flex items-center justify-between px-8">
           <div className="flex items-center gap-8">
             <div className="flex flex-col">
@@ -304,40 +290,26 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="flex gap-4 items-center">
-            <button onClick={handleShare} className="px-4 py-2 bg-yellow-900/40 text-yellow-200 border border-yellow-700/50 rounded-full text-xs hover:bg-yellow-800 transition-all flex items-center gap-2">
-               <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-               分享
-            </button>
             <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl">☯️</button>
             <button onClick={() => setGameState(GameState.GALLERY)} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
-            <button onClick={nextDay} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold shadow-lg hover:bg-yellow-700">渡过此日</button>
+            <button onClick={() => {setCurrentDay(d => d+1); setActionPoints(3);}} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
         </div>
 
-        {/* 吐司提示 */}
-        {showShareToast && (
-            <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-3 rounded-full shadow-2xl animate-fade-in font-serif">
-                纸短情长，游戏链接已复制，快去分享给好友吧！
-            </div>
-        )}
-
-        {/* 舞台背景 */}
         <div className="absolute inset-0 z-0">
           <img src={displayBackground} className="w-full h-full object-cover brightness-[0.45]" alt="bg" />
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {/* 立绘 */}
         {currentNode.characterId && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
-            <img src={characters.find(c => c.id === currentNode.characterId)?.portrait} className="h-[110vh] w-auto animate-fade-up object-contain origin-bottom" alt="portrait" />
+            <img src={characters.find(c => c.id === currentNode.characterId)?.portrait} className="h-[105vh] w-auto animate-fade-up object-contain origin-bottom" alt="portrait" />
           </div>
         )}
 
-        {/* 对话框 */}
-        {currentNode.choices && !isTyping && showChoices ? (
+        {showChoices ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-30 p-4 gap-6 animate-fadeIn">
-            {currentNode.choices.map((choice, idx) => (
+            {currentNode.choices?.map((choice, idx) => (
               <button key={idx} onClick={() => handleChoice(choice)} className="w-full max-w-2xl p-6 bg-[#1a110a]/98 border-2 border-yellow-800/60 text-gray-100 text-xl hover:bg-yellow-900/80 transition-all rounded-xl font-serif shadow-2xl">{choice.text}</button>
             ))}
           </div>
@@ -345,21 +317,13 @@ const App: React.FC = () => {
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl cursor-pointer hover:border-yellow-600" onClick={handleNextDialogue}>
             <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">{currentNode.speaker || '梁山秘史'}</div>
             <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">{typedContent}</div>
-            <div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold">
-                {isTyping ? '笔墨游走中...' : '▼ 继续剧幕'}
+            <div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">
+                {isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : '▼ 继续剧幕')}
             </div>
           </div>
         )}
 
-        {/* 浮动功能按钮 */}
-        <div className="fixed bottom-6 right-6 z-[150] flex flex-col gap-4">
-           <button onClick={() => { setSelectedCharForChat(characters[0]); setIsChatWindowOpen(true); }} className="w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-900 rounded-full shadow-2xl flex items-center justify-center border-2 border-yellow-400 hover:scale-110 transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-          </button>
-        </div>
-
-        {/* 全局弹窗 */}
-        {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setCurrentBuff(b); setDivinationUsedToday(true);}} />}
+        {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} />}
         {isChatWindowOpen && selectedCharForChat && (
           <ChatWindow 
             character={selectedCharForChat} 
