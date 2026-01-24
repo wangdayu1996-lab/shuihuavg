@@ -134,8 +134,28 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_branch' }
   ]},
 
-  'day4_lu_branch': { id: 'day4_lu_branch', speaker: '卢俊义', characterId: 'lujunyi', content: '“俊义在此恭候多时。请坐。”', background: BG_CAMP, nextId: 'day5_start' },
-  'day4_yan_branch': { id: 'day4_yan_branch', speaker: '燕青', characterId: 'yanqing', content: '“选我么？果然是明智的选择。”', background: BG_MARKET, nextId: 'day5_start' },
+  // 卢俊义 10页分支
+  'day4_lu_branch': { id: 'day4_lu_branch', speaker: '系统', content: '你穿过朱红大门，来到了卢员外的府邸。院内陈设考究，却透着股肃穆。', background: BG_CAMP, nextId: 'day4_lu_2' },
+  'day4_lu_2': { id: 'day4_lu_2', speaker: '系统', content: '大厅内，卢俊义正坐在堆积如山的账册后，眉头紧锁，手中的朱砂笔迟迟未落。', background: BG_CAMP, nextId: 'day4_lu_3' },
+  'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“卢员外，打扰了。我来履行约定，跟您学艺。”你小心翼翼地开口。', background: BG_CAMP, nextId: 'day4_lu_4' },
+  'day4_lu_4': { id: 'day4_lu_4', speaker: '卢俊义', characterId: 'lujunyi', content: '（他连眼皮都没抬，声音冷淡且疲惫）“是你啊。今日公文繁重，treasury 的账目出了些差错。”', background: BG_CAMP, nextId: 'day4_lu_5' },
+  'day4_lu_5': { id: 'day4_lu_5', speaker: '卢俊义', characterId: 'lujunyi', content: '“那些军饷调度比戏文复杂得多。我现在没心思教你那些‘格物’之道。”', background: BG_CAMP, nextId: 'day4_lu_6' },
+  'day4_lu_6': { id: 'day4_lu_6', speaker: '{playerName}', content: '“那我可以等，或者帮您分担一些……”', background: BG_CAMP, nextId: 'day4_lu_7' },
+  'day4_lu_7': { id: 'day4_lu_7', speaker: '卢俊义', characterId: 'lujunyi', content: '“分担？你这未来人懂大宋的钱粮制度？休要添乱。去，把屏风后那本‘通鉴’看了。”', background: BG_CAMP, nextId: 'day4_lu_8' },
+  'day4_lu_8': { id: 'day4_lu_8', speaker: '卢俊义', characterId: 'lujunyi', content: '（他再次伏案疾书，完全把你晾在一边）“看完了就自行回去吧，莫要吵闹。”', background: BG_CAMP, nextId: 'day4_lu_choice' },
+  'day4_lu_choice': { id: 'day4_lu_choice', speaker: '系统', content: '看着他疲惫的神色，你决定：', background: BG_CAMP, choices: [
+    { text: '默默地为他沏一盏温茶放在案头。', nextId: 'day4_lu_success', affectionBonus: { charId: 'lujunyi', points: 10 } },
+    { text: '坚持要他现在就教你，说时间不等人。', nextId: 'day4_lu_fail', affectionBonus: { charId: 'lujunyi', points: -10 } }
+  ]},
+  'day4_lu_success': { id: 'day4_lu_success', speaker: '卢俊义', characterId: 'lujunyi', content: '（他端起茶抿了一口，神色微动）“……茶香清冽。没想到你还有这份心，且退下吧，明日再议。”', background: BG_CAMP, nextId: 'day5_start' },
+  'day4_lu_fail': { id: 'day4_lu_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他重重放下笔，眼中闪过一丝愠色）“我说了我现在没空！看来你并不懂得什么叫‘克己礼让’。出去！”', background: BG_CAMP, nextId: 'day5_start' },
+
+  // 燕青 扑空分支
+  'day4_yan_branch': { id: 'day4_yan_branch', speaker: '系统', content: '你兴冲冲地来到燕青经常流连的酒肆和靶场。', background: BG_MARKET, nextId: 'day4_yan_2' },
+  'day4_yan_2': { id: 'day4_yan_2', speaker: '系统', content: '然而四处空空如也。只有风卷起地上的残叶。', background: BG_MARKET, nextId: 'day4_yan_3' },
+  'day4_yan_3': { id: 'day4_yan_3', speaker: '小厮', content: '“官人找燕小乙哥？不凑巧，他今早受了宋江哥哥密令，下山探查官军动向去了，不知何时归。”', background: BG_MARKET, nextId: 'day4_yan_4' },
+  'day4_yan_4': { id: 'day4_yan_4', speaker: '{playerName}', content: '你扑了个空，心里莫名有些空落落的。看来今天只能自己修行了。', background: BG_MARKET, nextId: 'day5_start' },
+
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', characterId: 'luzhishen', content: '“哈哈！洒家就知道你放不下那竹林。”', background: BG_FOREST, nextId: 'day5_start' },
   'day4_kui_branch': { id: 'day4_kui_branch', speaker: '李逵', characterId: 'likui', content: '“嘿嘿！俺就知道你会选俺！”', background: BG_MOUNTAIN, nextId: 'day5_start' },
 
