@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shuihu Heart: Moonlight at Liangshan</title>
+    <title>水浒·星引缘 | Moonlight at Liangshan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
@@ -12,6 +13,7 @@
             background-color: #1a1a1a;
             color: #f5f5f5;
             overflow: hidden;
+            margin: 0;
         }
         .font-calligraphy {
             font-family: 'Zhi Mang Xing', cursive;
@@ -33,7 +35,6 @@
         .animate-fade-up {
             animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        /* 心动剧场专用动画 */
         @keyframes kenburns {
             0% { transform: scale(1); }
             100% { transform: scale(1.15) translate(10px, 5px); }
@@ -45,10 +46,6 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
             transform: scale(1.02);
         }
-        .writing-mode-vertical {
-            writing-mode: vertical-rl;
-        }
-        /* 自定义滚动条 */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
@@ -60,17 +57,18 @@
 <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.1"
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 </head>
 <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>
