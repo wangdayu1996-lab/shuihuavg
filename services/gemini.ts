@@ -1,0 +1,58 @@
+
+import { GoogleGenAI, Type } from "@google/genai";
+import { Message, Character, HeartbeatEvent } from "../types";
+
+// Always initialize the client inside the function call to ensure up-to-date API key usage
+export const generateCharacterResponse = async (
+  character: Character,
+  chatHistory: Message[],
+  userInput: string
+): Promise<string> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const model = 'gemini-3-flash-preview';
+  
+  const systemInstruction = `
+    你现在是《水浒传》甜宠恋爱文字游戏中的男主角：${character.name}（${character.title}）。
+    玩家身份是梁山小文书。禁现代职场词。保持英雄气概与柔情。
+  `;
+
+  const formattedHistory = chatHistory.map(m => ({
+    role: m.role,
+    parts: [{ text: m.text || '' }]
+  }));
+
+  try {
+    const response = await ai.models.generateContent({
+      model: model,
+      contents: [
+        ...formattedHistory,
+        { role: 'user', parts: [{ text: userInput || '' }] }
+      ],
+      config: {
+        systemInstruction: systemInstruction,
+        temperature: 0.8,
+        topP: 0.9,
+      },
+    });
+
+    const textResult = response.text || "";
+    return textResult.trim() || "他看着你，露出了一个爽朗的微笑。";
+  } catch (error) {
+    console.error("Gemini Error:", error);
+    return "山间浓雾四起，传音符似乎失灵了。（连接中断）";
+  }
+};
+
+export const generateHeroMemory = async (character: Character): Promise<string> => {
+    try {
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const response = await ai.models.generateContent({
+          model: 'gemini-3-flash-preview',
+          contents: `为《水浒传》恋爱游戏写一段关于${character.name}的内心告白。150字以内。`
+      });
+      // Direct property access to response.text as per SDK guidelines
+      return (response.text || "").trim() || "这段记忆正在加载中...";
+    } catch (e) {
+      return "英雄的往事被尘封在岁月中。";
+    }
+};
