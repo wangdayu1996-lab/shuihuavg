@@ -63,12 +63,16 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我聚义厅？”', background: BG_CAMP, nextId: 'hall_name_input' },
   'hall_name_input': { id: 'hall_name_input', speaker: '系统', content: '请在这尺素纸上写下你的姓名：', background: BG_CAMP, isNameInput: true, nextId: 'hall_self_intro' },
 
-  'hall_self_intro': { id: 'hall_self_intro', speaker: '{playerName}', content: '“我叫{playerName}，来自遥远的未来。我之所以知道这里，是因为我认识你们每一个人，梁山一百零八将的事迹在未来家喻户晓。”', background: BG_CAMP, nextId: 'hall_crowd_disbelief' },
+  'hall_self_intro': { id: 'hall_self_intro', speaker: '{playerName}', content: '“我叫{playerName}，来自遥远的未来。我认识你们每一个人，梁山一百零八将的事迹在未来家喻户晓。”', background: BG_CAMP, nextId: 'hall_crowd_disbelief' },
   'hall_crowd_disbelief': { id: 'hall_crowd_disbelief', speaker: '系统', content: '堂下一片哗然，众人议论纷纷，脸上写满了质疑。宋江微微眯起眼，缓缓开口：“未来？家喻户晓？既然如此，宋某考你一题。”', background: BG_CAMP, nextId: 'hall_song_test' },
   'hall_song_test': { id: 'hall_song_test', speaker: '宋江', content: '“你说你认识我们，那我且问你，宋某当年究竟是如何上的这梁山？”', background: BG_CAMP, choices: [
-    { text: '因怒杀阎婆惜被发配江州，后在浔阳楼题反诗被救上山。', nextId: 'hall_kui_leg' },
+    { text: '因怒杀阎婆惜被发配江州，后在浔阳楼题反诗被救上山。', nextId: 'hall_song_verdict' },
     { text: '因为在京城卖保险赔个精光，为了躲债才跑来投奔晁盖。', nextId: 'game_over_hall' }
   ]},
+
+  'hall_song_verdict': { id: 'hall_song_verdict', speaker: '宋江', content: '“嗯。。。有点意思。诸位兄弟怎么看？”', background: BG_CAMP, nextId: 'hall_kui_support' },
+  'hall_kui_support': { id: 'hall_kui_support', speaker: '李逵', characterId: 'likui', content: '“我看这丫头还算机灵，不如留在梁山干活，正好我们缺人手。”', background: BG_CAMP, nextId: 'hall_lu_support' },
+  'hall_lu_support': { id: 'hall_lu_support', speaker: '卢俊义', characterId: 'lujunyi', content: '“宋公明哥哥所言极是。我这儿正有许多积压的账目需要打理，确实需要个识文断字的帮手。”', background: BG_CAMP, nextId: 'hall_kui_leg' },
 
   'game_over_hall': { id: 'game_over_hall', speaker: '宋江', content: '“满口胡言！宋某一生忠义，岂容你这厮在此瞎编乱造！来人，把这骗子赶出山寨，永世不得踏入！”', background: BG_BLACK, nextId: 'restart_game' },
   'restart_game': { id: 'restart_game', speaker: '系统', content: '【游戏结束】宋江最讨厌骗子。', background: BG_BLACK, choices: [{ text: '重新开始', nextId: 'start' }] },
@@ -277,6 +281,9 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_branch': { id: 'day4_kui_branch', speaker: '李逵', characterId: 'likui', content: '“嘿嘿！俺就知道你会选俺！”', background: BG_MOUNTAIN, nextId: 'day5_start' },
 
   'day5_start': { id: 'day5_start', speaker: '系统', content: '第五天。你感觉到体内的“天罡灵气”稳固了许多。', background: BG_CAMP, nextId: 'ch1_final_node' },
-  'ch1_final_node': { id: 'ch1_final_node', speaker: '系统', content: '第一章：天罡初醒 · 完. ', background: BG_CAMP, nextId: 'free_talk_intro' },
+  'ch1_final_node': { id: 'ch1_final_node', speaker: '系统', content: '第一章：天罡初醒 · 完. ', background: BG_CAMP, choices: [
+    { text: '进入自由传信互动', nextId: 'free_talk_intro' },
+    { text: '重新开始', nextId: 'start' }
+  ]},
   'free_talk_intro': { id: 'free_talk_intro', speaker: '系统', content: '现在可以自由传信互动了. ', background: BG_CAMP, nextId: 'free_talk_intro' }
 };
