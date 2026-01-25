@@ -476,7 +476,7 @@ const App: React.FC = () => {
 const LandingPage: React.FC<{ onStart: () => void, onGallery: () => void }> = ({ onStart, onGallery }) => (
   <div className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden">
     <div className="absolute inset-0 opacity-40">
-      <img src="https://images.unsplash.com/photo-1505506005708-3058a94639e7?auto=format&fit=crop&q=80&w=2000" className="w-full h-full object-cover" alt="bg" />
+      <img src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%BC%80%E5%9C%BA.jpg?raw=true" className="w-full h-full object-cover" alt="bg" />
     </div>
     <div className="relative z-10 text-center space-y-12 animate-fadeIn">
       <div className="space-y-4">
