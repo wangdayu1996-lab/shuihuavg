@@ -326,10 +326,10 @@ const App: React.FC = () => {
 
         {currentNode.characterId && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
-            {/* 关键修复：卢俊义立绘缩小到 0.87 倍 (105 * 0.87 = 91.35) 并保持水平居中 */}
+            {/* 关键修复：卢俊义、燕青、鲁智深立绘统一缩小到 0.87 倍 (105 * 0.87 = 91.35) 并保持水平居中 */}
             <img 
               src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
-              className={`w-auto animate-fade-up object-contain origin-bottom ${currentNode.characterId === 'lujunyi' ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
+              className={`w-auto animate-fade-up object-contain origin-bottom ${['lujunyi', 'yanqing', 'luzhishen'].includes(currentNode.characterId) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
               alt="portrait" 
             />
           </div>
