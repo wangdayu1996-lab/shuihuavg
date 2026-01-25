@@ -20,6 +20,7 @@ const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B
 const BG_KITCHEN = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%83%E6%88%BF.png?raw=true";
 const BG_LU_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
 const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
 
 export const DIVINATION_BUFFS: DivinationBuff[] = [
   { id: 'tianxi', name: '上上签 · 天喜星动', description: '鸿运当头！今日传信互动好感额外+5。', effectType: 'affection', icon: '🏮' },
@@ -59,7 +60,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_os_kui': { id: 'hall_os_kui', speaker: '李逵', characterId: 'likui', content: '（内心OS：啊呀！天上掉下个人来！是神仙还是点心？！）', background: BG_CAMP, nextId: 'hall_kui_explain' },
 
   'hall_kui_explain': { id: 'hall_kui_explain', speaker: '李逵', characterId: 'likui', content: '“哥哥，俺在林子里打旋，见这丫头从天上‘啪嗒’一下掉在俺脚跟前，俺还以为是个甚么野果，凑近一看才见是个活人！”', background: BG_CAMP, nextId: 'hall_reaction_crowd' },
-  'hall_reaction_crowd': { id: 'hall_reaction_crowd', speaker: '系统', content: '堂上众人面面相觑。宋江手捋胡须，神色复杂地打量着你；旁边的头领们有的交头耳，有的嘿嘿干笑，显然对李逵这番“天上掉人”的说辞感到有些不可置信。', background: BG_CAMP, nextId: 'hall_song_ask' },
+  'hall_reaction_crowd': { id: 'hall_reaction_crowd', speaker: '系统', content: '堂上众人面面相觑。宋江手捋胡须，神色复杂地打量着你；旁边的头领们有的交头耳，有的嘿嘿干笑，显然对李逵这番“天上掉人”的说辞感到有些不可信。', background: BG_CAMP, nextId: 'hall_song_ask' },
 
   'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我聚义厅？”', background: BG_CAMP, nextId: 'hall_name_input' },
   'hall_name_input': { id: 'hall_name_input', speaker: '系统', content: '请在这尺素纸上写下你的姓名：', background: BG_CAMP, isNameInput: true, nextId: 'hall_self_intro' },
@@ -233,7 +234,8 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kui_help_6': { id: 'day3_kui_help_6', speaker: '系统', content: '你在后方不断投掷石块干扰，李逵则像头真正的野兽在虎群中肉搏，鲜血染红了他的整张脸。', background: BG_FOREST, nextId: 'day3_kui_help_7' },
   'day3_kui_help_7': { id: 'day3_kui_help_7', speaker: '系统', content: '终于，最后一头猛虎在李逵的铁拳下脑浆迸裂，沉重地倒在血泊中。', background: BG_FOREST, nextId: 'day3_kui_help_8' },
   'day3_kui_help_8': { id: 'day3_kui_help_8', speaker: '系统', content: '他喘着粗气回过头看向被吓坏的你，眼神瞬间从野兽变成了做错事的孩子。', background: BG_FOREST, nextId: 'day3_kui_help_9' },
-  'day3_kui_help_9': { id: 'day3_kui_help_9', speaker: '李逵', characterId: 'likui', content: '他小心翼翼地递过一只还带着体温的虎爪：“娃娃，别怕，有俺在. 刚才……谢谢你护着俺娘. ”', background: BG_FOREST, nextId: 'day3_kui_help_10' },
+  'day3_kui_help_9': { id: 'day3_kui_help_9', speaker: '李逵', content: '“娃娃，别怕，有俺成，刚才。。。谢谢你护着俺娘”', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_bond_up' },
+  'day3_kui_bond_up': { id: 'day3_kui_bond_up', speaker: '系统', content: '和李逵羁绊+1', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_help_10' },
   'day3_kui_help_10': { id: 'day3_kui_help_10', speaker: '李逵', characterId: 'likui', content: '“等回了梁山，俺一定教你更多真本事！俺李逵这条命，以后也是你的！”', background: BG_FOREST, nextId: 'day4_start' },
 
   // --- 观看路径 ---
@@ -281,6 +283,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“卢员外，打扰了. 我来履行约定，跟您研习‘格物’之道. ”你轻声开口. ', background: BG_LU_ROOM, nextId: 'day4_lu_4' },
   'day4_lu_4': { id: 'day4_lu_4', speaker: '卢俊义', characterId: 'lujunyi', content: '（他连头都没有抬，声音冷淡且透着一股疲惫）“是你啊. 今天不凑巧， treasury 的账目出了些岔子. ”', background: BG_LU_ROOM, nextId: 'day4_lu_5' },
   'day4_lu_5': { id: 'day4_lu_5', speaker: '卢俊义', characterId: 'lujunyi', content: '“这军饷的调度比京城的买卖还要繁琐. 我现在满脑子都是那些粮草数字，没工夫教你什么格物. ”', background: BG_LU_ROOM, nextId: 'day4_lu_6' },
+  'day4_lu_5_os': { id: 'day4_lu_5_os', speaker: '你', content: '（看来梁山的CEO也不好当啊。。。）', background: BG_LU_ROOM, nextId: 'day4_lu_6' },
   'day4_lu_6': { id: 'day4_lu_6', speaker: '{playerName}', content: '“可是……公孙胜先生说我的时间不多了，希望能尽早……”', background: BG_LU_ROOM, nextId: 'day4_lu_7' },
   'day4_lu_7': { id: 'day4_lu_7', speaker: '卢俊义', characterId: 'lujunyi', content: '（他有些不耐烦地搁下笔，朱砂墨溅到了他的袖口上）“我也希望能帮你，但此刻我身负全山兄弟的粮草命脉. ”', background: BG_LU_ROOM, nextId: 'day4_lu_8' },
   'day4_lu_8': { id: 'day4_lu_8', speaker: '系统', content: '看着卢俊义那双因熬夜而略显红肿的眼睛，以及桌上已经变凉的残茶，你决定：', background: BG_LU_ROOM, choices: [
