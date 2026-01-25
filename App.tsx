@@ -403,15 +403,7 @@ const App: React.FC = () => {
         </div>
 
         <div className="absolute inset-0 z-0">
-          <img 
-            src={displayBackground} 
-            className={`w-full h-full object-cover transition-all duration-700 ${
-              (displayBackground.includes('特典') || displayBackground.includes('CG')) 
-                ? 'brightness-100' 
-                : 'brightness-[0.45]'
-            }`} 
-            alt="bg" 
-          />
+          <img src={displayBackground} className="w-full h-full object-cover brightness-[0.45]" alt="bg" />
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
