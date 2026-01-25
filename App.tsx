@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff, PlayerAttributes } from './types';
 import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS } from './constants';
@@ -406,7 +405,9 @@ const App: React.FC = () => {
           <img 
             src={displayBackground} 
             className={`w-full h-full object-cover transition-all duration-700 ${
-              (displayBackground.includes('特典') || displayBackground.includes('CG')) 
+              (displayBackground.includes('特典') || 
+               displayBackground.includes('%E7%89%B9%E5%85%B8') || 
+               displayBackground.includes('CG')) 
                 ? 'brightness-100' 
                 : 'brightness-[0.45]'
             }`} 
