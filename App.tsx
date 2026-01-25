@@ -1,8 +1,47 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff } from './types';
+import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff, PlayerAttributes } from './types';
 import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS } from './constants';
 import { generateCharacterResponse, generateHeroMemory } from './services/gemini';
+
+// --- 子组件：属性面板 ---
+const AttributesModal: React.FC<{
+  attrs: PlayerAttributes,
+  onClose: () => void
+}> = ({ attrs, onClose }) => {
+  return (
+    <div className="fixed inset-0 z-[400] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6" onClick={onClose}>
+      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-w-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
+        <div className="flex justify-between items-center mb-8 border-b border-yellow-900/30 pb-4">
+          <h2 className="text-3xl font-calligraphy text-yellow-500">文书手札</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-white">✕</button>
+        </div>
+        
+        <div className="space-y-8">
+          {[
+            { label: '体重 (气血)', value: attrs.weight, icon: '🩸', desc: '象征生命活力与体力，高体重耐受力强。' },
+            { label: '智力 (思辨)', value: attrs.intelligence, icon: '📜', desc: '象征逻辑与策略，影响说服力与任务深度。' },
+            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突胜负。' },
+            { label: '灵力 (星感)', value: attrs.spirit, icon: '✨', desc: '象征星宿感应，关联魂魄稳定。' }
+          ].map(item => (
+            <div key={item.label}>
+              <div className="flex justify-between items-end mb-2">
+                <span className="text-gray-400 font-serif flex items-center gap-2 text-sm">
+                  {item.icon} {item.label}
+                </span>
+                <span className="text-2xl font-bold text-yellow-600 font-serif">{item.value}</span>
+              </div>
+              <div className="h-2 bg-yellow-900/20 rounded-full overflow-hidden border border-yellow-900/40">
+                <div className="h-full bg-gradient-to-r from-yellow-800 to-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.3)] transition-all duration-1000" style={{ width: `${Math.min(100, item.value)}%` }} />
+              </div>
+              <p className="text-[10px] text-gray-500 mt-2 font-serif italic">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // --- 子组件：卜卦 ---
 const DivinationModal: React.FC<{ 
@@ -173,6 +212,13 @@ const App: React.FC = () => {
     const saved = localStorage.getItem('shuihu_chars');
     return saved ? JSON.parse(saved) : CHARACTERS;
   });
+
+  const [playerAttributes, setPlayerAttributes] = useState<PlayerAttributes>(() => {
+    const saved = localStorage.getItem('shuihu_attrs');
+    return saved ? JSON.parse(saved) : { weight: 50, intelligence: 50, strength: 50, spirit: 50 };
+  });
+
+  const [showAttrs, setShowAttrs] = useState(false);
   
   const [currentDay, setCurrentDay] = useState(() => Number(localStorage.getItem('shuihu_day')) || 1);
   const [actionPoints, setActionPoints] = useState(3);
@@ -198,7 +244,8 @@ const App: React.FC = () => {
     localStorage.setItem('shuihu_node', currentNodeId);
     localStorage.setItem('shuihu_chat', JSON.stringify(chatHistory));
     localStorage.setItem('shuihu_player_name', playerName);
-  }, [characters, currentDay, currentNodeId, chatHistory, playerName]);
+    localStorage.setItem('shuihu_attrs', JSON.stringify(playerAttributes));
+  }, [characters, currentDay, currentNodeId, chatHistory, playerName, playerAttributes]);
 
   useEffect(() => {
     if (currentNode.background !== displayBackground) {
@@ -268,6 +315,15 @@ const App: React.FC = () => {
           : c
       ));
     }
+    if (choice.attributeBonus) {
+      setPlayerAttributes(prev => ({
+        ...prev,
+        weight: prev.weight + (choice.attributeBonus?.weight || 0),
+        intelligence: prev.intelligence + (choice.attributeBonus?.intelligence || 0),
+        strength: prev.strength + (choice.attributeBonus?.strength || 0),
+        spirit: prev.spirit + (choice.attributeBonus?.spirit || 0),
+      }));
+    }
     setCurrentNodeId(choice.nextId);
     setShowChoices(false);
   };
@@ -303,12 +359,26 @@ const App: React.FC = () => {
               <span className="text-[10px] text-gray-500 uppercase tracking-widest leading-none mb-1">距离天限</span>
               <span className="text-xl font-bold text-yellow-500">{108 - currentDay} 日</span>
             </div>
+            
+            <button 
+              onClick={() => setShowAttrs(true)}
+              className="group flex flex-col items-center bg-yellow-900/20 border border-yellow-600/30 px-3 py-1 rounded hover:bg-yellow-900/40 transition-all"
+            >
+              <span className="text-[10px] text-yellow-600/70 uppercase tracking-tighter">玩家属性</span>
+              <div className="flex gap-1">
+                <span className="text-xs">🩸{playerAttributes.weight}</span>
+                <span className="text-xs">📜{playerAttributes.intelligence}</span>
+                <span className="text-xs">⚔️{playerAttributes.strength}</span>
+                <span className="text-xs">✨{playerAttributes.spirit}</span>
+              </div>
+            </button>
+
             <div className="flex items-center gap-2">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />
               ))}
             </div>
-            <div className="text-yellow-600/50 text-xs font-serif italic border-l border-yellow-900/40 pl-4">
+            <div className="text-yellow-600/50 text-xs font-serif italic border-l border-yellow-900/40 pl-4 hidden md:block">
               当前姓名: {playerName}
             </div>
           </div>
@@ -326,7 +396,6 @@ const App: React.FC = () => {
 
         {currentNode.characterId && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
-            {/* 关键修复：卢俊义、燕青、鲁智深立绘统一缩小到 0.87 倍 (105 * 0.87 = 91.35) 并保持水平居中 */}
             <img 
               src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
               className={`w-auto animate-fade-up object-contain origin-bottom ${['lujunyi', 'yanqing', 'luzhishen'].includes(currentNode.characterId) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
@@ -373,6 +442,7 @@ const App: React.FC = () => {
         )}
 
         {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} />}
+        {showAttrs && <AttributesModal attrs={playerAttributes} onClose={() => setShowAttrs(false)} />}
         {isChatWindowOpen && selectedCharForChat && (
           <ChatWindow 
             character={selectedCharForChat} 

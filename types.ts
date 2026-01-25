@@ -7,6 +7,13 @@ export enum GameState {
   DIVINATION = 'DIVINATION' 
 }
 
+export interface PlayerAttributes {
+  weight: number;
+  intelligence: number;
+  strength: number;
+  spirit: number;
+}
+
 export interface DivinationBuff {
   id: string;
   name: string;
@@ -60,6 +67,7 @@ export interface Choice {
     charId: string;
     points: number;
   };
+  attributeBonus?: Partial<PlayerAttributes>;
 }
 
 export interface Message {
