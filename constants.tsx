@@ -18,6 +18,10 @@ const BG_BAMBOO = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7
 const BG_MARKET = "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=2000";
 const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B1%8B%E5%86%85.png?raw=true";
 const BG_KITCHEN = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%83%E6%88%BF.png?raw=true";
+const BG_KITCHEN_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%83%E6%88%BF.png?raw=true"; // Keep old reference just in case
+const BG_KITCHEN_FINAL = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%83%E6%88%BF.png?raw=true";
+
+const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
 const BG_LU_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
 const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
@@ -191,20 +195,20 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_lu_15': { id: 'day3_lu_15', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家这就去找铁牛喝个痛快. 去吧！”', background: BG_BLACK, nextId: 'day3_kitchen_1' },
 
   // --- 后厨路径 ---
-  'day3_kitchen_1': { id: 'day3_kitchen_1', speaker: '系统', content: '你循着炊烟找到了后厨，这里热气腾腾，一个慈眉善目的老厨师正在灶台忙活。', background: BG_KITCHEN, nextId: 'day3_kitchen_2' },
-  'day3_kitchen_2': { id: 'day3_kitchen_2', speaker: '李老头', content: '“哟，是公孙先生说的那位异人吧？来来，大师打过招呼了，刚蒸好的大白馒头，还烫嘴呢！”', background: BG_KITCHEN, nextId: 'day3_kitchen_3' },
-  'day3_kitchen_3': { id: 'day3_kitchen_3', speaker: '{playerName}', content: '你嗅着空气中浓郁的面香，李老头端出一个大笸箩，热气腾腾的馒头堆得像小山一样。', background: BG_KITCHEN, nextId: 'day3_kitchen_choice' },
-  'day3_kitchen_choice': { id: 'day3_kitchen_choice', speaker: '李老头', content: '“饿坏了吧？快，趁热吃！你要吃几个？”', background: BG_KITCHEN, choices: [
+  'day3_kitchen_1': { id: 'day3_kitchen_1', speaker: '系统', content: '你循着炊烟找到了后厨，这里热气腾腾，一个慈眉善目的老厨师正在灶台忙活。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_2' },
+  'day3_kitchen_2': { id: 'day3_kitchen_2', speaker: '李老头', content: '“哟，是公孙先生说的那位异人吧？来来，大师打过招呼了，刚蒸好的大白馒头，还烫嘴呢！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_3' },
+  'day3_kitchen_3': { id: 'day3_kitchen_3', speaker: '{playerName}', content: '你嗅着空气中浓郁的面香，李老头端出一个大笸箩，热气腾腾的馒头堆得像小山一样。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_choice' },
+  'day3_kitchen_choice': { id: 'day3_kitchen_choice', speaker: '李老头', content: '“饿坏了吧？快，趁热吃！你要吃几个？”', background: BG_KITCHEN_REALLY_NEW, choices: [
     { text: '（矜持地）吃一个就够了。', nextId: 'day3_kitchen_one' },
     { text: '（豪迈地）给我来十个！', nextId: 'day3_kitchen_ten', attributeBonus: { weight: 1 } }
   ]},
-  'day3_kitchen_one': { id: 'day3_kitchen_one', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃，不像我们梁山这些糙老爷们，一个个吃起饭来像饿狼投胎似的。”', background: BG_KITCHEN, nextId: 'day3_kitchen_4' },
-  'day3_kitchen_ten': { id: 'day3_kitchen_ten', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN, nextId: 'day3_kitchen_4' },
+  'day3_kitchen_one': { id: 'day3_kitchen_one', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃，不像我们梁山这些糙老爷们，一个个吃起饭来像饿狼投胎似的。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_4' },
+  'day3_kitchen_ten': { id: 'day3_kitchen_ten', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_4' },
 
-  'day3_kitchen_4': { id: 'day3_kitchen_4', speaker: '李老头', content: '“老头子在这待了五年咯. 看尽了这帮好汉的进进出出. 要说啊，大师和铁牛真是这山上最真的心. ”', background: BG_KITCHEN, nextId: 'day3_kitchen_5' },
-  'day3_kitchen_5': { id: 'day3_kitchen_5', speaker: '李老头', content: '“前年冬雪，俺家孙子生了重病，是铁牛那憨子大半夜跑了几十里路背回的郎中. 虽然他嘴臭，可心里软着呢. ”', background: BG_KITCHEN, nextId: 'day3_kitchen_6' },
-  'day3_kitchen_6': { id: 'day3_kitchen_6', speaker: '李老头', content: '“还有大师，他在伙房偷酒喝被老头子抓着，居然还帮俺劈了一个月的柴当酒钱. 这世道，好人难做，可他们做得极欢实. ”', background: BG_KITCHEN, nextId: 'day3_kitchen_7' },
-  'day3_kitchen_7': { id: 'day3_kitchen_7', speaker: '{playerName}', content: '你听着老人的碎语，心中对这两位性格迥异的英雄有了更深的理解。', background: BG_KITCHEN, nextId: 'day3_kitchen_8' },
+  'day3_kitchen_4': { id: 'day3_kitchen_4', speaker: '李老头', content: '“老头子在这待了五年咯. 看尽了这帮好汉的进进出出. 要说啊，大师和铁牛真是这山上最真的心. ”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_5' },
+  'day3_kitchen_5': { id: 'day3_kitchen_5', speaker: '李老头', content: '“前年冬雪，俺家孙子生了重病，是铁牛那憨子大半夜跑了几十里路背回的郎中. 虽然他嘴臭，可心里软着呢. ”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_6' },
+  'day3_kitchen_6': { id: 'day3_kitchen_6', speaker: '李老头', content: '“还有大师，他在伙房偷酒喝被老头子抓着，居然还帮俺劈了一个月的柴当酒钱. 这世道，好人难做，可他们做得极欢实. ”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_7' },
+  'day3_kitchen_7': { id: 'day3_kitchen_7', speaker: '{playerName}', content: '你听着老人的碎语，心中对这两位性格迥异的英雄有了更深的理解。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_8' },
   'day3_kitchen_8': { id: 'day3_kitchen_8', speaker: '系统', content: '吃完馒头，你谢过李老头。远处的聚义厅传来了豪爽的笑笑声，那是英雄们的日常。', background: BG_BLACK, nextId: 'day4_start' },
 
   // --- 第三天：李逵心动剧情 - 沂岭杀四虎 ---
@@ -234,7 +238,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kui_help_6': { id: 'day3_kui_help_6', speaker: '系统', content: '你在后方不断投掷石块干扰，李逵则像头真正的野兽在虎群中肉搏，鲜血染红了他的整张脸。', background: BG_FOREST, nextId: 'day3_kui_help_7' },
   'day3_kui_help_7': { id: 'day3_kui_help_7', speaker: '系统', content: '终于，最后一头猛虎在李逵的铁拳下脑浆迸裂，沉重地倒在血泊中。', background: BG_FOREST, nextId: 'day3_kui_help_8' },
   'day3_kui_help_8': { id: 'day3_kui_help_8', speaker: '系统', content: '他喘着粗气回过头看向被吓坏的你，眼神瞬间从野兽变成了做错事的孩子。', background: BG_FOREST, nextId: 'day3_kui_help_9' },
-  'day3_kui_help_9': { id: 'day3_kui_help_9', speaker: '李逵', content: '“娃娃，别怕，有俺成，刚才。。。谢谢你护着俺娘”', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_bond_up' },
+  'day3_kui_help_9': { id: 'day3_kui_help_9', speaker: '李逵', content: '“娃娃，别怕，有俺在，刚才。。。谢谢你护着俺娘”', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_bond_up' },
   'day3_kui_bond_up': { id: 'day3_kui_bond_up', speaker: '系统', content: '和李逵羁绊+1', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_help_10' },
   'day3_kui_help_10': { id: 'day3_kui_help_10', speaker: '李逵', characterId: 'likui', content: '“等回了梁山，俺一定教你更多真本事！俺李逵这条命，以后也是你的！”', background: BG_FOREST, nextId: 'day4_start' },
 
@@ -268,7 +272,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
 
   'day4_kui_sulk_1': { id: 'day4_kui_sulk_1', speaker: '系统', content: '你来到林子里，李逵正背对着你，用斧头狠狠地劈着一截已经稀碎的枯木，木屑乱飞。', background: BG_FOREST, nextId: 'day4_kui_sulk_2' },
   'day4_kui_sulk_2': { id: 'day4_kui_sulk_2', speaker: '你', content: '你试探着唤他一声：“铁牛大哥？”他只是闷声“哼”了一声，连头都没回，斧头劈得更响了。', background: BG_FOREST, nextId: 'day4_kui_sulk_3' },
-  'day4_kui_sulk_3': { id: 'day4_kui_sulk_3', speaker: '李逵', characterId: 'likui', content: '“练功！看俺作甚！那边那堆大石头，去搬五十回。搬不动就早些下山，省得在这儿晃俺的眼。”', background: BG_FOREST, nextId: 'day4_kui_sulk_4' },
+  'day4_kui_sulk_3': { id: 'day4_kui_sulk_3', speaker: '李逵', characterId: 'likui', content: '“练功！看俺作甚！那边那堆大石头，去搬五十回. 搬不动就早些下山，省得在这儿晃俺的眼. ”', background: BG_FOREST, nextId: 'day4_kui_sulk_4' },
   'day4_kui_sulk_4': { id: 'day4_kui_sulk_4', speaker: '系统', content: '他在一旁自顾自地轮着板斧，每一下都带着泄愤般的势大力沉，空气中弥漫着一种尴尬而沉闷的气息。', background: BG_FOREST, nextId: 'day4_kui_sulk_5' },
   'day4_kui_sulk_5': { id: 'day4_kui_sulk_5', speaker: '你', content: '你看着他气鼓鼓的背影，知道他还在为沂岭时你袖手旁观的事耿耿于怀。你决定：', background: BG_FOREST, choices: [
     { text: '（直接质问）铁牛大哥，你是不是在生我的气？', nextId: 'day4_kui_sulk_ask', affectionBonus: { charId: 'likui', points: 10 } },
@@ -302,7 +306,6 @@ export const STORY_DATA: Record<string, StoryNode> = {
 
   'day5_start': { id: 'day5_start', speaker: '系统', content: '第五天。你感觉到体内的“天罡灵气”稳固了许多。', background: BG_CAMP, nextId: 'ch1_final_node' },
   'ch1_final_node': { id: 'ch1_final_node', speaker: '系统', content: '第一章：天罡初醒 · 完. ', background: BG_CAMP, choices: [
-    { text: '进入自由传信互动', nextId: 'free_talk_intro' },
     { text: '重新开始', nextId: 'start' }
   ]},
   'free_talk_intro': { id: 'free_talk_intro', speaker: '系统', content: '现在可以自由传信互动了. ', background: BG_CAMP, nextId: 'free_talk_intro' }
