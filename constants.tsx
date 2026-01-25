@@ -18,6 +18,7 @@ const BG_BAMBOO = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7
 const BG_MARKET = "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=2000";
 const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B1%8B%E5%86%85.png?raw=true";
 const BG_KITCHEN = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%83%E6%88%BF.png?raw=true";
+const BG_LU_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
 const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 
 export const DIVINATION_BUFFS: DivinationBuff[] = [
@@ -274,23 +275,23 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_sulk_ask': { id: 'day4_kui_sulk_ask', speaker: '李逵', characterId: 'likui', content: '“谁、谁生气了！俺铁牛顶天立地，哪有工夫生你这小丫头的气！”他动作一僵，说话都有点结巴了。', background: BG_FOREST, nextId: 'day5_start' },
   'day4_kui_sulk_silent': { id: 'day4_kui_sulk_silent', speaker: '系统', content: '你费力地挪动着石块，李逵偷偷拿眼角扫你，见你真在练，才收了斧头，不情不愿地走过来帮你托了一把。', background: BG_FOREST, nextId: 'day5_start' },
 
-  // ... 其余剧情节点保持不变
-  'day4_lu_1': { id: 'day4_lu_1', speaker: '系统', content: '你穿过两道朱红大门，来到了卢俊义在梁山的临时府邸. 院内陈设虽然简约，却极有格调. ', background: BG_CAMP, nextId: 'day4_lu_2' },
-  'day4_lu_2': { id: 'day4_lu_2', speaker: '系统', content: '书房内，卢俊义正对着几本厚重的账册和军需调度令发愁. 他的眉头紧锁，笔尖在纸上悬而未落. ', background: BG_CAMP, nextId: 'day4_lu_3' },
-  'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“卢员外，打扰了. 我来履行约定，跟您研习‘格物’之道. ”你轻声开口. ', background: BG_CAMP, nextId: 'day4_lu_4' },
-  'day4_lu_4': { id: 'day4_lu_4', speaker: '卢俊义', characterId: 'lujunyi', content: '（他连头都没有抬，声音冷淡且透着一股疲惫）“是你啊. 今天不凑巧， treasury 的账目出了些岔子. ”', background: BG_CAMP, nextId: 'day4_lu_5' },
-  'day4_lu_5': { id: 'day4_lu_5', speaker: '卢俊义', characterId: 'lujunyi', content: '“这军饷的调度比京城的买卖还要繁琐. 我现在满脑子都是那些粮草数字，没工夫教你什么格物. ”', background: BG_CAMP, nextId: 'day4_lu_6' },
-  'day4_lu_6': { id: 'day4_lu_6', speaker: '{playerName}', content: '“可是……公孙胜先生说我的时间不多了，希望能尽早……”', background: BG_CAMP, nextId: 'day4_lu_7' },
-  'day4_lu_7': { id: 'day4_lu_7', speaker: '卢俊义', characterId: 'lujunyi', content: '（他有些不耐烦地搁下笔，朱砂墨溅到了他的袖口上）“我也希望能帮你，但此刻我身负全山兄弟的粮草命脉. ”', background: BG_CAMP, nextId: 'day4_lu_8' },
-  'day4_lu_8': { id: 'day4_lu_8', speaker: '系统', content: '看着卢俊义那双因熬夜而略显红肿的眼睛，以及桌上已经变凉的残茶，你决定：', background: BG_CAMP, choices: [
+  // --- 卢俊义特训剧情：使用新房间背景 ---
+  'day4_lu_1': { id: 'day4_lu_1', speaker: '系统', content: '你穿过两道朱红大门，来到了卢俊义在梁山的临时府邸. 院内陈设虽然简约，却极有格调. ', background: BG_LU_ROOM, nextId: 'day4_lu_2' },
+  'day4_lu_2': { id: 'day4_lu_2', speaker: '系统', content: '书房内，卢俊义正对着几本厚重的账册和军需调度令发愁. 他的眉头紧锁，笔尖在纸上悬而未落. ', background: BG_LU_ROOM, nextId: 'day4_lu_3' },
+  'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“卢员外，打扰了. 我来履行约定，跟您研习‘格物’之道. ”你轻声开口. ', background: BG_LU_ROOM, nextId: 'day4_lu_4' },
+  'day4_lu_4': { id: 'day4_lu_4', speaker: '卢俊义', characterId: 'lujunyi', content: '（他连头都没有抬，声音冷淡且透着一股疲惫）“是你啊. 今天不凑巧， treasury 的账目出了些岔子. ”', background: BG_LU_ROOM, nextId: 'day4_lu_5' },
+  'day4_lu_5': { id: 'day4_lu_5', speaker: '卢俊义', characterId: 'lujunyi', content: '“这军饷的调度比京城的买卖还要繁琐. 我现在满脑子都是那些粮草数字，没工夫教你什么格物. ”', background: BG_LU_ROOM, nextId: 'day4_lu_6' },
+  'day4_lu_6': { id: 'day4_lu_6', speaker: '{playerName}', content: '“可是……公孙胜先生说我的时间不多了，希望能尽早……”', background: BG_LU_ROOM, nextId: 'day4_lu_7' },
+  'day4_lu_7': { id: 'day4_lu_7', speaker: '卢俊义', characterId: 'lujunyi', content: '（他有些不耐烦地搁下笔，朱砂墨溅到了他的袖口上）“我也希望能帮你，但此刻我身负全山兄弟的粮草命脉. ”', background: BG_LU_ROOM, nextId: 'day4_lu_8' },
+  'day4_lu_8': { id: 'day4_lu_8', speaker: '系统', content: '看着卢俊义那双因熬夜而略显红肿的眼睛，以及桌上已经变凉的残茶，你决定：', background: BG_LU_ROOM, choices: [
     { text: '【体贴行事】默默走到一旁，为他沏上一盏温热的龙井。', nextId: 'day4_lu_9_success', affectionBonus: { charId: 'lujunyi', points: 15 }, attributeBonus: { intelligence: 5 } },
     { text: '【强硬坚持】坚持今天必须开始，提醒他梁山以诺言为重。', nextId: 'day4_lu_9_fail', affectionBonus: { charId: 'lujunyi', points: -15 }, attributeBonus: { strength: 5 } }
   ]},
-  'day4_lu_9_success': { id: 'day4_lu_9_success', speaker: '卢俊义', characterId: 'lujunyi', content: '（他端起你沏的热茶，闻着清雅的香气，神色终于缓和了一些）“……有心了. 这茶温润得恰到好处. ”', background: BG_CAMP, nextId: 'day4_lu_10_success' },
-  'day4_lu_10_success': { id: 'day4_lu_10_success', speaker: '卢俊义', characterId: 'lujunyi', content: '“不过今日确实琐事缠身. 你且先回屋休息吧，明日清晨再来，我定会空出时间. ”（他虽然还是把你打发了，但语气温柔了许多）', background: BG_CAMP, nextId: 'day5_start' },
+  'day4_lu_9_success': { id: 'day4_lu_9_success', speaker: '卢俊义', characterId: 'lujunyi', content: '（他端起你沏的热茶，闻着清雅的香气，神色终于缓和了一些）“……有心了. 这茶温润得恰到好处. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_success' },
+  'day4_lu_10_success': { id: 'day4_lu_10_success', speaker: '卢俊义', characterId: 'lujunyi', content: '“不过今日确实琐事缠身. 你且先回屋休息吧，明日清晨再来，我定会空出时间. ”（他虽然还是把你打发了，但语气温柔了许多）', background: BG_LU_ROOM, nextId: 'day5_start' },
 
-  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他猛地抬头，眼中闪为一丝愠色，语气冷若冰霜）“诺言？我卢俊义一生行事问心无愧，若因私废公才是真的背信弃义. ”', background: BG_CAMP, nextId: 'day4_lu_10_fail' },
-  'day4_lu_10_fail': { id: 'day4_lu_10_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '“出去. 我现在不想听任何大道理. 既然你觉得我不可靠，自便就是. ”（他摆了摆手，示意你离开，书房陷入了尴尬的死寂）', background: BG_CAMP, nextId: 'day5_start' },
+  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他猛地抬头，眼中闪过一丝愠色，语气冷若冰霜）“诺言？我卢俊义一生行事问心无愧，若因私废公才是真的背信弃义. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_fail' },
+  'day4_lu_10_fail': { id: 'day4_lu_10_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '“出去. 我现在不想听任何大道理. 既然你觉得我不可靠，自便就是. ”（他摆了摆手，示意你离开，书房陷入了尴尬的死寂）', background: BG_LU_ROOM, nextId: 'day5_start' },
 
   'day4_yan_1': { id: 'day4_yan_1', speaker: '系统', content: '你扑了个空，燕青下山探查官军动向去了。', background: BG_MARKET, nextId: 'day5_start' },
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', characterId: 'luzhishen', content: '“哈哈！洒家就知道你放不下那竹林. ”', background: BG_BAMBOO, nextId: 'day5_start' },
