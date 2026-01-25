@@ -11,7 +11,7 @@ const AttributesModal: React.FC<{
 }> = ({ attrs, onClose }) => {
   return (
     <div className="fixed inset-0 z-[400] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6" onClick={onClose}>
-      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-w-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-8 border-b border-yellow-900/30 pb-4">
           <h2 className="text-3xl font-calligraphy text-yellow-500">文书手札</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-white">✕</button>
@@ -324,7 +324,20 @@ const App: React.FC = () => {
         spirit: prev.spirit + (choice.attributeBonus?.spirit || 0),
       }));
     }
-    setCurrentNodeId(choice.nextId);
+
+    // 处理分歧逻辑：第四天选择李逵作为导师时
+    if (choice.nextId === 'day4_kui_branch') {
+      const kuiAffection = characters.find(c => c.id === 'likui')?.affection || 0;
+      // 这里的阈值设为 20。如果玩家救了母（+40），必然大于 20；如果观望（-30），必然小于 20。
+      if (kuiAffection > 20) {
+        setCurrentNodeId('day4_kui_enth_1');
+      } else {
+        setCurrentNodeId('day4_kui_sulk_1');
+      }
+    } else {
+      setCurrentNodeId(choice.nextId);
+    }
+    
     setShowChoices(false);
   };
 
