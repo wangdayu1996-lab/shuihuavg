@@ -46,8 +46,9 @@ const AttributesModal: React.FC<{
 const DivinationModal: React.FC<{ 
   onClose: () => void, 
   onDraw: (buff: DivinationBuff) => void,
-  used: boolean 
-}> = ({ onClose, onDraw, used }) => {
+  used: boolean,
+  isLocked?: boolean
+}> = ({ onClose, onDraw, used, isLocked }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [result, setResult] = useState<DivinationBuff | null>(null);
 
@@ -66,7 +67,14 @@ const DivinationModal: React.FC<{
       <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-w-lg rounded-3xl p-10 text-center shadow-2xl relative overflow-hidden">
         <div className="absolute top-4 right-4 cursor-pointer text-gray-500 hover:text-white" onClick={onClose}>✕</div>
         <h2 className="text-5xl font-calligraphy text-yellow-500 mb-6">公孙胜求卦</h2>
-        {used && !result ? (
+        
+        {isLocked ? (
+          <div className="py-10 animate-fade-up">
+            <div className="text-8xl mb-6">📜</div>
+            <p className="text-yellow-600 text-xl font-serif leading-relaxed mb-8">“与公孙先生缘分未到，想求卦的话先去拜访先生吧！”</p>
+            <button onClick={onClose} className="px-10 py-3 bg-yellow-800 text-white rounded-full font-bold">领命</button>
+          </div>
+        ) : used && !result ? (
           <div className="py-10 text-yellow-800 italic font-serif">“今日天机已显，不可再问。”</div>
         ) : result ? (
           <div className="animate-fade-up">
@@ -126,13 +134,15 @@ const GalleryPage: React.FC<{
 
 // --- 子组件：传信对话 ---
 const ChatWindow: React.FC<{
-  character: Character,
+  characters: Character[],
+  activeChar: Character,
+  onSelectChar: (char: Character) => void,
   playerName: string,
   messages: Message[],
   onSend: (text: string, style: string) => void,
   onClose: () => void,
   isResponding: boolean
-}> = ({ character, playerName, messages, onSend, onClose, isResponding }) => {
+}> = ({ characters, activeChar, onSelectChar, playerName, messages, onSend, onClose, isResponding }) => {
   const [input, setInput] = useState('');
   const [style, setStyle] = useState('gentle');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -143,52 +153,98 @@ const ChatWindow: React.FC<{
 
   return (
     <div className="fixed inset-0 z-[250] bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 md:p-10">
-      <div className="w-full max-w-5xl h-[85vh] bg-[#fdfaf2] rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-[0_0_80px_rgba(0,0,0,0.5)] border-4 border-[#2a1a10]">
-        <div className="hidden md:block w-1/3 bg-[#1a110a] relative overflow-hidden">
-          <img src={character.portrait} className="absolute inset-0 w-full h-full object-cover object-top opacity-80" alt="char" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1a110a] via-transparent to-transparent" />
-          <div className="absolute bottom-10 left-0 right-0 text-center">
-            <h3 className="text-4xl font-calligraphy text-yellow-500 mb-2">{character.name}</h3>
-            <p className="text-yellow-800 font-serif italic tracking-wider">{character.title}</p>
-          </div>
+      <div className="w-full max-w-6xl h-[85vh] bg-[#fdfaf2] rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-[0_0_80px_rgba(0,0,0,0.5)] border-4 border-[#2a1a10]">
+        
+        {/* 左侧：人物列表 */}
+        <div className="w-full md:w-32 bg-[#2a1a10] flex md:flex-col overflow-x-auto md:overflow-y-auto border-r border-yellow-900/30 p-4 gap-4 scrollbar-hide shrink-0">
+          {characters.map(char => (
+            <button 
+              key={char.id} 
+              onClick={() => onSelectChar(char)}
+              className={`relative flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-4 transition-all ${
+                activeChar.id === char.id ? 'border-yellow-500 scale-110 shadow-[0_0_15px_rgba(234,179,8,0.5)]' : 'border-transparent opacity-60 grayscale'
+              }`}
+            >
+              <img src={char.avatar} className="w-full h-full object-cover" alt={char.name} />
+              <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-[10px] text-white text-center py-0.5 font-calligraphy">
+                {char.name}
+              </div>
+            </button>
+          ))}
         </div>
 
-        <div className="flex-1 flex flex-col relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')]">
-          <div className="p-6 border-b border-gray-300 flex items-center justify-between">
-            <span className="font-calligraphy text-2xl text-gray-800">往来书信</span>
-            <button onClick={onClose} className="text-gray-500 hover:text-red-800 text-2xl">✕</button>
+        {/* 右侧：传信内容区 */}
+        <div className="flex-1 flex flex-col relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')] overflow-hidden">
+          <div className="p-6 border-b border-gray-300 flex items-center justify-between bg-white/50">
+            <div className="flex flex-col">
+              <span className="font-calligraphy text-2xl text-gray-800">{activeChar.name} · {activeChar.title}</span>
+              <span className="text-[10px] text-yellow-800/60 font-serif">当前羁绊：{activeChar.affection}</span>
+            </div>
+            <button onClick={onClose} className="text-gray-400 hover:text-red-800 text-2xl transition-colors">✕</button>
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 scrollbar-hide">
-            {messages.map((m, i) => (
+            {messages.length === 0 ? (
+              <div className="h-full flex items-center justify-center text-gray-300 font-serif italic text-lg">
+                尚无书信往来，提笔寄情吧...
+              </div>
+            ) : messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}>
-                <div className={`max-w-[85%] p-6 rounded-2xl shadow-sm font-serif text-lg leading-relaxed ${
+                <div className={`relative max-w-[85%] p-6 rounded-2xl shadow-sm font-serif text-lg leading-relaxed ${
                   m.role === 'user' 
                     ? 'bg-[#e0d6c3] text-gray-800 border-l-4 border-yellow-800' 
                     : 'bg-white text-gray-800 border-r-4 border-yellow-900/30'
                 }`}>
-                  {m.text}
+                  {m.text.startsWith('[以') ? m.text.split('] ')[1] : m.text}
+                  {m.role === 'user' && (
+                    <div className="absolute -bottom-5 right-2 text-[10px] text-yellow-900/40 font-bold italic animate-pulse">
+                      对方已读
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
             {isResponding && (
               <div className="flex justify-start animate-pulse">
-                <div className="bg-white/50 p-4 rounded-xl text-gray-400 font-serif">英雄正在提笔回复...</div>
+                <div className="bg-white/50 p-4 rounded-xl text-gray-400 font-serif italic">
+                  {activeChar.name}正在斟酌笔墨...
+                </div>
               </div>
             )}
           </div>
 
           <div className="p-8 bg-gray-100/50 border-t border-gray-300">
             <div className="flex gap-4 mb-4">
-              {['gentle', 'funny', 'direct'].map(s => (
-                <button key={s} onClick={() => setStyle(s)} className={`px-4 py-1 rounded-full text-xs transition-all ${style === s ? 'bg-yellow-800 text-white' : 'bg-gray-300 text-gray-600'}`}>
-                  {s === 'gentle' ? '温婉' : s === 'funny' ? '风趣' : '直率'}
+              {[
+                {id: 'gentle', label: '温婉'},
+                {id: 'funny', label: '风趣'},
+                {id: 'direct', label: '直率'}
+              ].map(s => (
+                <button 
+                  key={s.id} 
+                  onClick={() => setStyle(s.id)} 
+                  className={`px-4 py-1 rounded-full text-xs transition-all ${style === s.id ? 'bg-yellow-800 text-white shadow-md' : 'bg-gray-300 text-gray-600 hover:bg-gray-400'}`}
+                >
+                  {s.label}
                 </button>
               ))}
             </div>
             <div className="flex gap-4">
-              <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && onSend(input, style)} placeholder={`寄给${character.name}的话...`} className="flex-1 bg-transparent border-b-2 border-gray-400 p-3 focus:border-yellow-800 outline-none font-serif text-xl" />
-              <button onClick={() => {onSend(input, style); setInput('')}} className="px-8 py-3 bg-[#2a1a10] text-yellow-500 rounded-xl font-calligraphy text-xl hover:bg-black transition-all shadow-md">寄出</button>
+              <input 
+                value={input} 
+                onChange={e => setInput(e.target.value)} 
+                onKeyDown={e => e.key === 'Enter' && !isResponding && (onSend(input, style), setInput(''))} 
+                placeholder={isResponding ? "等待回复中..." : `寄给${activeChar.name}的话...`}
+                disabled={isResponding}
+                className="flex-1 bg-transparent border-b-2 border-gray-400 p-3 focus:border-yellow-800 outline-none font-serif text-xl transition-colors disabled:opacity-50" 
+              />
+              <button 
+                onClick={() => {onSend(input, style); setInput('')}} 
+                disabled={isResponding || !input.trim()}
+                className="px-8 py-3 bg-[#2a1a10] text-yellow-500 rounded-xl font-calligraphy text-xl hover:bg-black transition-all shadow-md disabled:bg-gray-400 disabled:text-gray-200"
+              >
+                寄出
+              </button>
             </div>
           </div>
         </div>
@@ -206,6 +262,7 @@ const App: React.FC = () => {
   const [showChoices, setShowChoices] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('shuihu_player_name') || '小文书');
   const [tempName, setTempName] = useState('');
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
   
   const [characters, setCharacters] = useState<Character[]>(() => {
     const saved = localStorage.getItem('shuihu_chars');
@@ -261,7 +318,6 @@ const App: React.FC = () => {
     setIsTyping(true);
     setShowChoices(false);
     
-    // 处理占位符
     const processedContent = (currentNode.content || "").replace(/{playerName}/g, playerName);
     
     let charIndex = 0;
@@ -276,23 +332,50 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentNodeId, playerName, currentNode.content]);
 
+  useEffect(() => {
+    let timer: number | undefined;
+    
+    if (!isTyping && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
+      if (isAutoPlay) {
+        timer = window.setTimeout(() => {
+          setCurrentNodeId(currentNode.nextId!);
+        }, 4000);
+      } else if (currentNode.speaker === '系统') {
+        timer = window.setTimeout(() => {
+          setCurrentNodeId(currentNode.nextId!);
+        }, 3000);
+      }
+    }
+    
+    return () => {
+      if (timer) window.clearTimeout(timer);
+    };
+  }, [isTyping, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
+
+  // 新增：剧情与天数同步逻辑
+  useEffect(() => {
+    const dayMatch = currentNodeId.match(/^day(\d+)/);
+    if (dayMatch) {
+      const day = parseInt(dayMatch[1]);
+      if (day !== currentDay) {
+        setCurrentDay(day);
+        setActionPoints(3); // 新的一天重置行动点
+        setDivinationUsedToday(false); // 新的一天重置求卦
+      }
+    }
+  }, [currentNodeId, currentDay]);
+
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
-    
-    // 如果正在打字，点击则瞬间显示全部文字
     if (isTyping) { 
       setTypedContent((currentNode.content || "").replace(/{playerName}/g, playerName)); 
       setIsTyping(false);
       return; 
     }
-    
-    // 关键修复：如果节点有选项且当前没显示选项，点击后才显示选项
     if (currentNode.choices && !showChoices) { 
       setShowChoices(true); 
       return; 
     }
-    
-    // 只有在没选项或者还没显示选项时，才进入下一个节点
     if (currentNode.nextId && !currentNode.choices) {
       setCurrentNodeId(currentNode.nextId);
     }
@@ -324,10 +407,8 @@ const App: React.FC = () => {
       }));
     }
 
-    // 处理分歧逻辑：第四天选择李逵作为导师时
     if (choice.nextId === 'day4_kui_branch') {
       const kuiAffection = characters.find(c => c.id === 'likui')?.affection || 0;
-      // 这里的阈值设为 20。如果玩家救了母（+40），必然大于 20；如果观望（-30），必然小于 20。
       if (kuiAffection > 20) {
         setCurrentNodeId('day4_kui_enth_1');
       } else {
@@ -344,14 +425,33 @@ const App: React.FC = () => {
     if (!text.trim() || !selectedCharForChat || isAiResponding || actionPoints < 1) return;
     const charId = selectedCharForChat.id;
     const userMsg: Message = { role: 'user', text: `[以${style}语气回复] ${text}` };
+    
     setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), userMsg] }));
     setActionPoints(p => p - 1);
     setIsAiResponding(true);
+
+    const baseDelay = 3000;
+    const affectionBonus = Math.min(2500, selectedCharForChat.affection * 20);
+    const delay = Math.max(800, baseDelay - affectionBonus);
+
+    if (charId === 'lujunyi' && selectedCharForChat.affection <= 10) {
+      setTimeout(() => {
+        setIsAiResponding(false);
+      }, delay);
+      return;
+    }
     
-    const response = await generateCharacterResponse(selectedCharForChat, chatHistory[charId] || [], text, playerName);
-    setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), { role: 'model', text: response }] }));
-    setIsAiResponding(false);
-    setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
+    try {
+      const response = await generateCharacterResponse(selectedCharForChat, chatHistory[charId] || [], text, playerName);
+      
+      setTimeout(() => {
+        setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), { role: 'model', text: response }] }));
+        setIsAiResponding(false);
+        setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
+      }, delay);
+    } catch (e) {
+      setIsAiResponding(false);
+    }
   };
 
   const renderContent = () => {
@@ -390,12 +490,19 @@ const App: React.FC = () => {
                 <div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />
               ))}
             </div>
-            <div className="text-yellow-600/50 text-xs font-serif italic border-l border-yellow-900/40 pl-4 hidden md:block">
-              当前姓名: {playerName}
-            </div>
           </div>
           <div className="flex gap-4 items-center">
-            <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl">☯️</button>
+            <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
+            <button 
+              onClick={() => {
+                if (!selectedCharForChat) setSelectedCharForChat(characters[0]);
+                setIsChatWindowOpen(true);
+              }} 
+              className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" 
+              title="传信互动"
+            >
+              ✉️
+            </button>
             <button onClick={() => setGameState(GameState.GALLERY)} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
             <button onClick={() => {setCurrentDay(d => d+1); setActionPoints(3);}} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
@@ -434,6 +541,18 @@ const App: React.FC = () => {
           </div>
         ) : (
           <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`} onClick={handleNextDialogue}>
+            
+            {!currentNode.isNameInput && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }}
+                className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${
+                  isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'
+                }`}
+              >
+                {isAutoPlay ? '手动播放' : '自动播放'}
+              </button>
+            )}
+
             <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">
               {currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}
             </div>
@@ -457,17 +576,19 @@ const App: React.FC = () => {
             
             {!currentNode.isNameInput && (
               <div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">
-                  {isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : '▼ 继续剧幕')}
+                  {isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : (isAutoPlay ? '⌛ 自动运行' : '▼ 继续剧幕'))}
               </div>
             )}
           </div>
         )}
 
-        {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} />}
+        {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} isLocked={gameState === GameState.STORY} />}
         {showAttrs && <AttributesModal attrs={playerAttributes} onClose={() => setShowAttrs(false)} />}
         {isChatWindowOpen && selectedCharForChat && (
           <ChatWindow 
-            character={selectedCharForChat} 
+            characters={characters}
+            activeChar={selectedCharForChat}
+            onSelectChar={setSelectedCharForChat}
             playerName={playerName}
             messages={chatHistory[selectedCharForChat.id] || []} 
             onSend={handleSendMessage} 
