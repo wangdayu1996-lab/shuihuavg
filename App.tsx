@@ -263,6 +263,7 @@ const App: React.FC = () => {
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('shuihu_player_name') || '小文书');
   const [tempName, setTempName] = useState('');
   const [isAutoPlay, setIsAutoPlay] = useState(false);
+  const [history, setHistory] = useState<string[]>([]);
   
   const [characters, setCharacters] = useState<Character[]>(() => {
     const saved = localStorage.getItem('shuihu_chars');
@@ -271,7 +272,7 @@ const App: React.FC = () => {
 
   const [playerAttributes, setPlayerAttributes] = useState<PlayerAttributes>(() => {
     const saved = localStorage.getItem('shuihu_attrs');
-    return saved ? JSON.parse(saved) : { weight: 50, intelligence: 50, strength: 50, spirit: 50 };
+    return saved ? JSON.parse(saved) : { weight: 5, intelligence: 6, strength: 2, spirit: 4 };
   });
 
   const [showAttrs, setShowAttrs] = useState(false);
@@ -338,10 +339,12 @@ const App: React.FC = () => {
     if (!isTyping && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
       if (isAutoPlay) {
         timer = window.setTimeout(() => {
+          setHistory(prev => [...prev, currentNodeId]);
           setCurrentNodeId(currentNode.nextId!);
         }, 4000);
       } else if (currentNode.speaker === '系统') {
         timer = window.setTimeout(() => {
+          setHistory(prev => [...prev, currentNodeId]);
           setCurrentNodeId(currentNode.nextId!);
         }, 3000);
       }
@@ -377,7 +380,22 @@ const App: React.FC = () => {
       return; 
     }
     if (currentNode.nextId && !currentNode.choices) {
+      setHistory(prev => [...prev, currentNodeId]);
       setCurrentNodeId(currentNode.nextId);
+    }
+  };
+
+  const handleBack = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isAutoPlay) {
+      setIsAutoPlay(false);
+      return;
+    }
+    if (history.length > 0) {
+      const newHistory = [...history];
+      const lastNodeId = newHistory.pop();
+      setHistory(newHistory);
+      setCurrentNodeId(lastNodeId!);
     }
   };
 
@@ -385,6 +403,7 @@ const App: React.FC = () => {
     if (!tempName.trim()) return;
     setPlayerName(tempName.trim());
     if (currentNode.nextId) {
+      setHistory(prev => [...prev, currentNodeId]);
       setCurrentNodeId(currentNode.nextId);
     }
   };
@@ -407,6 +426,7 @@ const App: React.FC = () => {
       }));
     }
 
+    setHistory(prev => [...prev, currentNodeId]);
     if (choice.nextId === 'day4_kui_branch') {
       const kuiAffection = characters.find(c => c.id === 'likui')?.affection || 0;
       if (kuiAffection > 20) {
@@ -476,12 +496,12 @@ const App: React.FC = () => {
               onClick={() => setShowAttrs(true)}
               className="group flex flex-col items-center bg-yellow-900/20 border border-yellow-600/30 px-3 py-1 rounded hover:bg-yellow-900/40 transition-all"
             >
-              <span className="text-[10px] text-yellow-600/70 uppercase tracking-tighter">玩家属性</span>
-              <div className="flex gap-1">
-                <span className="text-xs">🩸{playerAttributes.weight}</span>
-                <span className="text-xs">📜{playerAttributes.intelligence}</span>
-                <span className="text-xs">⚔️{playerAttributes.strength}</span>
-                <span className="text-xs">✨{playerAttributes.spirit}</span>
+              <span className="text-[10px] text-yellow-600/70 uppercase tracking-tighter mb-1">玩家属性</span>
+              <div className="flex gap-3">
+                <span className="text-[10px] flex items-center gap-0.5" title="体重/气血">🩸体重:{playerAttributes.weight}</span>
+                <span className="text-[10px] flex items-center gap-0.5" title="智力/思辨">📜智力:{playerAttributes.intelligence}</span>
+                <span className="text-[10px] flex items-center gap-0.5" title="武力/攻守">⚔️武力:{playerAttributes.strength}</span>
+                <span className="text-[10px] flex items-center gap-0.5" title="灵力/星感">✨灵力:{playerAttributes.spirit}</span>
               </div>
             </button>
 
@@ -543,14 +563,27 @@ const App: React.FC = () => {
           <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`} onClick={handleNextDialogue}>
             
             {!currentNode.isNameInput && (
-              <button 
-                onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }}
-                className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${
-                  isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'
-                }`}
-              >
-                {isAutoPlay ? '手动播放' : '自动播放'}
-              </button>
+              <>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }}
+                  className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${
+                    isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'
+                  }`}
+                >
+                  {isAutoPlay ? '手动播放' : '自动播放'}
+                </button>
+                <button 
+                  onClick={handleBack}
+                  disabled={history.length === 0 && !isAutoPlay}
+                  className={`absolute bottom-4 left-6 px-4 py-1 rounded-lg text-xs font-bold transition-all border ${
+                    history.length === 0 && !isAutoPlay 
+                      ? 'opacity-20 bg-black/40 text-gray-500 border-gray-900 pointer-events-none' 
+                      : 'bg-black/40 text-yellow-800 border-yellow-900/50 hover:border-yellow-600 hover:text-yellow-600'
+                  }`}
+                >
+                  ◀ 后退
+                </button>
+              </>
             )}
 
             <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">
