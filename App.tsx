@@ -71,7 +71,7 @@ const DivinationModal: React.FC<{
         {isLocked ? (
           <div className="py-10 animate-fade-up">
             <div className="text-8xl mb-6">📜</div>
-            <p className="text-yellow-600 text-xl font-serif leading-relaxed mb-8">“与公孙先生缘分未到，想求卦的话先去拜访先生吧！”</p>
+            <p className="text-yellow-600 text-xl font-serif mountain-relaxed mb-8">“与公孙先生缘分未到，想求卦的话先去拜访先生吧！”</p>
             <button onClick={onClose} className="px-10 py-3 bg-yellow-800 text-white rounded-full font-bold">领命</button>
           </div>
         ) : used && !result ? (
@@ -99,7 +99,7 @@ const DivinationModal: React.FC<{
 // --- 子组件：英雄名册 ---
 const GalleryPage: React.FC<{ 
   characters: Character[], 
-  onBack: () => void,
+  onBack: () => void, 
   onSelect: (char: Character) => void 
 }> = ({ characters, onBack, onSelect }) => {
   return (
@@ -498,7 +498,7 @@ const App: React.FC = () => {
         setIsAiResponding(false);
         setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
       }, delay);
-    } catch (e) {
+    } catch (error) {
       setIsAiResponding(false);
     }
   };
@@ -519,17 +519,33 @@ const App: React.FC = () => {
       return <GalleryPage characters={characters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
     }
 
+    // 优化：定义哪些关键字代表需要特殊进入动画的 CG
     const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
-    const isMeditationCG = displayBackground.includes(MEDITATION_CG_KEY);
-    const targetIsMeditationCG = currentNode.background.includes(MEDITATION_CG_KEY);
+    const HEARTBEAT_CG_KEY = '%E7%89%B9%E5%85%B8'; // 包含李逵心动特典
     
+    const isSpecialCG = displayBackground.includes(MEDITATION_CG_KEY) || displayBackground.includes(HEARTBEAT_CG_KEY);
+    const targetIsSpecialCG = currentNode.background.includes(MEDITATION_CG_KEY) || currentNode.background.includes(HEARTBEAT_CG_KEY);
+    
+    // 识别核心冲击感搏杀节点 (根据用户要求去掉了特定的非搏杀瞬间)
+    const isFightNode = [
+      'day3_kui_yiling_10', // 猛虎扑食
+      'day3_kui_help_1',    // 拿起枯枝冲上去
+      'day3_kui_help_5',    // 李逵朴刀旋风
+      'day3_kui_watch_3',   // 铁牛归来怒吼
+      'day3_kui_watch_4',   // 替伤瞬间
+      'day3_kui_watch_5'    // 最终击毙
+    ].includes(currentNodeId);
+
     const isFullBrightness = (displayBackground.includes('特典') || 
                displayBackground.includes('%E7%89%B9%E5%85%B8') || 
                displayBackground.includes('CG') ||
-               isMeditationCG);
+               isSpecialCG);
 
     return (
-      <div className="relative w-full h-screen bg-black overflow-hidden font-serif">
+      <div 
+        key={isFightNode ? currentNodeId : 'story-root'} 
+        className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''}`}
+      >
         {/* 存档提示 */}
         {saveTooltip && (
           <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">
@@ -590,15 +606,16 @@ const App: React.FC = () => {
           <img 
             key={displayBackground}
             src={displayBackground} 
-            className={`w-full h-full object-cover transition-all duration-700 ${
+            className={`w-full h-full object-cover ${!isSpecialCG ? 'transition-all duration-700' : ''} ${
               isFullBrightness ? 'brightness-100' : 'brightness-[0.45]'
-            } ${isMeditationCG ? 'animate-meditation-entry' : ''}`} 
+            } ${isSpecialCG ? 'animate-meditation-entry' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {currentNode.characterId && !isMeditationCG && !targetIsMeditationCG && (
+        {/* 修复 bug：通过同时检测当前和目标背景，确保立绘在过渡期（blackout）不会意外出现 */}
+        {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
               src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
