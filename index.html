@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -41,6 +40,13 @@
         }
         .animate-kenburns {
             animation: kenburns 15s ease-in-out infinite alternate;
+        }
+        @keyframes meditationZoom {
+            from { transform: scale(1.5); filter: blur(15px); }
+            to { transform: scale(1); filter: blur(0); }
+        }
+        .animate-meditation-entry {
+            animation: meditationZoom 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .choice-btn:hover {
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);

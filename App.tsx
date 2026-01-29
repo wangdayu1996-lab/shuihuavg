@@ -338,15 +338,11 @@ const App: React.FC = () => {
     
     if (!isTyping && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
       if (isAutoPlay) {
+        const delay = currentNode.speaker === '系统' ? 3000 : 4000;
         timer = window.setTimeout(() => {
           setHistory(prev => [...prev, currentNodeId]);
           setCurrentNodeId(currentNode.nextId!);
-        }, 4000);
-      } else if (currentNode.speaker === '系统') {
-        timer = window.setTimeout(() => {
-          setHistory(prev => [...prev, currentNodeId]);
-          setCurrentNodeId(currentNode.nextId!);
-        }, 3000);
+        }, delay);
       }
     }
     
@@ -355,15 +351,14 @@ const App: React.FC = () => {
     };
   }, [isTyping, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
 
-  // 新增：剧情与天数同步逻辑
   useEffect(() => {
     const dayMatch = currentNodeId.match(/^day(\d+)/);
     if (dayMatch) {
       const day = parseInt(dayMatch[1]);
       if (day !== currentDay) {
         setCurrentDay(day);
-        setActionPoints(3); // 新的一天重置行动点
-        setDivinationUsedToday(false); // 新的一天重置求卦
+        setActionPoints(3); 
+        setDivinationUsedToday(false); 
       }
     }
   }, [currentNodeId, currentDay]);
@@ -483,6 +478,15 @@ const App: React.FC = () => {
       return <GalleryPage characters={characters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
     }
 
+    const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
+    const isMeditationCG = displayBackground.includes(MEDITATION_CG_KEY);
+    const targetIsMeditationCG = currentNode.background.includes(MEDITATION_CG_KEY);
+    
+    const isFullBrightness = (displayBackground.includes('特典') || 
+               displayBackground.includes('%E7%89%B9%E5%85%B8') || 
+               displayBackground.includes('CG') ||
+               isMeditationCG);
+
     return (
       <div className="relative w-full h-screen bg-black overflow-hidden font-serif">
         <div className="fixed top-0 left-0 right-0 z-[100] h-16 bg-black/60 backdrop-blur-md border-b border-yellow-900/30 flex items-center justify-between px-8">
@@ -528,22 +532,20 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
+            key={displayBackground}
             src={displayBackground} 
             className={`w-full h-full object-cover transition-all duration-700 ${
-              (displayBackground.includes('特典') || 
-               displayBackground.includes('%E7%89%B9%E5%85%B8') || 
-               displayBackground.includes('CG')) 
-                ? 'brightness-100' 
-                : 'brightness-[0.45]'
-            }`} 
+              isFullBrightness ? 'brightness-100' : 'brightness-[0.45]'
+            } ${isMeditationCG ? 'animate-meditation-entry' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {currentNode.characterId && (
+        {/* 修复 bug：通过同时检测当前和目标背景，确保立绘在过渡期（blackout）不会意外出现 */}
+        {currentNode.characterId && !isMeditationCG && !targetIsMeditationCG && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
               src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
