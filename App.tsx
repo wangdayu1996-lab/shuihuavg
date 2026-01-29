@@ -256,37 +256,29 @@ const ChatWindow: React.FC<{
 // --- 主应用 ---
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
-  const [currentNodeId, setCurrentNodeId] = useState<string>(() => localStorage.getItem('shuihu_node') || 'start');
+  const [currentNodeId, setCurrentNodeId] = useState<string>('start');
   const [typedContent, setTypedContent] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [showChoices, setShowChoices] = useState<boolean>(false);
-  const [playerName, setPlayerName] = useState(() => localStorage.getItem('shuihu_player_name') || '小文书');
+  const [playerName, setPlayerName] = useState('小文书');
   const [tempName, setTempName] = useState('');
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
+  const [saveTooltip, setSaveTooltip] = useState<boolean>(false);
   
-  const [characters, setCharacters] = useState<Character[]>(() => {
-    const saved = localStorage.getItem('shuihu_chars');
-    return saved ? JSON.parse(saved) : CHARACTERS;
-  });
+  const [characters, setCharacters] = useState<Character[]>(CHARACTERS);
 
-  const [playerAttributes, setPlayerAttributes] = useState<PlayerAttributes>(() => {
-    const saved = localStorage.getItem('shuihu_attrs');
-    return saved ? JSON.parse(saved) : { weight: 5, intelligence: 6, strength: 2, spirit: 4 };
-  });
+  const [playerAttributes, setPlayerAttributes] = useState<PlayerAttributes>({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
 
   const [showAttrs, setShowAttrs] = useState(false);
   
-  const [currentDay, setCurrentDay] = useState(() => Number(localStorage.getItem('shuihu_day')) || 1);
+  const [currentDay, setCurrentDay] = useState(1);
   const [actionPoints, setActionPoints] = useState(3);
   const [divinationUsedToday, setDivinationUsedToday] = useState(false);
 
   const [isChatWindowOpen, setIsChatWindowOpen] = useState<boolean>(false);
   const [selectedCharForChat, setSelectedCharForChat] = useState<Character | null>(null);
-  const [chatHistory, setChatHistory] = useState<Record<string, Message[]>>(() => {
-    const saved = localStorage.getItem('shuihu_chat');
-    return saved ? JSON.parse(saved) : {};
-  });
+  const [chatHistory, setChatHistory] = useState<Record<string, Message[]>>({});
   const [isAiResponding, setIsAiResponding] = useState<boolean>(false);
 
   const [showDivination, setShowDivination] = useState(false);
@@ -295,14 +287,56 @@ const App: React.FC = () => {
   const [displayBackground, setDisplayBackground] = useState(currentNode.background);
   const [isBlackout, setIsBlackout] = useState(false);
 
+  // 初始化时检测是否有存档
+  const [hasSave, setHasSave] = useState<boolean>(false);
   useEffect(() => {
+    const savedNode = localStorage.getItem('shuihu_node');
+    if (savedNode && savedNode !== 'start') {
+      setHasSave(true);
+    }
+  }, []);
+
+  // 存档功能
+  const handleSaveGame = () => {
     localStorage.setItem('shuihu_chars', JSON.stringify(characters));
     localStorage.setItem('shuihu_day', currentDay.toString());
     localStorage.setItem('shuihu_node', currentNodeId);
     localStorage.setItem('shuihu_chat', JSON.stringify(chatHistory));
     localStorage.setItem('shuihu_player_name', playerName);
     localStorage.setItem('shuihu_attrs', JSON.stringify(playerAttributes));
-  }, [characters, currentDay, currentNodeId, chatHistory, playerName, playerAttributes]);
+    setSaveTooltip(true);
+    setHasSave(true);
+    setTimeout(() => setSaveTooltip(false), 2000);
+  };
+
+  // 读档功能
+  const handleLoadGame = () => {
+    const savedChars = localStorage.getItem('shuihu_chars');
+    const savedDay = localStorage.getItem('shuihu_day');
+    const savedNode = localStorage.getItem('shuihu_node');
+    const savedChat = localStorage.getItem('shuihu_chat');
+    const savedName = localStorage.getItem('shuihu_player_name');
+    const savedAttrs = localStorage.getItem('shuihu_attrs');
+
+    if (savedChars) setCharacters(JSON.parse(savedChars));
+    if (savedDay) setCurrentDay(Number(savedDay));
+    if (savedNode) setCurrentNodeId(savedNode);
+    if (savedChat) setChatHistory(JSON.parse(savedChat));
+    if (savedName) setPlayerName(savedName);
+    if (savedAttrs) setPlayerAttributes(JSON.parse(savedAttrs));
+    
+    setGameState(GameState.STORY);
+  };
+
+  // 开启新游戏
+  const handleStartNew = () => {
+    setCurrentNodeId('start');
+    setCharacters(CHARACTERS);
+    setCurrentDay(1);
+    setPlayerAttributes({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
+    setChatHistory({});
+    setGameState(GameState.STORY);
+  };
 
   useEffect(() => {
     if (currentNode.background !== displayBackground) {
@@ -471,7 +505,14 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     if (gameState === GameState.START) {
-      return <LandingPage onStart={() => setGameState(GameState.STORY)} onGallery={() => setGameState(GameState.GALLERY)} />;
+      return (
+        <LandingPage 
+          onStart={handleStartNew} 
+          onLoad={handleLoadGame}
+          hasSave={hasSave}
+          onGallery={() => setGameState(GameState.GALLERY)} 
+        />
+      );
     }
 
     if (gameState === GameState.GALLERY) {
@@ -489,6 +530,13 @@ const App: React.FC = () => {
 
     return (
       <div className="relative w-full h-screen bg-black overflow-hidden font-serif">
+        {/* 存档提示 */}
+        {saveTooltip && (
+          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">
+            笔墨已收，录入丹青
+          </div>
+        )}
+
         <div className="fixed top-0 left-0 right-0 z-[100] h-16 bg-black/60 backdrop-blur-md border-b border-yellow-900/30 flex items-center justify-between px-8">
           <div className="flex items-center gap-8">
             <div className="flex flex-col">
@@ -516,6 +564,12 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="flex gap-4 items-center">
+            <button 
+              onClick={handleSaveGame} 
+              className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold"
+            >
+              记录
+            </button>
             <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
             <button 
               onClick={() => {
@@ -544,7 +598,6 @@ const App: React.FC = () => {
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {/* 修复 bug：通过同时检测当前和目标背景，确保立绘在过渡期（blackout）不会意外出现 */}
         {currentNode.characterId && !isMeditationCG && !targetIsMeditationCG && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
@@ -638,7 +691,12 @@ const App: React.FC = () => {
   return renderContent();
 };
 
-const LandingPage: React.FC<{ onStart: () => void, onGallery: () => void }> = ({ onStart, onGallery }) => (
+const LandingPage: React.FC<{ 
+  onStart: () => void, 
+  onLoad: () => void,
+  hasSave: boolean,
+  onGallery: () => void 
+}> = ({ onStart, onLoad, hasSave, onGallery }) => (
   <div className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden">
     <div className="absolute inset-0 opacity-40">
       <img src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%BC%80%E5%9C%BA.jpg?raw=true" className="w-full h-full object-cover" alt="bg" />
@@ -648,9 +706,29 @@ const LandingPage: React.FC<{ onStart: () => void, onGallery: () => void }> = ({
         <h1 className="text-9xl font-calligraphy text-yellow-500 vn-text-shadow tracking-tighter animate-pulse">水浒·星引缘</h1>
         <p className="text-2xl text-yellow-800 tracking-[0.5em] font-serif font-bold">—— 百零八星宿的宿命羁绊 ——</p>
       </div>
-      <div className="flex gap-8 justify-center">
-        <button onClick={onStart} className="px-16 py-5 bg-gradient-to-b from-yellow-600 to-yellow-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-yellow-400">开启剧幕</button>
-        <button onClick={onGallery} className="px-16 py-5 bg-black/40 text-yellow-500 rounded-full text-2xl font-calligraphy border-2 border-yellow-700 hover:bg-yellow-900/20 transition-all">英雄名册</button>
+      <div className="flex flex-col gap-6 justify-center items-center">
+        <div className="flex gap-8 justify-center">
+          <button 
+            onClick={onStart} 
+            className="px-16 py-5 bg-gradient-to-b from-yellow-600 to-yellow-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-yellow-400"
+          >
+            开启剧幕
+          </button>
+          {hasSave && (
+            <button 
+              onClick={onLoad} 
+              className="px-16 py-5 bg-gradient-to-b from-green-700 to-green-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-green-400"
+            >
+              续写前缘
+            </button>
+          )}
+        </div>
+        <button 
+          onClick={onGallery} 
+          className="px-20 py-4 bg-black/40 text-yellow-500 rounded-full text-2xl font-calligraphy border-2 border-yellow-700 hover:bg-yellow-900/20 transition-all"
+        >
+          英雄名册
+        </button>
       </div>
     </div>
   </div>
