@@ -20,7 +20,7 @@ const AttributesModal: React.FC<{
           {[
             { label: '体重 (气血)', value: attrs.weight, icon: '🩸', desc: '象征生命活力与体力，高体重耐受力强。' },
             { label: '智力 (思辨)', value: attrs.intelligence, icon: '📜', desc: '象征逻辑与策略，影响说服力与任务深度。' },
-            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突负。' },
+            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突胜负。' },
             { label: '灵力 (星感)', value: attrs.spirit, icon: '✨', desc: '象征星宿感应，关联魂魄稳定。' }
           ].map(item => (
             <div key={item.label}>
@@ -428,6 +428,30 @@ const App: React.FC = () => {
     }
   };
 
+  const handlePassDay = () => {
+    const nextDay = currentDay + 1;
+    const nextDayStartId = `day${nextDay}_start`;
+    
+    // 寻找下一日的起始节点，如果特定起始节点不存在，则尝试查找任意以 day{n} 开头的节点
+    let targetNodeId = nextDayStartId;
+    if (!STORY_DATA[targetNodeId]) {
+      targetNodeId = Object.keys(STORY_DATA).find(id => id.startsWith(`day${nextDay}`)) || nextDayStartId;
+    }
+
+    setCurrentDay(nextDay);
+    setActionPoints(3);
+    setDivinationUsedToday(false);
+    setCurrentNodeId(targetNodeId);
+    
+    // 如果目标节点包含选项，直接显示选项界面
+    const targetNode = STORY_DATA[targetNodeId];
+    if (targetNode?.choices) {
+      setShowChoices(true);
+    } else {
+      setShowChoices(false);
+    }
+  };
+
   const handleNameSubmit = () => {
     if (!tempName.trim()) return;
     setPlayerName(tempName.trim());
@@ -514,21 +538,19 @@ const App: React.FC = () => {
       return <GalleryPage characters={characters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
     }
 
-    // 优化：定义哪些关键字代表需要特殊进入动画的 CG
     const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
-    const HEARTBEAT_CG_KEY = '%E7%89%B9%E5%85%B8'; // 包含李逵心动特典
+    const HEARTBEAT_CG_KEY = '%E7%89%B9%E5%85%B8'; 
     
     const isSpecialCG = displayBackground.includes(MEDITATION_CG_KEY) || displayBackground.includes(HEARTBEAT_CG_KEY);
     const targetIsSpecialCG = currentNode.background.includes(MEDITATION_CG_KEY) || currentNode.background.includes(HEARTBEAT_CG_KEY);
     
-    // 识别核心冲击感搏杀节点 (排除了用户指定的文案页，如“手握重斧”day2_kui_pre_14 及其下一页 day2_kui_pre_15)
     const isFightNode = [
-      'day3_kui_yiling_10', // 猛虎扑食
-      'day3_kui_help_1',    // 拿起枯枝冲上去
-      'day3_kui_help_5',    // 李逵朴刀旋风
-      'day3_kui_watch_3',   // 铁牛归来怒吼
-      'day3_kui_watch_4',   // 替伤瞬间
-      'day3_kui_watch_5'    // 最终击毙
+      'day3_kui_yiling_10', 
+      'day3_kui_help_1',    
+      'day3_kui_help_5',    
+      'day3_kui_watch_3',   
+      'day3_kui_watch_4',   
+      'day3_kui_watch_5'    
     ].includes(currentNodeId);
 
     const isFullBrightness = (displayBackground.includes('特典') || 
@@ -593,7 +615,7 @@ const App: React.FC = () => {
               ✉️
             </button>
             <button onClick={() => setGameState(GameState.GALLERY)} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
-            <button onClick={() => {setCurrentDay(d => d+1); setActionPoints(3);}} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
+            <button onClick={handlePassDay} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
         </div>
 
@@ -609,7 +631,6 @@ const App: React.FC = () => {
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {/* 立绘渲染逻辑 */}
         {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
