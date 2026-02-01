@@ -553,17 +553,24 @@ const App: React.FC = () => {
       'day3_kui_watch_5'    
     ].includes(currentNodeId);
 
-    const isFaintNode = currentNodeId === 'day4_kui_train_8';
+    // 修复背景闪现的关键点：
+    // 当剧情从 day4_kui_train_8 转场到 day4_kui_train_faint 时，虽然 ID 变了，但我们需要保持“晕倒动画状态”。
+    // 将两个节点统一视为 FaintNode，并让它们使用相同的 React Key，防止组件重新挂载导致动画状态丢失。
+    const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_faint';
+    const isFaintNode = isFaintSequence;
 
     const isFullBrightness = (displayBackground.includes('特典') || 
                displayBackground.includes('%E7%89%B9%E5%85%B8') || 
                displayBackground.includes('CG') ||
                isSpecialCG);
 
+    // 动态决定渲染 Key。如果处于晕倒序列，我们固定一个 Key 以防止闪现。
+    const dynamicKey = isFaintSequence ? 'faint-sequence-root' : (isFightNode ? currentNodeId : 'story-root');
+
     return (
       <div 
-        key={isFightNode || isFaintNode ? currentNodeId : 'story-root'} 
-        className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintNode ? 'animate-faint-shake' : ''}`}
+        key={dynamicKey} 
+        className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`}
       >
         {/* 存档提示 */}
         {saveTooltip && (
@@ -627,7 +634,7 @@ const App: React.FC = () => {
             src={displayBackground} 
             className={`w-full h-full object-cover ${!isSpecialCG && !isFaintNode ? 'transition-all duration-700' : ''} ${
               isFullBrightness && !isFaintNode ? 'brightness-100' : isFaintNode ? '' : 'brightness-[0.45]'
-            } ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode ? 'animate-eyes-closing' : ''}`} 
+            } ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
