@@ -540,12 +540,13 @@ const App: React.FC = () => {
     const isHuyanCG = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC');
     const isDrillBG = displayBackground.includes('%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA');
     
-    // 显式指定呼延灼系列背景保持原图亮度
+    // 显式指定 CG 背景（含特典、CG、scale、或特定人物名）保持原图亮度
+    // 对话用的常规校场背景（isDrillBG）现在不计入 isFullBrightness，从而默认调暗至 0.45
     const isFullBrightness = (
       displayBackground.includes('特典') || 
       displayBackground.includes('%E7%89%B9%E5%85%B8') || 
       displayBackground.includes('CG') ||
-      isScaleCG || isHuyanCG || isDrillBG ||
+      isScaleCG || isHuyanCG || 
       isSpecialCG
     );
 

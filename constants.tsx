@@ -184,7 +184,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kitchen_5': { id: 'day3_kitchen_5', speaker: '李老头', content: '“俺孙子病重时，铁牛大半夜跑几十里背回郎中. 他啊，嘴臭心最软.”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_6' },
   'day3_kitchen_6': { id: 'day3_kitchen_6', speaker: '李老头', content: '“大师也是，偷酒被抓竟帮俺劈月余柴火抵债. 世间好人，难得欢实.”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_7' },
   'day3_kitchen_7': { id: 'day3_kitchen_7', speaker: '{playerName}', content: '你听着老人的碎语，心中对这两位性格迥异的英雄有了更深的理解.', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_8' },
-  'day3_kitchen_8': { id: 'day3_kitchen_8', speaker: '系统', content: '吃完馒头，你谢过李老头. 远处的聚义厅传来了豪爽的笑笑声，那是英雄们的日常.', background: BG_BLACK, nextId: 'day4_start' },
+  'day3_kitchen_8': { id: 'day3_kitchen_8', speaker: '系统', content: '吃完馒头，你谢过李老老头. 远处的聚义厅传来了豪爽的笑笑声，那是英雄们的日常.', background: BG_BLACK, nextId: 'day4_start' },
 
   // --- 第三天：李逵心动剧情 - 沂岭杀四虎 ---
   'day3_kui_yiling_1': { id: 'day3_kui_yiling_1', speaker: '系统', content: '第三天. 天刚蒙蒙亮，李逵就火急火燎地把你拽出了被窝. ', background: BG_CAVE, nextId: 'day3_kui_yiling_2' },
@@ -248,7 +248,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_drill_pan_start': { id: 'day4_kui_drill_pan_start', speaker: '{playerName}', content: '（你跟着铁牛来到校场的高台……）', background: BG_DRILL_SCALE, nextId: 'day4_kui_drill_desc' },
   'day4_kui_drill_desc': { id: 'day4_kui_drill_desc', speaker: '系统', content: '校场上烟尘腾卷，兵器架列如林。吼声、金铁交鸣声、箭矢破空声织成一片. 远处呼延灼双鞭舞作一团银光，气度森严. 汗水砸在夯土上洇开深色斑痕，空气里满是草屑与铁锈的味道.', background: BG_HUYAN_CG, nextId: 'day4_kui_train_2' },
   'day4_kui_train_2': { id: 'day4_kui_train_2', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“铁牛，这就是那位异人？步履虚浮，气息不稳，若要随军，怕是连马背都爬不上去。”', background: BG_DRILL, nextId: 'day4_kui_train_3' },
-  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气向你逼近.', background: BG_DRILL, nextId: 'day4_kui_train_4' },
+  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', characterId: 'huyanzhuo', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气向你逼近.', background: BG_DRILL, nextId: 'day4_kui_train_4' },
   'day4_kui_train_4': { id: 'day4_kui_train_4', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_DRILL, nextId: 'day4_kui_train_4_player' },
   'day4_kui_train_4_player': { id: 'day4_kui_train_4_player', speaker: '{playerName}', content: '“啊？？。。。饶了我吧。。。”', background: BG_DRILL, nextId: 'day4_kui_train_5' },
   'day4_kui_train_5': { id: 'day4_kui_train_5', speaker: '系统', content: '在李逵的起哄和呼延灼的严厉喝斥下，你先是被推上颠簸的战马，双腿被磨得生疼；随后又被迫拉开沉重的牛角弓，双臂颤抖如筛糠...', background: BG_DRILL, nextId: 'day4_kui_train_6' },
