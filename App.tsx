@@ -102,6 +102,8 @@ const GalleryPage: React.FC<{
   onBack: () => void, 
   onSelect: (char: Character) => void 
 }> = ({ characters, onBack, onSelect }) => {
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
   return (
     <div className="fixed inset-0 z-[200] bg-[#0a0a0a] overflow-y-auto pb-20">
       <div className="sticky top-0 bg-[#0a0a0a]/80 backdrop-blur-md p-6 flex items-center justify-between border-b border-yellow-900/30">
@@ -114,8 +116,13 @@ const GalleryPage: React.FC<{
       <div className="max-w-7xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {characters.map(char => (
           <div key={char.id} onClick={() => onSelect(char)} className="group relative bg-[#1a110a] border border-yellow-900/40 rounded-2xl overflow-hidden cursor-pointer hover:border-yellow-500 transition-all shadow-xl">
-            <div className="aspect-[3/4] overflow-hidden">
-              <img src={char.portrait} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt={char.name} />
+            <div className="aspect-[3/4] overflow-hidden bg-black/20">
+              <img 
+                src={char.portrait} 
+                onLoad={() => setLoadedImages(prev => ({ ...prev, [char.id]: true }))}
+                className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${loadedImages[char.id] ? 'opacity-100' : 'opacity-0'}`} 
+                alt={char.name} 
+              />
             </div>
             <div className="p-6 bg-gradient-to-t from-black to-transparent">
               <div className="text-xs text-yellow-700 mb-1 tracking-widest">{char.title}</div>
@@ -267,11 +274,8 @@ const App: React.FC = () => {
   const [saveTooltip, setSaveTooltip] = useState<boolean>(false);
   
   const [characters, setCharacters] = useState<Character[]>(CHARACTERS);
-
   const [playerAttributes, setPlayerAttributes] = useState<PlayerAttributes>({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
-
   const [showAttrs, setShowAttrs] = useState(false);
-  
   const [currentDay, setCurrentDay] = useState(1);
   const [actionPoints, setActionPoints] = useState(3);
   const [divinationUsedToday, setDivinationUsedToday] = useState(false);
@@ -287,13 +291,28 @@ const App: React.FC = () => {
   const [displayBackground, setDisplayBackground] = useState(currentNode.background);
   const [isBlackout, setIsBlackout] = useState(false);
 
-  // 初始化时检测是否有存档
+  // 增加图片加载状态管理，优化渐渐出现效果
+  const [bgLoaded, setBgLoaded] = useState(false);
+  const [spriteLoaded, setSpriteLoaded] = useState(false);
+
+  // 初始化时检测是否有存档与预加载逻辑
   const [hasSave, setHasSave] = useState<boolean>(false);
   useEffect(() => {
     const savedNode = localStorage.getItem('shuihu_node');
     if (savedNode && savedNode !== 'start') {
       setHasSave(true);
     }
+
+    // 预加载关键CG资源，解决加载不出来的问题
+    const preloadList = [
+      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscale.jpg?raw=true",
+      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true",
+      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true"
+    ];
+    preloadList.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
   }, []);
 
   // 存档功能
@@ -341,12 +360,19 @@ const App: React.FC = () => {
   useEffect(() => {
     if (currentNode.background !== displayBackground) {
       setIsBlackout(true);
+      setBgLoaded(false); // 切换背景时重置加载状态
+      // 为“渐渐出现”效果使用稍长的时间
       setTimeout(() => {
         setDisplayBackground(currentNode.background);
         setIsBlackout(false);
-      }, 600);
+      }, 800);
     }
   }, [currentNode.background]);
+
+  // 当角色切换时，重置立绘加载状态
+  useEffect(() => {
+    setSpriteLoaded(false);
+  }, [currentNode.characterId]);
 
   useEffect(() => {
     setTypedContent('');
@@ -369,7 +395,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let timer: number | undefined;
-    
     if (!isTyping && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
       if (isAutoPlay) {
         const delay = currentNode.speaker === '系统' ? 3000 : 4000;
@@ -379,10 +404,7 @@ const App: React.FC = () => {
         }, delay);
       }
     }
-    
-    return () => {
-      if (timer) window.clearTimeout(timer);
-    };
+    return () => { if (timer) window.clearTimeout(timer); };
   }, [isTyping, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
 
   useEffect(() => {
@@ -416,10 +438,7 @@ const App: React.FC = () => {
 
   const handleBack = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isAutoPlay) {
-      setIsAutoPlay(false);
-      return;
-    }
+    if (isAutoPlay) { setIsAutoPlay(false); return; }
     if (history.length > 0) {
       const newHistory = [...history];
       const lastNodeId = newHistory.pop();
@@ -431,25 +450,16 @@ const App: React.FC = () => {
   const handlePassDay = () => {
     const nextDay = currentDay + 1;
     const nextDayStartId = `day${nextDay}_start`;
-    
-    // 寻找下一日的起始节点，如果特定起始节点不存在，则尝试查找任意以 day{n} 开头的节点
     let targetNodeId = nextDayStartId;
     if (!STORY_DATA[targetNodeId]) {
       targetNodeId = Object.keys(STORY_DATA).find(id => id.startsWith(`day${nextDay}`)) || nextDayStartId;
     }
-
     setCurrentDay(nextDay);
     setActionPoints(3);
     setDivinationUsedToday(false);
     setCurrentNodeId(targetNodeId);
-    
-    // 如果目标节点包含选项，直接显示选项界面
     const targetNode = STORY_DATA[targetNodeId];
-    if (targetNode?.choices) {
-      setShowChoices(true);
-    } else {
-      setShowChoices(false);
-    }
+    if (targetNode?.choices) { setShowChoices(true); } else { setShowChoices(false); }
   };
 
   const handleNameSubmit = () => {
@@ -464,9 +474,7 @@ const App: React.FC = () => {
   const handleChoice = (choice: Choice) => {
     if (choice.affectionBonus) {
       setCharacters(prev => prev.map(c => 
-        c.id === choice.affectionBonus?.charId 
-          ? { ...c, affection: c.affection + choice.affectionBonus!.points } 
-          : c
+        c.id === choice.affectionBonus?.charId ? { ...c, affection: c.affection + choice.affectionBonus!.points } : c
       ));
     }
     if (choice.attributeBonus) {
@@ -478,14 +486,12 @@ const App: React.FC = () => {
         spirit: prev.spirit + (choice.attributeBonus?.spirit || 0),
       }));
     }
-
     setHistory(prev => [...prev, currentNodeId]);
     if (choice.nextId === 'day4_kui_branch' || choice.nextId === 'day4_kui_train_1') {
       setCurrentNodeId('day4_kui_train_1');
     } else {
       setCurrentNodeId(choice.nextId);
     }
-    
     setShowChoices(false);
   };
 
@@ -493,103 +499,65 @@ const App: React.FC = () => {
     if (!text.trim() || !selectedCharForChat || isAiResponding || actionPoints < 1) return;
     const charId = selectedCharForChat.id;
     const userMsg: Message = { role: 'user', text: `[以${style}语气回复] ${text}` };
-    
     setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), userMsg] }));
     setActionPoints(p => p - 1);
     setIsAiResponding(true);
-
     const baseDelay = 3000;
     const affectionBonus = Math.min(2500, selectedCharForChat.affection * 20);
     const delay = Math.max(800, baseDelay - affectionBonus);
-
     if (charId === 'lujunyi' && selectedCharForChat.affection <= 10) {
-      setTimeout(() => {
-        setIsAiResponding(false);
-      }, delay);
+      setTimeout(() => { setIsAiResponding(false); }, delay);
       return;
     }
-    
     try {
       const response = await generateCharacterResponse(selectedCharForChat, chatHistory[charId] || [], text, playerName);
-      
       setTimeout(() => {
         setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), { role: 'model', text: response }] }));
         setIsAiResponding(false);
         setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
       }, delay);
-    } catch (error) {
-      setIsAiResponding(false);
-    }
+    } catch (error) { setIsAiResponding(false); }
   };
 
   const renderContent = () => {
     if (gameState === GameState.START) {
-      return (
-        <LandingPage 
-          onStart={handleStartNew} 
-          onLoad={handleLoadGame}
-          hasSave={hasSave}
-          onGallery={() => setGameState(GameState.GALLERY)} 
-        />
-      );
+      return <LandingPage onStart={handleStartNew} onLoad={handleLoadGame} hasSave={hasSave} onGallery={() => setGameState(GameState.GALLERY)} />;
     }
-
     if (gameState === GameState.GALLERY) {
       return <GalleryPage characters={characters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
     }
 
     const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
     const HEARTBEAT_CG_KEY = '%E7%89%B9%E5%85%B8'; 
-    
     const isSpecialCG = displayBackground.includes(MEDITATION_CG_KEY) || displayBackground.includes(HEARTBEAT_CG_KEY);
     const targetIsSpecialCG = currentNode.background.includes(MEDITATION_CG_KEY) || currentNode.background.includes(HEARTBEAT_CG_KEY);
-    
-    const isFightNode = [
-      'day3_kui_yiling_10', 
-      'day3_kui_help_1',    
-      'day3_kui_help_5',    
-      'day3_kui_watch_3',   
-      'day3_kui_watch_4',   
-      'day3_kui_watch_5'    
-    ].includes(currentNodeId);
-
-    // 修复背景闪现的关键点：
-    // 当剧情从 day4_kui_train_8 转场到 day4_kui_train_faint 时，虽然 ID 变了，但我们需要保持“晕倒动画状态”。
-    // 将两个节点统一视为 FaintNode，并让它们使用相同的 React Key，防止组件重新挂载导致动画状态丢失。
+    const isFightNode = ['day3_kui_yiling_10', 'day3_kui_help_1', 'day3_kui_help_5', 'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5'].includes(currentNodeId);
     const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_faint';
     const isFaintNode = isFaintSequence;
 
-    const isFullBrightness = (displayBackground.includes('特典') || 
-               displayBackground.includes('%E7%89%B9%E5%85%B8') || 
-               displayBackground.includes('CG') ||
-               isSpecialCG);
+    // 亮度和比例控制
+    const isScaleCG = displayBackground.includes('scale.jpg');
+    const isHuyanCG = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC');
+    const isDrillBG = displayBackground.includes('%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA');
+    
+    // 显式指定呼延灼系列背景保持原图亮度
+    const isFullBrightness = (
+      displayBackground.includes('特典') || 
+      displayBackground.includes('%E7%89%B9%E5%85%B8') || 
+      displayBackground.includes('CG') ||
+      isScaleCG || isHuyanCG || isDrillBG ||
+      isSpecialCG
+    );
 
-    // 动态决定渲染 Key。如果处于晕倒序列，我们固定一个 Key 以防止闪现。
     const dynamicKey = isFaintSequence ? 'faint-sequence-root' : (isFightNode ? currentNodeId : 'story-root');
 
     return (
-      <div 
-        key={dynamicKey} 
-        className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`}
-      >
-        {/* 存档提示 */}
-        {saveTooltip && (
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">
-            笔墨已收，录入丹青
-          </div>
-        )}
-
+      <div key={dynamicKey} className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`}>
+        {saveTooltip && <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">笔墨已收，录入丹青</div>}
         <div className="fixed top-0 left-0 right-0 z-[100] h-16 bg-black/60 backdrop-blur-md border-b border-yellow-900/30 flex items-center justify-between px-8">
           <div className="flex items-center gap-8">
-            <div className="flex flex-col">
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest leading-none mb-1">距离天限</span>
-              <span className="text-xl font-bold text-yellow-500">{108 - currentDay} 日</span>
-            </div>
-            
-            <button 
-              onClick={() => setShowAttrs(true)}
-              className="group flex flex-col items-center bg-yellow-900/20 border border-yellow-600/30 px-3 py-1 rounded hover:bg-yellow-900/40 transition-all"
-            >
+            <div className="flex flex-col"><span className="text-[10px] text-gray-500 uppercase tracking-widest leading-none mb-1">距离天限</span><span className="text-xl font-bold text-yellow-500">{108 - currentDay} 日</span></div>
+            <button onClick={() => setShowAttrs(true)} className="group flex flex-col items-center bg-yellow-900/20 border border-yellow-600/30 px-3 py-1 rounded hover:bg-yellow-900/40 transition-all">
               <span className="text-[10px] text-yellow-600/70 uppercase tracking-tighter mb-1">玩家属性</span>
               <div className="flex gap-3">
                 <span className="text-[10px] flex items-center gap-0.5" title="体重/气血">🩸体重:{playerAttributes.weight}</span>
@@ -598,58 +566,39 @@ const App: React.FC = () => {
                 <span className="text-[10px] flex items-center gap-0.5" title="灵力/星感">✨灵力:{playerAttributes.spirit}</span>
               </div>
             </button>
-
-            <div className="flex items-center gap-2">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />
-              ))}
-            </div>
+            <div className="flex items-center gap-2">{Array.from({ length: 3 }).map((_, i) => (<div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />))}</div>
           </div>
           <div className="flex gap-4 items-center">
-            <button 
-              onClick={handleSaveGame} 
-              className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold"
-            >
-              记录
-            </button>
+            <button onClick={handleSaveGame} className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold">记录</button>
             <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
-            <button 
-              onClick={() => {
-                if (!selectedCharForChat) setSelectedCharForChat(characters[0]);
-                setIsChatWindowOpen(true);
-              }} 
-              className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" 
-              title="传信互动"
-            >
-              ✉️
-            </button>
+            <button onClick={() => { if (!selectedCharForChat) setSelectedCharForChat(characters[0]); setIsChatWindowOpen(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="传信互动">✉️</button>
             <button onClick={() => setGameState(GameState.GALLERY)} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
             <button onClick={handlePassDay} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
         </div>
-
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
             key={displayBackground}
             src={displayBackground} 
-            className={`w-full h-full object-cover ${!isSpecialCG && !isFaintNode ? 'transition-all duration-700' : ''} ${
-              isFullBrightness && !isFaintNode ? 'brightness-100' : isFaintNode ? '' : 'brightness-[0.45]'
-            } ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
+            onLoad={() => setBgLoaded(true)}
+            className={`w-full h-full ${isScaleCG ? 'object-contain object-bottom' : 'object-cover'} transition-all duration-1000 ${
+              isFullBrightness && !isFaintNode ? '!filter-none' : isFaintNode ? '' : 'brightness-[0.45]'
+            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
           />
-          <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
+          <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
-
         {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && !isFaintNode && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
+              key={currentNode.characterId}
               src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
-              className={`w-auto animate-fade-up object-contain origin-bottom ${['lujunyi', 'yanqing', 'luzhishen'].includes(currentNode.characterId) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
+              onLoad={() => setSpriteLoaded(true)}
+              className={`w-auto animate-fade-up object-contain origin-bottom transition-opacity duration-1000 ${spriteLoaded ? 'opacity-100' : 'opacity-0'} ${['lujunyi', 'yanqing', 'luzhishen'].includes(currentNode.characterId) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
               alt="portrait" 
             />
           </div>
         )}
-
         {showChoices ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-30 p-4 gap-6 animate-fadeIn">
             {currentNode.choices?.map((choice, idx) => (
@@ -658,122 +607,54 @@ const App: React.FC = () => {
           </div>
         ) : (
           <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`} onClick={handleNextDialogue}>
-            
-            {!currentNode.isNameInput && (
-              <>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }}
-                  className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${
-                    isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'
-                  }`}
-                >
-                  {isAutoPlay ? '手动播放' : '自动播放'}
-                </button>
-                <button 
-                  onClick={handleBack}
-                  disabled={history.length === 0 && !isAutoPlay}
-                  className={`absolute bottom-4 left-6 px-4 py-1 rounded-lg text-xs font-bold transition-all border ${
-                    history.length === 0 && !isAutoPlay 
-                      ? 'opacity-20 bg-black/40 text-gray-500 border-gray-900 pointer-events-none' 
-                      : 'bg-black/40 text-yellow-800 border-yellow-900/50 hover:border-yellow-600 hover:text-yellow-600'
-                  }`}
-                >
-                  ◀ 后退
-                </button>
-              </>
-            )}
-
-            <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">
-              {currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}
-            </div>
-            
+            {!currentNode.isNameInput && (<><button onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }} className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'}`}>{isAutoPlay ? '手动播放' : '自动播放'}</button><button onClick={handleBack} disabled={history.length === 0 && !isAutoPlay} className={`absolute bottom-4 left-6 px-4 py-1 rounded-lg text-xs font-bold transition-all border ${history.length === 0 && !isAutoPlay ? 'opacity-20 bg-black/40 text-gray-500 border-gray-900 pointer-events-none' : 'bg-black/40 text-yellow-800 border-yellow-900/50 hover:border-yellow-600 hover:text-yellow-600'}`}>◀ 后退</button></>)}
+            <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">{currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}</div>
             <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">
               {typedContent}
-              {currentNode.isNameInput && (
-                <div className="mt-8 flex gap-4 animate-fade-in">
-                  <input 
-                    autoFocus
-                    value={tempName}
-                    onChange={e => setTempName(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handleNameSubmit()}
-                    placeholder="请输入你的名号..."
-                    className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl"
-                  />
-                  <button onClick={handleNameSubmit} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button>
-                </div>
-              )}
+              {currentNode.isNameInput && (<div className="mt-8 flex gap-4 animate-fade-in"><input autoFocus value={tempName} onChange={e => setTempName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleNameSubmit()} placeholder="请输入你的名号..." className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl" /><button onClick={handleNameSubmit} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button></div>)}
             </div>
-            
-            {!currentNode.isNameInput && (
-              <div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">
-                  {isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : (isAutoPlay ? '⌛ 自动运行' : '▼ 继续剧幕'))}
-              </div>
-            )}
+            {!currentNode.isNameInput && (<div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">{isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : (isAutoPlay ? '⌛ 自动运行' : '▼ 继续剧幕'))}</div>)}
           </div>
         )}
-
         {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} isLocked={gameState === GameState.STORY} />}
         {showAttrs && <AttributesModal attrs={playerAttributes} onClose={() => setShowAttrs(false)} />}
-        {isChatWindowOpen && selectedCharForChat && (
-          <ChatWindow 
-            characters={characters}
-            activeChar={selectedCharForChat}
-            onSelectChar={setSelectedCharForChat}
-            playerName={playerName}
-            messages={chatHistory[selectedCharForChat.id] || []} 
-            onSend={handleSendMessage} 
-            onClose={() => setIsChatWindowOpen(false)} 
-            isResponding={isAiResponding}
-          />
-        )}
+        {isChatWindowOpen && selectedCharForChat && (<ChatWindow characters={characters} activeChar={selectedCharForChat} onSelectChar={setSelectedCharForChat} playerName={playerName} messages={chatHistory[selectedCharForChat.id] || []} onSend={handleSendMessage} onClose={() => setIsChatWindowOpen(false)} isResponding={isAiResponding} />)}
       </div>
     );
   };
-
   return renderContent();
 };
 
-const LandingPage: React.FC<{ 
-  onStart: () => void, 
-  onLoad: () => void,
-  hasSave: boolean,
-  onGallery: () => void 
-}> = ({ onStart, onLoad, hasSave, onGallery }) => (
-  <div className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden">
-    <div className="absolute inset-0 opacity-40">
-      <img src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%BC%80%E5%9C%BA.jpg?raw=true" className="w-full h-full object-cover" alt="bg" />
-    </div>
-    <div className="relative z-10 text-center space-y-12 animate-fadeIn">
-      <div className="space-y-4">
-        <h1 className="text-9xl font-calligraphy text-yellow-500 vn-text-shadow tracking-tighter animate-pulse">水浒·星引缘</h1>
-        <p className="text-2xl text-yellow-800 tracking-[0.5em] font-serif font-bold">—— 百零八星宿的宿命羁绊 ——</p>
+const LandingPage: React.FC<{ onStart: () => void, onLoad: () => void, hasSave: boolean, onGallery: () => void }> = ({ onStart, onLoad, hasSave, onGallery }) => {
+  const [bgLoaded, setBgLoaded] = useState(false);
+  
+  return (
+    <div className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden">
+      <div className="absolute inset-0">
+        <img 
+          src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%BC%80%E5%9C%BA.jpg?raw=true" 
+          onLoad={() => setBgLoaded(true)}
+          className={`w-full h-full object-cover transition-all duration-[2000ms] ${bgLoaded ? 'opacity-40 scale-100' : 'opacity-0 scale-110'}`} 
+          alt="bg" 
+        />
       </div>
-      <div className="flex flex-col gap-6 justify-center items-center">
-        <div className="flex gap-8 justify-center">
-          <button 
-            onClick={onStart} 
-            className="px-16 py-5 bg-gradient-to-b from-yellow-600 to-yellow-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-yellow-400"
-          >
-            开启剧幕
-          </button>
-          {hasSave && (
-            <button 
-              onClick={onLoad} 
-              className="px-16 py-5 bg-gradient-to-b from-green-700 to-green-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-green-400"
-            >
-              续写前缘
-            </button>
-          )}
+      <div className={`relative z-10 text-center space-y-12 transition-all duration-1000 ${bgLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div className="space-y-4">
+          <h1 className="text-9xl font-calligraphy text-yellow-500 vn-text-shadow tracking-tighter animate-pulse">水浒·星引缘</h1>
+          <p className="text-2xl text-yellow-800 tracking-[0.5em] font-serif font-bold">—— 百零八星宿的宿命羁绊 ——</p>
         </div>
-        <button 
-          onClick={onGallery} 
-          className="px-20 py-4 bg-black/40 text-yellow-500 rounded-full text-2xl font-calligraphy border-2 border-yellow-700 hover:bg-yellow-900/20 transition-all"
-        >
-          英雄名册
-        </button>
+        <div className="flex flex-col gap-6 justify-center items-center">
+          <div className="flex gap-8 justify-center">
+            <button onClick={onStart} className="px-16 py-5 bg-gradient-to-b from-yellow-600 to-yellow-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-yellow-400">开启剧幕</button>
+            {hasSave && (
+              <button onClick={onLoad} className="px-16 py-5 bg-gradient-to-b from-green-700 to-green-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-green-400">续写前缘</button>
+            )}
+          </div>
+          <button onClick={onGallery} className="px-20 py-4 bg-black/40 text-yellow-500 rounded-full text-2xl font-calligraphy border-2 border-yellow-700 hover:bg-yellow-900/20 transition-all">英雄名册</button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default App;
