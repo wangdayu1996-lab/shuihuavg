@@ -428,6 +428,10 @@ const App: React.FC = () => {
 
   const [showDivination, setShowDivination] = useState(false);
 
+  // 音频控制
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const currentNode = STORY_DATA[currentNodeId] || STORY_DATA['start'];
   const [displayBackground, setDisplayBackground] = useState(currentNode.background);
   const [isBlackout, setIsBlackout] = useState(false);
@@ -436,6 +440,25 @@ const App: React.FC = () => {
   const [spriteLoaded, setSpriteLoaded] = useState(false);
 
   const [hasSave, setHasSave] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (gameState !== GameState.START && !isMuted) {
+        audioRef.current.play().catch(() => {
+          // 忽略自动播放受限的错误
+        });
+      }
+    }
+  }, [gameState, isMuted]);
+
+  const toggleMute = () => {
+    setIsMuted(prev => !prev);
+    if (audioRef.current) {
+      if (!isMuted) audioRef.current.pause();
+      else audioRef.current.play();
+    }
+  };
+
   useEffect(() => {
     const savedNode = localStorage.getItem('shuihu_node');
     if (savedNode && savedNode !== 'start') {
@@ -715,6 +738,9 @@ const App: React.FC = () => {
             <div className="flex items-center gap-2">{Array.from({ length: 3 }).map((_, i) => (<div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />))}</div>
           </div>
           <div className="flex gap-4 items-center">
+            <button onClick={toggleMute} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl transition-all hover:bg-yellow-900/40" title={isMuted ? "播放音乐" : "静音"}>
+              {isMuted ? '🔇' : '🎵'}
+            </button>
             <button onClick={handleSaveGame} className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold">记录</button>
             <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
             <button onClick={() => { if (!selectedCharForChat) setSelectedCharForChat(romanceableCharacters[0]); setIsChatWindowOpen(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="传信互动">✉️</button>
@@ -768,7 +794,13 @@ const App: React.FC = () => {
       </div>
     );
   };
-  return renderContent();
+
+  return (
+    <>
+      <audio ref={audioRef} src="https://github.com/wangdayu1996-lab/mygameasset/raw/refs/heads/main/Heroes%20Beneath%20the%20Willow.mp3" loop />
+      {renderContent()}
+    </>
+  );
 };
 
 const LandingPage: React.FC<{ onStart: () => void, onLoad: () => void, hasSave: boolean, onGallery: () => void }> = ({ onStart, onLoad, hasSave, onGallery }) => {
