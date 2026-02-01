@@ -181,7 +181,7 @@ const ChatWindow: React.FC<{
         </div>
 
         {/* 右侧：传信内容区 */}
-        <div className="flex-1 flex-col flex relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')] overflow-hidden">
+        <div className="flex-1 flex flex-col relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')] overflow-hidden">
           <div className="p-6 border-b border-gray-300 flex items-center justify-between bg-white/50">
             <div className="flex flex-col">
               <span className="font-calligraphy text-2xl text-gray-800">{activeChar.name} · {activeChar.title}</span>
@@ -275,27 +275,36 @@ const ArcheryMinigame: React.FC<{
   const [isFocusing, setIsFocusing] = useState(false);
   const [focusTime, setFocusTime] = useState(0); // 毫秒
 
-  // 模拟“双臂颤抖”：准星在屏幕中央附近随机晃动
+  // 模拟“呼吸起伏”与“手臂颤抖”：准星呈现曲线轨迹
   useEffect(() => {
+    // 抖动频率降低 50%：凝神时间隔从 100ms 变为 200ms
+    const intervalTime = isFocusing ? 200 : 100;
+    
     const interval = setInterval(() => {
       if (isFiring) return;
 
-      let magnitude = 15;
+      // 抖动半径基础逻辑
+      let magnitude = 39;
       // 凝神聚气逻辑：长按降低抖动，上限2.5秒
       if (isFocusing) {
         if (focusTime < 2500) {
-          magnitude = 3; // 抖动大幅降低
-          setFocusTime(prev => prev + 100);
+          magnitude = 7.8; 
+          setFocusTime(prev => prev + intervalTime);
         } else {
-          magnitude = 15; // 时间到了，恢复抖动
+          magnitude = 39; 
         }
       }
 
+      // 曲线运动逻辑：使用正弦/余弦波组合产生平滑的 Lissajous 曲线
+      const t = Date.now() / (isFocusing ? 1200 : 600); // 凝神时运动速度更慢
+      const offsetX = (Math.sin(t * 1.5) * 0.6 + Math.sin(t * 3.7) * 0.4) * (magnitude / 2);
+      const offsetY = (Math.cos(t * 1.2) * 0.6 + Math.cos(t * 2.9) * 0.4) * (magnitude / 2);
+
       setCrosshairPos({
-        x: 50 + (Math.random() - 0.5) * magnitude, 
-        y: 50 + (Math.random() - 0.5) * magnitude  
+        x: 50 + offsetX, 
+        y: 50 + offsetY  
       });
-    }, 100);
+    }, intervalTime);
     return () => clearInterval(interval);
   }, [isFiring, isFocusing, focusTime]);
 
@@ -308,7 +317,8 @@ const ArcheryMinigame: React.FC<{
     const dy = Math.abs(crosshairPos.y - targetPos.y);
     const distance = Math.sqrt(dx*dx + dy*dy);
 
-    if (distance < 7) { 
+    // 必须射中靶子正中心的红色圆形：判定范围 1.5
+    if (distance < 1.5) { 
       setResult('hit');
       setTimeout(onSuccess, 1500);
     } else {
@@ -317,7 +327,7 @@ const ArcheryMinigame: React.FC<{
       setTimeout(() => {
         setIsFiring(false);
         setResult(null);
-        setFocusTime(0); // 脱靶重置专注时间
+        setFocusTime(0); 
       }, 1500);
     }
   };
@@ -343,10 +353,8 @@ const ArcheryMinigame: React.FC<{
           setFocusTime(0);
         }}
       >
-        {/* 背景装饰：远处的校场烟尘感 */}
         <div className="absolute inset-0 opacity-20 bg-[url('https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true')] bg-cover bg-center" />
 
-        {/* 靶子：尺寸增大 1.3 倍 */}
         <div 
           className="absolute w-52 h-52 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
           style={{ left: `${targetPos.x}%`, top: `${targetPos.y}%` }}
@@ -358,17 +366,19 @@ const ArcheryMinigame: React.FC<{
           </div>
         </div>
 
-        {/* 准星：随抖动移动 */}
         <div 
-          className={`absolute w-16 h-16 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-150 ${isFiring ? 'scale-75 opacity-50' : 'scale-100 opacity-100'}`}
-          style={{ left: `${crosshairPos.x}%`, top: `${crosshairPos.y}%` }}
+          className={`absolute w-16 h-16 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all ${isFiring ? 'scale-75 opacity-50' : 'scale-100 opacity-100'}`}
+          style={{ 
+            left: `${crosshairPos.x}%`, 
+            top: `${crosshairPos.y}%`,
+            transition: isFiring ? 'none' : `all ${isFocusing ? '0.2s' : '0.1s'} linear` 
+          }}
         >
           <div className={`absolute inset-0 border-2 rounded-full transition-colors ${isFocusing && focusTime < 2500 ? 'border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'border-yellow-500'}`} />
           <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-yellow-500/50" />
           <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-yellow-500/50" />
         </div>
 
-        {/* 结果显示 */}
         {result === 'hit' && (
           <div className="absolute inset-0 flex items-center justify-center bg-green-500/20 animate-fade-in">
             <div className="text-8xl font-calligraphy text-green-400 vn-text-shadow">正中靶心！</div>
@@ -422,11 +432,9 @@ const App: React.FC = () => {
   const [displayBackground, setDisplayBackground] = useState(currentNode.background);
   const [isBlackout, setIsBlackout] = useState(false);
 
-  // 增加图片加载状态管理，优化渐渐出现效果
   const [bgLoaded, setBgLoaded] = useState(false);
   const [spriteLoaded, setSpriteLoaded] = useState(false);
 
-  // 初始化时检测是否有存档与预加载逻辑
   const [hasSave, setHasSave] = useState<boolean>(false);
   useEffect(() => {
     const savedNode = localStorage.getItem('shuihu_node');
@@ -434,7 +442,6 @@ const App: React.FC = () => {
       setHasSave(true);
     }
 
-    // 预加载关键CG资源
     const preloadList = [
       "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true",
       "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true",
@@ -446,7 +453,6 @@ const App: React.FC = () => {
     });
   }, []);
 
-  // 存档功能
   const handleSaveGame = () => {
     localStorage.setItem('shuihu_chars', JSON.stringify(characters));
     localStorage.setItem('shuihu_day', currentDay.toString());
@@ -459,7 +465,6 @@ const App: React.FC = () => {
     setTimeout(() => setSaveTooltip(false), 2000);
   };
 
-  // 读档功能
   const handleLoadGame = () => {
     const savedChars = localStorage.getItem('shuihu_chars');
     const savedDay = localStorage.getItem('shuihu_day');
@@ -478,7 +483,6 @@ const App: React.FC = () => {
     setGameState(GameState.STORY);
   };
 
-  // 开启新游戏
   const handleStartNew = () => {
     setCurrentNodeId('start');
     setCharacters(CHARACTERS);
@@ -525,7 +529,6 @@ const App: React.FC = () => {
   useEffect(() => {
     let timer: number | undefined;
     if (!isTyping && bgLoaded && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
-      // 如果当前是射箭触发节点，不自动播放到下一页
       if (currentNodeId === 'day4_kui_train_5') return;
 
       if (isAutoPlay) {
@@ -549,7 +552,6 @@ const App: React.FC = () => {
       return; 
     }
 
-    // 在 day4_kui_train_5 页面之后触发射箭小游戏
     if (currentNodeId === 'day4_kui_train_5') {
       setGameState(GameState.ARCHERY_MINIGAME);
       return;
