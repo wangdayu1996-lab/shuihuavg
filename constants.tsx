@@ -1,3 +1,4 @@
+
 import { Character, StoryNode, DivinationBuff } from './types';
 
 // --- 资源常量 ---
@@ -45,7 +46,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'trans_os_2': { id: 'trans_os_2', speaker: '{playerName}', content: '（最后的记忆是主管那张吐着唾沫星子的脸，还有永远写不完的KPI……）', background: BG_MOUNTAIN, nextId: 'trans_os_3' },
   'trans_os_3': { id: 'trans_os_3', speaker: '{playerName}', content: '（渐渐地，耳边的嘈杂消失了，取而代之的是泥土的芬芳，以及一种沉重的呼吸声。）', background: BG_MOUNTAIN, nextId: 'woods_1' },
   'woods_1': { id: 'woods_1', speaker: '{playerName}', content: '（猛地睁开眼，首先映入眼帘的是一片遮天蔽日的古怪森林，然后是一张黑得像锅底一样的巨脸。）', background: BG_FOREST, nextId: 'woods_2' },
-  'woods_2': { id: 'woods_2', speaker: '{playerName}', content: '“哇啊啊啊啊！！鬼啊！！”（你连滚带爬地向后缩去）', background: BG_FOREST, nextId: 'woods_3' },
+  'woods_2': { id: 'woods_2', speaker: '{playerName}', content: '“哇啊啊啊啊！！鬼啊!！”（你连滚带爬地向后缩去）', background: BG_FOREST, nextId: 'woods_3' },
   'woods_3': { id: 'woods_3', speaker: '黑大汉', content: '“嚷甚么！闭嘴！再嚷俺一斧头劈了你这丫头！”（李逵瞪圆了牛眼，腰间板斧泛着寒光）', background: BG_FOREST, characterId: 'likui', nextId: 'woods_4' },
   'woods_4': { id: 'woods_4', speaker: '{playerName}', content: '“别劈我! 这是哪? 我是不是加班加疯了产生的幻觉?”', background: BG_FOREST, nextId: 'woods_5' },
   'woods_5': { id: 'woods_5', speaker: '李逵', characterId: 'likui', content: '“甚么班不班的? 这里是俺们梁山泊的地界! 俺看你这Y头穿得古怪，倒长得像个俏文书。”', background: BG_FOREST, nextId: 'woods_5_os' },
@@ -78,16 +79,17 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'game_over_hall': { id: 'game_over_hall', speaker: '宋江', content: '“满口胡言！宋某一生忠义，岂容你这厮在此瞎编乱造！来人，把这骗子赶出山寨，永世不得踏入！”', background: BG_BLACK, nextId: 'restart_game' },
   'restart_game': { id: 'restart_game', speaker: '系统', content: '【游戏结束】宋江最讨厌骗子。', background: BG_BLACK, choices: [{ text: '重新开始', nextId: 'start' }] },
 
-  'hall_kui_leg': { id: 'hall_kui_leg', speaker: '李逵', characterId: 'likui', content: '“哥哥！问这许多作甚！你看{playerName}吓得脸都白了，定是好人！饿不饿？俺那儿有刚烤的羊腿！”', background: BG_CAMP, nextId: 'hall_lu_stop' },
+  'hall_kui_leg': { id: 'hall_kui_leg', speaker: '李逵', characterId: 'likui', content: '“哥哥！问这许多作甚！你看{playerName}吓得脸都白了，定是好人！饿不饿？俺那儿有刚烤 of 羊腿！”', background: BG_CAMP, nextId: 'hall_lu_stop' },
   'hall_lu_stop': { id: 'hall_lu_stop', speaker: '鲁智深', characterId: 'luzhishen', content: '“铁牛休得莽撞！{playerName}姑娘，莫怕，洒家这儿有凳子。”', background: BG_CAMP, nextId: 'hall_gongsun_entry' },
 
-  'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“且慢！铁牛兄弟，此人动不得！……哥哥，大事！此子非凡间之人！贫道方才观星，见天狗食月，星宿移位，一道异芒坠于后山……竟应在此处！”', background: BG_CAMP, nextId: 'hall_gongsun_scene_desc' },
-  'hall_gongsun_scene_desc': { id: 'hall_gongsun_scene_desc', speaker: '系统', content: '只见一位道人疾步入厅。厅中一阵骚动。宋江抬手示意众人安静。', background: BG_CAMP, nextId: 'hall_song_ask_detail' },
+  'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“且慢！铁牛兄弟，此人动不得！……哥哥，大事！此子非凡间之人！贫道方才观星，见天狗食月，星宿移位，一道异芒坠于后山……竟应在此处！”', background: BG_CAMP, nextId: 'hall_song_scene_desc' },
+  'hall_song_scene_desc': { id: 'hall_song_scene_desc', speaker: '系统', content: '只见一位道人疾步入厅。厅中一阵骚动。宋江抬手示意众人安静。', background: BG_CAMP, nextId: 'hall_song_ask_detail' },
+  // Fixed multiple properties with same name and potential infinite loop by removal of duplicates.
   'hall_song_ask_detail': { id: 'hall_song_ask_detail', speaker: '宋江', content: '“公孙先生，且细说。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
   'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
   'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
-  'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所越闻。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
+  'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻名。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
   'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '卢俊义', characterId: 'lujunyi', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
   'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》残卷。此乃记载我梁山兄弟天命轨迹之正册，可引动诸位兄弟的本命星力，与此子魂中暴气共鸣调和，方能导其归正，两全其美。”', background: BG_CAMP, nextId: 'hall_song_command' },
   'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基。小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果。我梁山泊替天行道，讲的是一个‘义’字。今日，这桩事，宋江管了。卢俊义、燕青、鲁智深、李逵四位兄弟听令！命你四人，协同这位小友，寻访《水浒秘籍》四卷残篇。山寨资源，任尔调用。务必在百日之内，功成而返！”', background: BG_CAMP, nextId: 'hall_song_welcome' },
@@ -150,7 +152,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_lu_1': { id: 'day3_lu_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“你来了，{playerName}. 动作倒快，洒家这坛酒还没见底呢. ”', background: BG_BAMBOO, nextId: 'day3_lu_2' },
   'day3_lu_2': { id: 'day3_lu_2', speaker: '{playerName}', content: '“大师久等了。我们今天学什么？也是劈砖搬石吗？”', background: BG_BAMBOO, nextId: 'day3_lu_3' },
   'day3_lu_3': { id: 'day3_lu_3', speaker: '鲁智深', characterId: 'luzhishen', content: '“非也. 铁牛教你的是杀气，洒家要教你的是‘静’. ”', background: BG_BAMBOO, nextId: 'day3_lu_4' },
-  'day3_lu_4': { id: 'day3_lu_4', speaker: '鲁智深', characterId: 'luzhishen', content: '“坐下。听这林中的风声，听那竹叶落地的沙沙声。心若不静，气力也是越的。”', background: BG_BAMBOO, nextId: 'day3_lu_5' },
+  'day3_lu_4': { id: 'day3_lu_4', speaker: '鲁智深', characterId: 'luzhishen', content: '“坐下。听这林中的风声，听那竹叶落地的沙沙声。心若不静，气力也是虚的。”', background: BG_BAMBOO, nextId: 'day3_lu_5' },
   'day3_lu_5': { id: 'day3_lu_5', speaker: '系统', content: '你盘腿坐下，鲁智深就坐在你对面。虽然他相貌魁梧，但此刻却散发出一种如山岳般沉稳的气息。', background: BG_BAMBOO, nextId: 'day3_lu_6' },
   'day3_lu_6': { id: 'day3_lu_6', speaker: '鲁智深', characterId: 'luzhishen', content: '“修行先格己。你的灵气浮躁，源于畏惧。生死有命，洒家只求个‘无愧’。”', background: CG_LU_MEDITATION, nextId: 'day3_lu_7' },
   'day3_lu_7': { id: 'day3_lu_7', speaker: '{playerName}', content: '“我确实害怕。我怕回不去，怕这百零八日后就成了云烟……”', background: CG_LU_MEDITATION, nextId: 'day3_lu_8' },
@@ -174,7 +176,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '（矜持地）吃一个就够了。', nextId: 'day3_kitchen_one' },
     { text: '（豪迈地）给我来十个！', nextId: 'day3_kitchen_weight_stat', attributeBonus: { weight: 1 } }
   ]},
-  'day3_kitchen_weight_stat': { id: 'day3_kitchen_weight_stat', speaker: '系统', content: '系统提示：胃口惊人，体重属性 +1。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten' },
+  'day3_kitchen_weight_stat': { id: 'day3_kitchen_weight_stat', speaker: '系统', content: '胃口惊人，体重属性 +1。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten' },
   'day3_kitchen_one': { id: 'day3_kitchen_one', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃，不像我们梁山这些糙老爷们，一个个吃起饭来像饿狼投胎似的。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_4' },
   'day3_kitchen_ten': { id: 'day3_kitchen_ten', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_4' },
 
@@ -242,10 +244,12 @@ export const STORY_DATA: Record<string, StoryNode> = {
   },
 
   // --- 李逵校场进阶训练剧情 ---
-  'day4_kui_train_1': { id: 'day4_kui_train_1', speaker: '李逵', characterId: 'likui', content: '“走走走，俺带你去校场！今天呼延将军在那，正好让他见识见识俺带出来的小文书！”', background: BG_DRILL, nextId: 'day4_kui_train_2' },
+  'day4_kui_train_1': { id: 'day4_kui_train_1', speaker: '李逵', characterId: 'likui', content: '“走走走，俺带你去校场！今天呼延将军在那，正好让他见识见识俺带出来的小文书！”', background: BG_DRILL, nextId: 'day4_kui_drill_desc' },
+  'day4_kui_drill_desc': { id: 'day4_kui_drill_desc', speaker: '系统', content: '校场上烟尘腾卷，兵器架列如林。吼声、金铁交鸣声、箭矢破空声织成一片。远处呼延灼双鞭舞作一团银光，气度森严。汗水砸在夯土上洇开深色斑痕，空气里满是草屑与铁锈的味道。', background: BG_DRILL, nextId: 'day4_kui_train_2' },
   'day4_kui_train_2': { id: 'day4_kui_train_2', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“铁牛，这就是那位异人？步履虚浮，气息不稳，若要随军，怕是连马背都爬不上去。”', background: BG_DRILL, nextId: 'day4_kui_train_3' },
-  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气。', background: BG_DRILL, nextId: 'day4_kui_train_4' },
-  'day4_kui_train_4': { id: 'day4_kui_train_4', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_DRILL, nextId: 'day4_kui_train_5' },
+  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气向你逼近。', background: BG_DRILL, nextId: 'day4_kui_train_4' },
+  'day4_kui_train_4': { id: 'day4_kui_train_4', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_DRILL, nextId: 'day4_kui_train_4_player' },
+  'day4_kui_train_4_player': { id: 'day4_kui_train_4_player', speaker: '{playerName}', content: '“啊？？。。。饶了我吧。。。”', background: BG_DRILL, nextId: 'day4_kui_train_5' },
   'day4_kui_train_5': { id: 'day4_kui_train_5', speaker: '系统', content: '在李逵的起哄和呼延灼的严厉喝斥下，你先是被推上颠簸的战马，双腿被磨得生疼；随后又被迫拉开沉重的牛角弓，双臂颤抖如筛糠...', background: BG_DRILL, nextId: 'day4_kui_train_6' },
   'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的！呼延老哥，再给她加两圈跑操！”', background: BG_DRILL, nextId: 'day4_kui_train_7' },
   'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动。视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_DRILL, nextId: 'day4_kui_train_8' },

@@ -553,6 +553,8 @@ const App: React.FC = () => {
       'day3_kui_watch_5'    
     ].includes(currentNodeId);
 
+    const isFaintNode = currentNodeId === 'day4_kui_train_8';
+
     const isFullBrightness = (displayBackground.includes('特典') || 
                displayBackground.includes('%E7%89%B9%E5%85%B8') || 
                displayBackground.includes('CG') ||
@@ -560,8 +562,8 @@ const App: React.FC = () => {
 
     return (
       <div 
-        key={isFightNode ? currentNodeId : 'story-root'} 
-        className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''}`}
+        key={isFightNode || isFaintNode ? currentNodeId : 'story-root'} 
+        className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintNode ? 'animate-faint-shake' : ''}`}
       >
         {/* 存档提示 */}
         {saveTooltip && (
@@ -623,15 +625,15 @@ const App: React.FC = () => {
           <img 
             key={displayBackground}
             src={displayBackground} 
-            className={`w-full h-full object-cover ${!isSpecialCG ? 'transition-all duration-700' : ''} ${
-              isFullBrightness ? 'brightness-100' : 'brightness-[0.45]'
-            } ${isSpecialCG ? 'animate-meditation-entry' : ''}`} 
+            className={`w-full h-full object-cover ${!isSpecialCG && !isFaintNode ? 'transition-all duration-700' : ''} ${
+              isFullBrightness && !isFaintNode ? 'brightness-100' : isFaintNode ? '' : 'brightness-[0.45]'
+            } ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode ? 'animate-eyes-closing' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && (
+        {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && !isFaintNode && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
               src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
