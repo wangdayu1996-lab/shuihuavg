@@ -391,10 +391,10 @@ const ArcheryMinigame: React.FC<{
         )}
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-4">
-        <p className="text-gray-400 font-serif">长按鼠标可以“凝神”来抑制颤抖。专注力有限，请在失效前松开射击。</p>
+      <div className="mt-10 flex flex-col items-center gap-4 text-center px-4">
+        <p className="text-gray-400 font-serif text-3xl leading-relaxed">长按鼠标可以“凝神”来抑制颤抖，“凝神”时长有限，请在失效前松开鼠标进行射击</p>
         {failCount >= 10 && (
-          <button onClick={onCancel} className="text-yellow-900/50 hover:text-yellow-600 underline text-sm transition-colors">暂且退回</button>
+          <button onClick={onCancel} className="text-yellow-900/50 hover:text-yellow-600 underline text-sm transition-colors mt-2">暂且退回</button>
         )}
       </div>
     </div>
