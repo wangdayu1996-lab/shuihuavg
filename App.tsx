@@ -692,7 +692,11 @@ const App: React.FC = () => {
             setHistory(prev => [...prev, currentNodeId]);
             setCurrentNodeId('day4_kui_train_6');
           }}
-          onCancel={() => setGameState(GameState.STORY)}
+          onCancel={() => {
+            setGameState(GameState.STORY);
+            setHistory(prev => [...prev, currentNodeId]);
+            setCurrentNodeId('day4_kui_train_retry_consolation');
+          }}
         />
       );
     }
