@@ -67,7 +67,8 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '因为在京城卖保险赔个精光，为了躲债才跑来投奔晁盖。', nextId: 'game_over_hall' }
   ]},
 
-  'hall_song_verdict': { id: 'hall_song_verdict', speaker: '宋江', content: '“嗯。。。有点意思。诸位兄弟怎么看？”', background: BG_CAMP, nextId: 'hall_kui_support' },
+  'hall_song_verdict': { id: 'hall_song_verdict', speaker: '宋江', content: '“嗯。。。有点意思。诸位兄弟怎么看？”', background: BG_CAMP, nextId: 'hall_song_verdict_next' },
+  'hall_song_verdict_next': { id: 'hall_song_verdict_next', speaker: '系统', content: '宋江手捋胡须，神情缓和了些。', background: BG_CAMP, nextId: 'hall_kui_support' },
   'hall_kui_support': { id: 'hall_kui_support', speaker: '李逵', characterId: 'likui', content: '“我看{playerName}还算机灵，不如留在梁山干活，正好我们缺人手。”', background: BG_CAMP, nextId: 'hall_lu_support' },
   'hall_lu_support': { id: 'hall_lu_support', speaker: '卢俊义', characterId: 'lujunyi', content: '“宋公明哥哥所言极是。我这儿正有许多积压的账目需要打理，确实需要个识文断字的帮手。”', background: BG_CAMP, nextId: 'hall_kui_leg' },
 
@@ -100,7 +101,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day2_kui_black_forest': { id: 'day2_kui_black_forest', speaker: '系统', content: '树林中', background: BG_BLACK, nextId: 'day2_kui_pre_1' },
   'day2_kui_pre_1': { id: 'day2_kui_pre_1', speaker: '李逵', characterId: 'likui', content: '“跑起来！别磨蹭！这山路要是都走不动，以后怎么跟着俺杀敌！”', background: BG_FOREST, nextId: 'day2_kui_pre_2' },
   'day2_kui_pre_2': { id: 'day2_kui_pre_2', speaker: '{playerName}', content: '“呼……呼……铁牛大哥，我的腿快断了……”你喘得像拉风箱一样。', background: BG_FOREST, nextId: 'day2_kui_pre_3' },
-  'day2_kui_pre_3': { id: 'day2_kui_pre_3', speaker: '李逵', characterId: 'likui', content: '“断了俺给你接上！瞧你这细胳膊细腿，非得好好练练这底气不可。”', background: BG_FOREST, nextId: 'day2_kui_pre_4' },
+  'day2_kui_pre_3': { id: 'day2_kui_pre_3', speaker: '李逵', characterId: 'likui', content: '“断了俺给你接上！瞧你这细身板，非得好好练练这底气不可。”', background: BG_FOREST, nextId: 'day2_kui_pre_4' },
   'day2_kui_pre_4': { id: 'day2_kui_pre_4', speaker: '系统', content: '李逵在前面健步如飞，你虽然累得半死，却发现跟着他的节奏，体内的灵气似乎也在有规律地律动。', background: BG_FOREST, nextId: 'day2_kui_pre_5' },
   'day2_kui_pre_5': { id: 'day2_kui_pre_5', speaker: '李逵', characterId: 'likui', content: '“快快快！前面那个坡，冲上去！冲不上去俺就在后面用板斧给你‘助推’！”', background: BG_FOREST, nextId: 'day2_kui_pre_6' },
   'day2_kui_pre_6': { id: 'day2_kui_pre_6', speaker: '{playerName}', content: '你看着他挥舞的斧子，求生欲爆发，居然真的拔腿狂奔。', background: BG_FOREST, nextId: 'day2_kui_run_stat' },
@@ -113,15 +114,16 @@ export const STORY_DATA: Record<string, StoryNode> = {
       { text: '（呼...累死了）', nextId: 'day2_kui_pre_11', attributeBonus: { weight: -1 } }
     ]
   },
-  'day2_kui_pre_11': { id: 'day2_kui_pre_11', speaker: '李逵', characterId: 'likui', content: '“嘿！这汗出得透，是不是觉得精神多了？这就叫脱胎换骨！”', background: BG_FOREST, nextId: 'day2_kui_pre_14' },
-  'day2_kui_pre_14': { id: 'day2_kui_pre_14', speaker: '系统', content: '他虽然手握重斧，但每次挥下都精准地停在你身前一寸，这种极致的控制力让你心惊。', background: BG_FOREST, nextId: 'day2_kui_pre_15' },
-  'day2_kui_pre_15': { id: 'day2_kui_pre_15', speaker: '{playerName}', content: '“原来大哥平时劈人……咳，练武，竟然这么细致。”', background: BG_FOREST, nextId: 'day2_kui_吼_1' },
+  'day2_kui_pre_11': { id: 'day2_kui_pre_11', speaker: '李逵', characterId: 'likui', content: '“嘿！这汗出得透，是不是觉得精神多了？这就叫脱胎换骨！”', background: BG_FOREST, nextId: 'day2_kui_吼_1' },
   'day2_kui_吼_1': { id: 'day2_kui_吼_1', speaker: '李逵', characterId: 'likui', content: '“停！到这儿就行. 现在俺教你最重要的：吼出来！气沉丹田，大喊一声——”', background: BG_FOREST, nextId: 'day2_kui_shout_choice' },
   'day2_kui_shout_choice': { id: 'day2_kui_shout_choice', speaker: '系统', content: '你要喊吗？', background: BG_FOREST, choices: [
     { text: '滚！！', nextId: 'day2_kui_shout_success', affectionBonus: { charId: 'likui', points: 1 }, attributeBonus: { strength: 1 } },
-    { text: '（还是算了吧，太羞耻了）', nextId: 'day2_kui_tease_lu', affectionBonus: { charId: 'likui', points: 1 } }
+    { text: '（还是算了吧，太羞耻了）', nextId: 'day2_kui_shout_response_fail', affectionBonus: { charId: 'likui', points: 1 } }
   ]},
-  'day2_kui_shout_success': { id: 'day2_kui_shout_success', speaker: '{playerName}', content: '“滚！！！”你用尽全身力气大喊，感觉一股热气从脚底直冲天灵盖。', background: BG_FOREST, nextId: 'day2_kui_tease_lu' },
+  'day2_kui_shout_success': { id: 'day2_kui_shout_success', speaker: '{playerName}', content: '“滚！！！”你用尽全身力力气大喊，感觉一股热气从脚底直冲天灵盖。', background: BG_FOREST, nextId: 'day2_kui_shout_response_ok' },
+  'day2_kui_shout_response_ok': { id: 'day2_kui_shout_response_ok', speaker: '李逵', characterId: 'likui', content: '“哈哈！好！作为我们梁山好汉，从气势上就不能输！”', background: BG_FOREST, nextId: 'day2_kui_shout_next_sys' },
+  'day2_kui_shout_response_fail': { id: 'day2_kui_shout_response_fail', speaker: '李逵', characterId: 'likui', content: '“害臊什么！真没出息！”', background: BG_FOREST, nextId: 'day2_kui_shout_next_sys' },
+  'day2_kui_shout_next_sys': { id: 'day2_kui_shout_next_sys', speaker: '系统', content: '突然，你们远远看见一道魁梧的身影从对面走来——你与李逵同时回过头来', background: BG_FOREST, nextId: 'day2_kui_tease_lu' },
 
   'day2_kui_tease_lu': { id: 'day2_kui_tease_lu', speaker: '李逵', characterId: 'likui', content: '“哈哈！那边的秃和尚，挑这几担水晃晃悠悠的，莫不如昨日又偷喝了哥哥的陈年好酒，腿软了？”', background: BG_FOREST, nextId: 'day2_see_lu' },
   'day2_see_lu': { id: 'day2_see_lu', speaker: '系统', content: '你正憋足了劲，忽然看到远处的鲁智深挑着两桶水稳步走来。', background: BG_FOREST, nextId: 'day2_lu_chat' },
@@ -231,27 +233,22 @@ export const STORY_DATA: Record<string, StoryNode> = {
       { text: '卢俊义：研习“格物鉴宝”', nextId: 'day4_lu_1', attributeBonus: { intelligence: 10 } },
       { text: '燕青：研习“潜伏谍报”', nextId: 'day4_yan_1', attributeBonus: { intelligence: 5, spirit: 5 } },
       { text: '鲁智深：研习“禅意守护”', nextId: 'day4_luzhishen_branch', attributeBonus: { spirit: 10 } },
-      { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_branch', attributeBonus: { strength: 10 } }
+      { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_train_1', attributeBonus: { strength: 10 } }
     ]
   },
 
-  // --- 李逵特训分歧：热情 vs 傲娇 ---
-  'day4_kui_enth_1': { id: 'day4_kui_enth_1', speaker: '李逵', characterId: 'likui', content: '李逵老远就挥着手，大黑脸上满是止不住的笑意，那口白牙在阳光下晃得你眼晕。', background: BG_FOREST, nextId: 'day4_kui_enth_2' },
-  'day4_kui_enth_2': { id: 'day4_kui_enth_2', speaker: '李逵', characterId: 'likui', content: '“{playerName}！俺老娘说了，你是个顶好的姑娘，比梁山那些只知道喝酒的汉子强多了！来，今天俺教你压箱底的本事！”', background: BG_FOREST, nextId: 'day4_kui_enth_3' },
-  'day4_kui_enth_3': { id: 'day4_kui_enth_3', speaker: '系统', content: '他细心地为你挑选了一把轻便的短朴刀，甚至还蹲下身子，笨手笨脚地帮你缠好了护手的布条。', background: BG_FOREST, nextId: 'day4_kui_enth_4' },
-  'day4_kui_enth_4': { id: 'day4_kui_enth_4', speaker: '李逵', characterId: 'likui', content: '“记住喽，这步子要稳，就像那天咱在沂岭杀虎一样，心不能乱！手上有劲，心里有数，谁也伤不了你！”', background: BG_FOREST, nextId: 'day4_kui_enth_5' },
-  'day4_kui_enth_5': { id: 'day4_kui_enth_5', speaker: '系统', content: '训练结束，他豪爽地拍着胸脯保证，以后在梁山只要喊一声“铁牛”，保准没人敢动你一根指头。', background: BG_FOREST, nextId: 'day5_start' },
-
-  'day4_kui_sulk_1': { id: 'day4_kui_sulk_1', speaker: '系统', content: '你来到林子里，李逵正背对着你，用斧头狠狠地劈着一截已经稀碎的枯木，木屑乱飞。', background: BG_FOREST, nextId: 'day4_kui_sulk_2' },
-  'day4_kui_sulk_2': { id: 'day4_kui_sulk_2', speaker: '{playerName}', content: '你试探着唤他一声：“铁牛大哥？”他只是闷声“哼”了一声，连头都没回，斧头劈得更响了。', background: BG_FOREST, nextId: 'day4_kui_sulk_3' },
-  'day4_kui_sulk_3': { id: 'day4_kui_sulk_3', speaker: '李逵', characterId: 'likui', content: '“练功！看俺作甚！那边那堆大石头，去搬五十回. 搬不动就早些下山，省得在这儿晃俺的眼. ”', background: BG_FOREST, nextId: 'day4_kui_sulk_4' },
-  'day4_kui_sulk_4': { id: 'day4_kui_sulk_4', speaker: '系统', content: '他在一旁自顾自地轮着板斧，每一下都带着泄愤般的势大力沉，空气中弥漫着一种尴尬而沉闷的气息。', background: BG_FOREST, nextId: 'day4_kui_sulk_5' },
-  'day4_kui_sulk_5': { id: 'day4_kui_sulk_5', speaker: '{playerName}', content: '你看着他气鼓鼓的背影，知道他还在为沂岭时你袖手旁观的事耿耿于怀。你决定：', background: BG_FOREST, choices: [
-    { text: '（直接质问）铁牛大哥，你是不是在生我的气？', nextId: 'day4_kui_sulk_ask', affectionBonus: { charId: 'likui', points: 10 } },
-    { text: '（保持沉默）一言不发，默默去搬那些沉重的石头。', nextId: 'day4_kui_sulk_silent', affectionBonus: { charId: 'likui', points: 5 } }
+  // --- 李逵校场进阶训练剧情 ---
+  'day4_kui_train_1': { id: 'day4_kui_train_1', speaker: '李逵', characterId: 'likui', content: '“走走走，俺带你去校场！今天呼延将军在那，正好让他见识见识俺带出来的小文书！”', background: BG_CAMP, nextId: 'day4_kui_train_2' },
+  'day4_kui_train_2': { id: 'day4_kui_train_2', speaker: '呼延灼', content: '“铁牛，这就是那位异人？步履虚浮，气息不稳，若要随军，怕是连马背都爬不上去。”', background: BG_CAMP, nextId: 'day4_kui_train_3' },
+  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气。', background: BG_CAMP, nextId: 'day4_kui_train_4' },
+  'day4_kui_train_4': { id: 'day4_kui_train_4', speaker: '呼延灼', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_CAMP, nextId: 'day4_kui_train_5' },
+  'day4_kui_train_5': { id: 'day4_kui_train_5', speaker: '系统', content: '在李逵的起哄和呼延灼的严厉喝斥下，你先是被推上颠簸的战马，双腿被磨得生疼；随后又被迫拉开沉重的牛角弓，双臂颤抖如筛糠...', background: BG_CAMP, nextId: 'day4_kui_train_6' },
+  'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的！呼延老哥，再给她加两圈跑操！”', background: BG_CAMP, nextId: 'day4_kui_train_7' },
+  'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动。视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_CAMP, nextId: 'day4_kui_train_8' },
+  'day4_kui_train_8': { id: 'day4_kui_train_8', speaker: '{playerName}', content: '“（不行了...天旋地转...好累...）”', background: BG_CAMP, nextId: 'day4_kui_train_faint' },
+  'day4_kui_train_faint': { id: 'day4_kui_train_faint', speaker: '系统', content: '由于高强度透支，你眼前一黑，彻底昏厥了过去。系统提示：过度劳累导致元气损伤，体重 -1，灵力 -1。', background: BG_BLACK, choices: [
+    { text: '（陷入沉睡）', nextId: 'day5_start', attributeBonus: { weight: -1, spirit: -1 } }
   ]},
-  'day4_kui_sulk_ask': { id: 'day4_kui_sulk_ask', speaker: '李逵', characterId: 'likui', content: '“谁、谁生气了！俺铁牛顶天立地，哪有工夫生{playerName}的气！”他动作一僵，说话都有点结巴了。', background: BG_FOREST, nextId: 'day5_start' },
-  'day4_kui_sulk_silent': { id: 'day4_kui_sulk_silent', speaker: '系统', content: '你费力地挪动着石块，李逵偷偷拿眼角扫你，见你真在练，才收了斧头，不情不愿地走过来帮你托了一把。', background: BG_FOREST, nextId: 'day5_start' },
 
   // --- 卢俊义特训剧情：使用新房间背景 ---
   'day4_lu_1': { id: 'day4_lu_1', speaker: '系统', content: '你穿过两道朱红大门，来到了卢俊义在梁山的临时府邸. 院内陈设虽然简约，却极有格调. ', background: BG_LU_ROOM, nextId: 'day4_lu_2' },
@@ -273,7 +270,6 @@ export const STORY_DATA: Record<string, StoryNode> = {
 
   'day4_yan_1': { id: 'day4_yan_1', speaker: '系统', content: '你扑了个空，燕青下山探查官军动向去了。', background: BG_MARKET, nextId: 'day5_start' },
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', characterId: 'luzhishen', content: '“哈哈！洒家就知道你放不下那竹林. ”', background: BG_BAMBOO, nextId: 'day5_start' },
-  'day4_kui_branch': { id: 'day4_kui_branch', speaker: '李逵', characterId: 'likui', content: '“嘿嘿！俺就知道你会选俺！”', background: BG_MOUNTAIN, nextId: 'day5_start' },
 
   'day5_start': { id: 'day5_start', speaker: '系统', content: '第五天。你感觉到体内的“天罡灵气”稳固了许多。', background: BG_CAMP, nextId: 'ch1_final_node' },
   'ch1_final_node': { id: 'ch1_final_node', speaker: '系统', content: '第一章：天罡初醒 · 完. ', background: BG_CAMP, choices: [

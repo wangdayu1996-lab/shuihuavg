@@ -20,7 +20,7 @@ const AttributesModal: React.FC<{
           {[
             { label: '体重 (气血)', value: attrs.weight, icon: '🩸', desc: '象征生命活力与体力，高体重耐受力强。' },
             { label: '智力 (思辨)', value: attrs.intelligence, icon: '📜', desc: '象征逻辑与策略，影响说服力与任务深度。' },
-            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突胜负。' },
+            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突负。' },
             { label: '灵力 (星感)', value: attrs.spirit, icon: '✨', desc: '象征星宿感应，关联魂魄稳定。' }
           ].map(item => (
             <div key={item.label}>
@@ -456,13 +456,8 @@ const App: React.FC = () => {
     }
 
     setHistory(prev => [...prev, currentNodeId]);
-    if (choice.nextId === 'day4_kui_branch') {
-      const kuiAffection = characters.find(c => c.id === 'likui')?.affection || 0;
-      if (kuiAffection > 20) {
-        setCurrentNodeId('day4_kui_enth_1');
-      } else {
-        setCurrentNodeId('day4_kui_sulk_1');
-      }
+    if (choice.nextId === 'day4_kui_branch' || choice.nextId === 'day4_kui_train_1') {
+      setCurrentNodeId('day4_kui_train_1');
     } else {
       setCurrentNodeId(choice.nextId);
     }
@@ -526,7 +521,7 @@ const App: React.FC = () => {
     const isSpecialCG = displayBackground.includes(MEDITATION_CG_KEY) || displayBackground.includes(HEARTBEAT_CG_KEY);
     const targetIsSpecialCG = currentNode.background.includes(MEDITATION_CG_KEY) || currentNode.background.includes(HEARTBEAT_CG_KEY);
     
-    // 识别核心冲击感搏杀节点 (根据用户要求去掉了特定的非搏杀瞬间)
+    // 识别核心冲击感搏杀节点 (排除了用户指定的文案页，如“手握重斧”day2_kui_pre_14 及其下一页 day2_kui_pre_15)
     const isFightNode = [
       'day3_kui_yiling_10', // 猛虎扑食
       'day3_kui_help_1',    // 拿起枯枝冲上去
@@ -614,7 +609,7 @@ const App: React.FC = () => {
           <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
-        {/* 修复 bug：通过同时检测当前和目标背景，确保立绘在过渡期（blackout）不会意外出现 */}
+        {/* 立绘渲染逻辑 */}
         {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
