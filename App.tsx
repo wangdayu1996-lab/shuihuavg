@@ -305,7 +305,7 @@ const App: React.FC = () => {
 
     // 预加载关键CG资源，解决加载不出来的问题
     const preloadList = [
-      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscale.jpg?raw=true",
+      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true",
       "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true",
       "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true"
     ];
@@ -395,7 +395,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let timer: number | undefined;
-    if (!isTyping && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
+    // 增加 bgLoaded 的检测：只有当背景图片加载完成后（bgLoaded 为 true），才启动自动播放计时
+    if (!isTyping && bgLoaded && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
       if (isAutoPlay) {
         const delay = currentNode.speaker === '系统' ? 3000 : 4000;
         timer = window.setTimeout(() => {
@@ -405,7 +406,7 @@ const App: React.FC = () => {
       }
     }
     return () => { if (timer) window.clearTimeout(timer); };
-  }, [isTyping, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
+  }, [isTyping, bgLoaded, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
 
   useEffect(() => {
     const dayMatch = currentNodeId.match(/^day(\d+)/);
@@ -421,6 +422,9 @@ const App: React.FC = () => {
 
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
+    // 强制检测：如果当前节点背景包含 scalenew.jpg 且尚未加载完成，则拦截点击，不进下一页
+    if (!bgLoaded && currentNode.background.includes('scalenew.jpg')) return;
+    
     if (isTyping) { 
       setTypedContent((currentNode.content || "").replace(/{playerName}/g, playerName)); 
       setIsTyping(false);
@@ -520,11 +524,15 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
+    // 过滤出可攻略对象：卢俊义、燕青、鲁智深、李逵
+    const ROMANCEABLE_IDS = ['lujunyi', 'yanqing', 'luzhishen', 'likui'];
+    const romanceableCharacters = characters.filter(c => ROMANCEABLE_IDS.includes(c.id));
+
     if (gameState === GameState.START) {
       return <LandingPage onStart={handleStartNew} onLoad={handleLoadGame} hasSave={hasSave} onGallery={() => setGameState(GameState.GALLERY)} />;
     }
     if (gameState === GameState.GALLERY) {
-      return <GalleryPage characters={characters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
+      return <GalleryPage characters={romanceableCharacters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
     }
 
     const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
@@ -536,12 +544,11 @@ const App: React.FC = () => {
     const isFaintNode = isFaintSequence;
 
     // 亮度和比例控制
-    const isScaleCG = displayBackground.includes('scale.jpg');
+    const isScaleCG = displayBackground.includes('scalenew.jpg');
     const isHuyanCG = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC');
     const isDrillBG = displayBackground.includes('%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA');
     
     // 显式指定 CG 背景（含特典、CG、scale、或特定人物名）保持原图亮度
-    // 对话用的常规校场背景（isDrillBG）现在不计入 isFullBrightness，从而默认调暗至 0.45
     const isFullBrightness = (
       displayBackground.includes('特典') || 
       displayBackground.includes('%E7%89%B9%E5%85%B8') || 
@@ -572,7 +579,7 @@ const App: React.FC = () => {
           <div className="flex gap-4 items-center">
             <button onClick={handleSaveGame} className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold">记录</button>
             <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
-            <button onClick={() => { if (!selectedCharForChat) setSelectedCharForChat(characters[0]); setIsChatWindowOpen(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="传信互动">✉️</button>
+            <button onClick={() => { if (!selectedCharForChat) setSelectedCharForChat(romanceableCharacters[0]); setIsChatWindowOpen(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="传信互动">✉️</button>
             <button onClick={() => setGameState(GameState.GALLERY)} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
             <button onClick={handlePassDay} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
@@ -582,7 +589,7 @@ const App: React.FC = () => {
             key={displayBackground}
             src={displayBackground} 
             onLoad={() => setBgLoaded(true)}
-            className={`w-full h-full ${isScaleCG ? 'object-contain object-bottom' : 'object-cover'} transition-all duration-1000 ${
+            className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${
               isFullBrightness && !isFaintNode ? '!filter-none' : isFaintNode ? '' : 'brightness-[0.45]'
             } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
@@ -619,7 +626,7 @@ const App: React.FC = () => {
         )}
         {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} isLocked={gameState === GameState.STORY} />}
         {showAttrs && <AttributesModal attrs={playerAttributes} onClose={() => setShowAttrs(false)} />}
-        {isChatWindowOpen && selectedCharForChat && (<ChatWindow characters={characters} activeChar={selectedCharForChat} onSelectChar={setSelectedCharForChat} playerName={playerName} messages={chatHistory[selectedCharForChat.id] || []} onSend={handleSendMessage} onClose={() => setIsChatWindowOpen(false)} isResponding={isAiResponding} />)}
+        {isChatWindowOpen && selectedCharForChat && (<ChatWindow characters={romanceableCharacters} activeChar={selectedCharForChat} onSelectChar={setSelectedCharForChat} playerName={playerName} messages={chatHistory[selectedCharForChat.id] || []} onSend={handleSendMessage} onClose={() => setIsChatWindowOpen(false)} isResponding={isAiResponding} />)}
       </div>
     );
   };

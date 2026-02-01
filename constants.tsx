@@ -14,7 +14,7 @@ const HUYANZHUO_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main
 const BG_MOUNTAIN = "https://images.unsplash.com/photo-1505506005708-3058a94639e7?auto=format&fit=crop&q=80&w=2000";
 const BG_CAMP = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%81%9A%E4%B9%89%E5%8E%85.png?raw=true";
 const BG_DRILL = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true";
-const BG_DRILL_SCALE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscale.jpg?raw=true";
+const BG_DRILL_SCALE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true";
 const BG_HUYAN_CG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true";
 const BG_FOREST = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A3%AE%E6%9E%97.png?raw=true";
 const BG_BAMBOO = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%7B%AB%B9%E6%9E%97.png?raw=true";
@@ -92,7 +92,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻名。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
   'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '卢俊义', characterId: 'lujunyi', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
   'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》残卷。此乃记载我梁山兄弟天命轨迹之正册，可引动诸位兄弟的本命星力，与此子魂中暴气共鸣调和，方能导其归正，两全其美。”', background: BG_CAMP, nextId: 'hall_song_command' },
-  'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基。小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果。我梁山泊替天行道，讲的是一个‘义’字。今日，这桩事，宋江管了。卢俊义、燕青、鲁智深、李逵四位兄弟听令！命你四人，协同这位小友，寻访《水浒秘籍》四卷残篇。山寨资源，任尔调用。务必在百日之内，功成而返！”', background: BG_CAMP, nextId: 'hall_song_welcome' },
+  'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基。小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果。我梁山泊替天行道，讲的是一个‘义’字。今日，这桩事，宋江管了。卢俊义、燕青、鲁智深、李逵四位兄弟听令！命你四人，协同这位小友，寻访《水浒秘籍》四卷残篇。山寨资源，任尔调用。务务必在百日之内，功成而返！”', background: BG_CAMP, nextId: 'hall_song_welcome' },
   'hall_song_welcome': { id: 'hall_song_welcome', speaker: '宋江', content: '“{playerName}小友，从今日起，梁山便是你暂时安身之所. 望你与我等兄弟，同心协力，共渡此劫.”', background: BG_CAMP, choices: [
     { text: '为了活命，我愿意留在梁山！', nextId: 'hall_player_sigh' }
   ]},
@@ -119,7 +119,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
       { text: '（呼...累死了）', nextId: 'day2_kui_pre_11', attributeBonus: { weight: -1 } }
     ]
   },
-  'day2_kui_pre_11': { id: 'day2_kui_pre_11', speaker: '李逵', characterId: 'likui', content: '“嘿！这汗出得透，是不是觉得精神多了？这就叫脱胎换骨！”', background: BG_FOREST, nextId: 'day2_kui_吼_1' },
+  'day2_kui_pre_11': { id: 'day2_kui_pre_11', speaker: '李逵', characterId: 'likui', content: '“嘿！这汗出得透，精神多了？这就叫脱胎换骨！”', background: BG_FOREST, nextId: 'day2_kui_吼_1' },
   'day2_kui_吼_1': { id: 'day2_kui_吼_1', speaker: '李逵', characterId: 'likui', content: '“停！到这儿就行. 现在俺教你最重要的：吼出来！气沉丹田，大喊一声——”', background: BG_FOREST, nextId: 'day2_kui_shout_choice' },
   'day2_kui_shout_choice': { id: 'day2_kui_shout_choice', speaker: '系统', content: '你要喊吗？', background: BG_FOREST, choices: [
     { text: '滚！！', nextId: 'day2_kui_shout_success', affectionBonus: { charId: 'likui', points: 1 }, attributeBonus: { strength: 1 } },
