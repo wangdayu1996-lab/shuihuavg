@@ -181,7 +181,7 @@ const ChatWindow: React.FC<{
         </div>
 
         {/* 右侧：传信内容区 */}
-        <div className="flex-1 flex flex-col relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')] overflow-hidden">
+        <div className="flex-1 flex-col flex relative bg-[url('https://www.transparenttextures.com/patterns/paper.png')] overflow-hidden">
           <div className="p-6 border-b border-gray-300 flex items-center justify-between bg-white/50">
             <div className="flex flex-col">
               <span className="font-calligraphy text-2xl text-gray-800">{activeChar.name} · {activeChar.title}</span>
@@ -260,6 +260,137 @@ const ChatWindow: React.FC<{
   );
 };
 
+// --- 子组件：射箭小游戏 ---
+const ArcheryMinigame: React.FC<{
+  onSuccess: () => void,
+  onCancel: () => void
+}> = ({ onSuccess, onCancel }) => {
+  const [targetPos, setTargetPos] = useState({ x: 50, y: 50 });
+  const [crosshairPos, setCrosshairPos] = useState({ x: 50, y: 50 });
+  const [isFiring, setIsFiring] = useState(false);
+  const [result, setResult] = useState<'hit' | 'miss' | null>(null);
+  const [failCount, setFailCount] = useState(0);
+
+  // 凝神聚气状态
+  const [isFocusing, setIsFocusing] = useState(false);
+  const [focusTime, setFocusTime] = useState(0); // 毫秒
+
+  // 模拟“双臂颤抖”：准星在屏幕中央附近随机晃动
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isFiring) return;
+
+      let magnitude = 15;
+      // 凝神聚气逻辑：长按降低抖动，上限2.5秒
+      if (isFocusing) {
+        if (focusTime < 2500) {
+          magnitude = 3; // 抖动大幅降低
+          setFocusTime(prev => prev + 100);
+        } else {
+          magnitude = 15; // 时间到了，恢复抖动
+        }
+      }
+
+      setCrosshairPos({
+        x: 50 + (Math.random() - 0.5) * magnitude, 
+        y: 50 + (Math.random() - 0.5) * magnitude  
+      });
+    }, 100);
+    return () => clearInterval(interval);
+  }, [isFiring, isFocusing, focusTime]);
+
+  const handleShoot = () => {
+    if (isFiring) return;
+    setIsFiring(true);
+    
+    // 计算距离靶心的程度
+    const dx = Math.abs(crosshairPos.x - targetPos.x);
+    const dy = Math.abs(crosshairPos.y - targetPos.y);
+    const distance = Math.sqrt(dx*dx + dy*dy);
+
+    if (distance < 7) { 
+      setResult('hit');
+      setTimeout(onSuccess, 1500);
+    } else {
+      setResult('miss');
+      setFailCount(prev => prev + 1);
+      setTimeout(() => {
+        setIsFiring(false);
+        setResult(null);
+        setFocusTime(0); // 脱靶重置专注时间
+      }, 1500);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[500] bg-black/90 flex flex-col items-center justify-center overflow-hidden select-none">
+      <div className="absolute top-10 text-center space-y-2">
+        <h2 className="text-4xl font-calligraphy text-yellow-500">校场挽弓：精准一射</h2>
+      </div>
+
+      <div 
+        className="relative w-[80vw] h-[60vh] bg-[#2a1a10]/50 border-4 border-yellow-900 rounded-3xl overflow-hidden cursor-crosshair"
+        onMouseDown={() => !isFiring && setIsFocusing(true)}
+        onMouseUp={() => {
+          if (isFocusing) {
+            handleShoot();
+            setIsFocusing(false);
+            setFocusTime(0);
+          }
+        }}
+        onMouseLeave={() => {
+          setIsFocusing(false);
+          setFocusTime(0);
+        }}
+      >
+        {/* 背景装饰：远处的校场烟尘感 */}
+        <div className="absolute inset-0 opacity-20 bg-[url('https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true')] bg-cover bg-center" />
+
+        {/* 靶子：尺寸增大 1.3 倍 */}
+        <div 
+          className="absolute w-52 h-52 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
+          style={{ left: `${targetPos.x}%`, top: `${targetPos.y}%` }}
+        >
+          <div className="w-full h-full rounded-full border-4 border-white flex items-center justify-center bg-red-800 shadow-[0_0_40px_rgba(153,27,27,0.6)]">
+            <div className="w-32 h-32 rounded-full border-4 border-white flex items-center justify-center bg-white/20">
+              <div className="w-10 h-10 rounded-full bg-red-500 animate-pulse shadow-[0_0_20px_rgba(239,68,68,0.9)]" />
+            </div>
+          </div>
+        </div>
+
+        {/* 准星：随抖动移动 */}
+        <div 
+          className={`absolute w-16 h-16 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-150 ${isFiring ? 'scale-75 opacity-50' : 'scale-100 opacity-100'}`}
+          style={{ left: `${crosshairPos.x}%`, top: `${crosshairPos.y}%` }}
+        >
+          <div className={`absolute inset-0 border-2 rounded-full transition-colors ${isFocusing && focusTime < 2500 ? 'border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'border-yellow-500'}`} />
+          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-yellow-500/50" />
+          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-yellow-500/50" />
+        </div>
+
+        {/* 结果显示 */}
+        {result === 'hit' && (
+          <div className="absolute inset-0 flex items-center justify-center bg-green-500/20 animate-fade-in">
+            <div className="text-8xl font-calligraphy text-green-400 vn-text-shadow">正中靶心！</div>
+          </div>
+        )}
+        {result === 'miss' && (
+          <div className="absolute inset-0 flex items-center justify-center bg-red-500/20 animate-fade-in">
+            <div className="text-8xl font-calligraphy text-red-400 vn-text-shadow">脱靶了！</div>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-10 flex flex-col items-center gap-4">
+        <p className="text-gray-400 font-serif">长按鼠标可以“凝神”来抑制颤抖。专注力有限，请在失效前松开射击。</p>
+        {failCount >= 10 && (
+          <button onClick={onCancel} className="text-yellow-900/50 hover:text-yellow-600 underline text-sm transition-colors">暂且退回</button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // --- 主应用 ---
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
@@ -268,7 +399,7 @@ const App: React.FC = () => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [showChoices, setShowChoices] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState('小文书');
-  const [tempName, setTempName] = useState('');
+  const [tempName, setPlayerNameTemp] = useState('');
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
   const [saveTooltip, setSaveTooltip] = useState<boolean>(false);
@@ -303,7 +434,7 @@ const App: React.FC = () => {
       setHasSave(true);
     }
 
-    // 预加载关键CG资源，解决加载不出来的问题
+    // 预加载关键CG资源
     const preloadList = [
       "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true",
       "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true",
@@ -360,8 +491,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (currentNode.background !== displayBackground) {
       setIsBlackout(true);
-      setBgLoaded(false); // 切换背景时重置加载状态
-      // 为“渐渐出现”效果使用稍长的时间
+      setBgLoaded(false); 
       setTimeout(() => {
         setDisplayBackground(currentNode.background);
         setIsBlackout(false);
@@ -369,7 +499,6 @@ const App: React.FC = () => {
     }
   }, [currentNode.background]);
 
-  // 当角色切换时，重置立绘加载状态
   useEffect(() => {
     setSpriteLoaded(false);
   }, [currentNode.characterId]);
@@ -395,8 +524,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let timer: number | undefined;
-    // 增加 bgLoaded 的检测：只有当背景图片加载完成后（bgLoaded 为 true），才启动自动播放计时
     if (!isTyping && bgLoaded && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
+      // 如果当前是射箭触发节点，不自动播放到下一页
+      if (currentNodeId === 'day4_kui_train_5') return;
+
       if (isAutoPlay) {
         const delay = currentNode.speaker === '系统' ? 3000 : 4000;
         timer = window.setTimeout(() => {
@@ -408,21 +539,8 @@ const App: React.FC = () => {
     return () => { if (timer) window.clearTimeout(timer); };
   }, [isTyping, bgLoaded, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
 
-  useEffect(() => {
-    const dayMatch = currentNodeId.match(/^day(\d+)/);
-    if (dayMatch) {
-      const day = parseInt(dayMatch[1]);
-      if (day !== currentDay) {
-        setCurrentDay(day);
-        setActionPoints(3); 
-        setDivinationUsedToday(false); 
-      }
-    }
-  }, [currentNodeId, currentDay]);
-
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
-    // 强制检测：如果当前节点背景包含 scalenew.jpg 且尚未加载完成，则拦截点击，不进下一页
     if (!bgLoaded && currentNode.background.includes('scalenew.jpg')) return;
     
     if (isTyping) { 
@@ -430,6 +548,13 @@ const App: React.FC = () => {
       setIsTyping(false);
       return; 
     }
+
+    // 在 day4_kui_train_5 页面之后触发射箭小游戏
+    if (currentNodeId === 'day4_kui_train_5') {
+      setGameState(GameState.ARCHERY_MINIGAME);
+      return;
+    }
+
     if (currentNode.choices && !showChoices) { 
       setShowChoices(true); 
       return; 
@@ -524,7 +649,6 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
-    // 过滤出可攻略对象：卢俊义、燕青、鲁智深、李逵
     const ROMANCEABLE_IDS = ['lujunyi', 'yanqing', 'luzhishen', 'likui'];
     const romanceableCharacters = characters.filter(c => ROMANCEABLE_IDS.includes(c.id));
 
@@ -535,6 +659,19 @@ const App: React.FC = () => {
       return <GalleryPage characters={romanceableCharacters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
     }
 
+    if (gameState === GameState.ARCHERY_MINIGAME) {
+      return (
+        <ArcheryMinigame 
+          onSuccess={() => {
+            setGameState(GameState.STORY);
+            setHistory(prev => [...prev, currentNodeId]);
+            setCurrentNodeId('day4_kui_train_6');
+          }}
+          onCancel={() => setGameState(GameState.STORY)}
+        />
+      );
+    }
+
     const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
     const HEARTBEAT_CG_KEY = '%E7%89%B9%E5%85%B8'; 
     const isSpecialCG = displayBackground.includes(MEDITATION_CG_KEY) || displayBackground.includes(HEARTBEAT_CG_KEY);
@@ -543,14 +680,11 @@ const App: React.FC = () => {
     const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_faint';
     const isFaintNode = isFaintSequence;
 
-    // 亮度和比例控制
     const isScaleCG = displayBackground.includes('scalenew.jpg');
     const isHuyanCG = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC');
-    // 特别针对呼延灼大图 CG（通常是 .jpg 结尾的 CG 背景）应用动画类
     const isHuyanPan = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC.jpg');
     const isDrillBG = displayBackground.includes('%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA');
     
-    // 显式指定 CG 背景（含特典、CG、scale、或特定人物名）保持原图亮度
     const isFullBrightness = (
       displayBackground.includes('特典') || 
       displayBackground.includes('%E7%89%B9%E5%85%B8') || 
@@ -621,7 +755,7 @@ const App: React.FC = () => {
             <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">{currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}</div>
             <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">
               {typedContent}
-              {currentNode.isNameInput && (<div className="mt-8 flex gap-4 animate-fade-in"><input autoFocus value={tempName} onChange={e => setTempName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleNameSubmit()} placeholder="请输入你的名号..." className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl" /><button onClick={handleNameSubmit} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button></div>)}
+              {currentNode.isNameInput && (<div className="mt-8 flex gap-4 animate-fade-in"><input autoFocus value={tempName} onChange={e => setPlayerNameTemp(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleNameSubmit()} placeholder="请输入你的名号..." className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl" /><button onClick={handleNameSubmit} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button></div>)}
             </div>
             {!currentNode.isNameInput && (<div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">{isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : (isAutoPlay ? '⌛ 自动运行' : '▼ 继续剧幕'))}</div>)}
           </div>

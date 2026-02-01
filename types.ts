@@ -4,7 +4,8 @@ export enum GameState {
   STORY = 'STORY',
   FREE_TALK = 'FREE_TALK',
   GALLERY = 'GALLERY',
-  DIVINATION = 'DIVINATION' 
+  DIVINATION = 'DIVINATION',
+  ARCHERY_MINIGAME = 'ARCHERY_MINIGAME' 
 }
 
 export interface PlayerAttributes {
