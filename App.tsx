@@ -546,6 +546,8 @@ const App: React.FC = () => {
     // 亮度和比例控制
     const isScaleCG = displayBackground.includes('scalenew.jpg');
     const isHuyanCG = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC');
+    // 特别针对呼延灼大图 CG（通常是 .jpg 结尾的 CG 背景）应用动画类
+    const isHuyanPan = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC.jpg');
     const isDrillBG = displayBackground.includes('%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA');
     
     // 显式指定 CG 背景（含特典、CG、scale、或特定人物名）保持原图亮度
@@ -589,7 +591,7 @@ const App: React.FC = () => {
             key={displayBackground}
             src={displayBackground} 
             onLoad={() => setBgLoaded(true)}
-            className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${
+            className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
               isFullBrightness && !isFaintNode ? '!filter-none' : isFaintNode ? '' : 'brightness-[0.45]'
             } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
