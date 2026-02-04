@@ -586,13 +586,25 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentNodeId, playerName, currentNode.content]);
 
+  // 吃馒头交互节点检测列表
+  const STORYTELLING_NODES = [
+    'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
+    'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
+  ];
+
   useEffect(() => {
     let timer: number | undefined;
     if (!isTyping && bgLoaded && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
+      // 特殊交互节点不执行自动播放逻辑
       if (currentNodeId === 'day4_kui_train_5') return;
+      if (STORYTELLING_NODES.includes(currentNodeId)) return;
 
       if (isAutoPlay) {
-        const delay = currentNode.speaker === '系统' ? 3000 : 4000;
+        // 计算处理后的台词长度
+        const processedContent = (currentNode.content || "").replace(/{playerName}/g, playerName);
+        // 如果字数大于78，则停顿20秒，否则维持原有逻辑（系统3秒，角色4秒）
+        const delay = processedContent.length > 78 ? 20000 : (currentNode.speaker === '系统' ? 3000 : 4000);
+
         timer = window.setTimeout(() => {
           setHistory(prev => [...prev, currentNodeId]);
           setCurrentNodeId(currentNode.nextId!);
@@ -600,7 +612,7 @@ const App: React.FC = () => {
       }
     }
     return () => { if (timer) window.clearTimeout(timer); };
-  }, [isTyping, bgLoaded, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay]);
+  }, [isTyping, bgLoaded, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay, playerName]);
 
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
@@ -741,11 +753,7 @@ const App: React.FC = () => {
       isScaleCG || isHuyanPan
     );
 
-    // 检查是否在馒头故事剧情节点（含一个和十个的分支）
-    const isStorytellingNode = [
-      'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
-      'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
-    ].includes(currentNodeId);
+    const isStorytellingNode = STORYTELLING_NODES.includes(currentNodeId);
 
     return (
       <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`} onClick={handleNextDialogue}>
