@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff, PlayerAttributes } from './types';
 import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS } from './constants';
-import { generateCharacterResponse, generateHeroMemory } from './services/gemini';
+import { generateCharacterResponse } from './services/gemini';
 
 // --- 子组件：属性面板 ---
 const AttributesModal: React.FC<{
@@ -10,7 +10,7 @@ const AttributesModal: React.FC<{
 }> = ({ attrs, onClose }) => {
   return (
     <div className="fixed inset-0 z-[400] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6" onClick={onClose}>
-      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-w-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-8 border-b border-yellow-900/30 pb-4">
           <h2 className="text-3xl font-calligraphy text-yellow-500">文书手札</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-white">✕</button>
@@ -71,7 +71,7 @@ const DivinationModal: React.FC<{
         {isLocked ? (
           <div className="py-10 animate-fade-up">
             <div className="text-8xl mb-6">📜</div>
-            <p className="text-yellow-600 text-xl font-serif mountain-relaxed mb-8">“与公孙先生缘分未到，想求卦的话先去拜访先生吧！”</p>
+            <p className="text-yellow-600 text-xl font-serif leading-relaxed mb-8">“与公孙先生缘分未到，想求卦的话先去拜访先生吧！”</p>
             <button onClick={onClose} className="px-10 py-3 bg-yellow-800 text-white rounded-full font-bold">领命</button>
           </div>
         ) : used && !result ? (
@@ -155,7 +155,9 @@ const ChatWindow: React.FC<{
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
   }, [messages, isResponding]);
 
   return (
@@ -246,7 +248,7 @@ const ChatWindow: React.FC<{
                 className="flex-1 bg-transparent border-b-2 border-gray-400 p-3 focus:border-yellow-800 outline-none font-serif text-xl transition-colors disabled:opacity-50" 
               />
               <button 
-                onClick={() => {onSend(input, style); setInput('')}} 
+                onClick={() => { if(input.trim()) { onSend(input, style); setInput(''); } }} 
                 disabled={isResponding || !input.trim()}
                 className="px-8 py-3 bg-[#2a1a10] text-yellow-500 rounded-xl font-calligraphy text-xl hover:bg-black transition-all shadow-md disabled:bg-gray-400 disabled:text-gray-200"
               >
@@ -266,26 +268,21 @@ const ArcheryMinigame: React.FC<{
   onCancel: () => void
 }> = ({ onSuccess, onCancel }) => {
   const [targetPos, setTargetPos] = useState({ x: 50, y: 50 });
-  const [crosshairPos, setCrosshairPos] = useState({ x: 50, y: 50 });
+  const [crosshairPos, setTargetCrosshair] = useState({ x: 50, y: 50 });
   const [isFiring, setIsFiring] = useState(false);
   const [result, setResult] = useState<'hit' | 'miss' | null>(null);
   const [failCount, setFailCount] = useState(0);
 
-  // 凝神聚气状态
   const [isFocusing, setIsFocusing] = useState(false);
-  const [focusTime, setFocusTime] = useState(0); // 毫秒
+  const [focusTime, setFocusTime] = useState(0); 
 
-  // 模拟“呼吸起伏”与“手臂颤抖”：准星呈现曲线轨迹
   useEffect(() => {
-    // 抖动频率降低 50%：凝神时间隔从 100ms 变为 200ms
     const intervalTime = isFocusing ? 200 : 100;
     
     const interval = setInterval(() => {
       if (isFiring) return;
 
-      // 抖动半径基础逻辑
       let magnitude = 39;
-      // 凝神聚气逻辑：长按降低抖动，上限2.5秒
       if (isFocusing) {
         if (focusTime < 2500) {
           magnitude = 7.8; 
@@ -295,12 +292,11 @@ const ArcheryMinigame: React.FC<{
         }
       }
 
-      // 曲线运动逻辑：使用正弦/余弦波组合产生平滑的 Lissajous 曲线
-      const t = Date.now() / (isFocusing ? 1200 : 600); // 凝神时运动速度更慢
+      const t = Date.now() / (isFocusing ? 1200 : 600);
       const offsetX = (Math.sin(t * 1.5) * 0.6 + Math.sin(t * 3.7) * 0.4) * (magnitude / 2);
       const offsetY = (Math.cos(t * 1.2) * 0.6 + Math.cos(t * 2.9) * 0.4) * (magnitude / 2);
 
-      setCrosshairPos({
+      setTargetCrosshair({
         x: 50 + offsetX, 
         y: 50 + offsetY  
       });
@@ -312,12 +308,10 @@ const ArcheryMinigame: React.FC<{
     if (isFiring) return;
     setIsFiring(true);
     
-    // 计算距离靶心的程度
     const dx = Math.abs(crosshairPos.x - targetPos.x);
     const dy = Math.abs(crosshairPos.y - targetPos.y);
     const distance = Math.sqrt(dx*dx + dy*dy);
 
-    // 必须射中靶子正中心的红色圆形：判定范围 1.5
     if (distance < 1.5) { 
       setResult('hit');
       setTimeout(onSuccess, 1500);
@@ -401,6 +395,61 @@ const ArcheryMinigame: React.FC<{
   );
 };
 
+// --- 子组件：开场页面 ---
+const LandingPage: React.FC<{
+  onStart: () => void,
+  onLoad: () => void,
+  hasSave: boolean,
+  onGallery: () => void
+}> = ({ onStart, onLoad, hasSave, onGallery }) => {
+  return (
+    <div className="relative w-full h-screen bg-black overflow-hidden flex flex-col items-center justify-center">
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1505506005708-3058a94639e7?auto=format&fit=crop&q=80&w=2000" 
+          className="w-full h-full object-cover opacity-60 brightness-[0.3]" 
+          alt="bg" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black" />
+      </div>
+      
+      <div className="relative z-10 text-center space-y-12 animate-fade-up">
+        <div className="space-y-4">
+          <h1 className="text-8xl md:text-9xl font-calligraphy text-yellow-600 drop-shadow-[0_0_20px_rgba(133,77,14,0.5)]">水浒·星宿劫</h1>
+          <p className="text-xl md:text-2xl text-yellow-900/80 font-serif tracking-[0.5em] font-bold">梁山英雄梦 · 浮生百日情</p>
+        </div>
+
+        <div className="flex flex-col gap-6 w-64 mx-auto">
+          <button 
+            onClick={onStart} 
+            className="w-full py-4 bg-yellow-800/80 text-white font-calligraphy text-2xl rounded-lg border-2 border-yellow-600/50 hover:bg-yellow-700 hover:scale-105 transition-all shadow-xl"
+          >
+            开启新章
+          </button>
+          {hasSave && (
+            <button 
+              onClick={onLoad} 
+              className="w-full py-4 bg-black/60 text-yellow-500 font-calligraphy text-2xl rounded-lg border-2 border-yellow-900/50 hover:border-yellow-600 transition-all shadow-xl"
+            >
+              再续前缘
+            </button>
+          )}
+          <button 
+            onClick={onGallery} 
+            className="w-full py-4 bg-black/40 text-gray-400 font-calligraphy text-2xl rounded-lg border-2 border-gray-800 hover:text-yellow-700 hover:border-yellow-900 transition-all"
+          >
+            英雄名册
+          </button>
+        </div>
+      </div>
+      
+      <div className="absolute bottom-10 text-gray-600 font-serif text-sm tracking-widest opacity-40">
+        © 1123 梁山泊文化发展有限公司
+      </div>
+    </div>
+  );
+};
+
 // --- 主应用 ---
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
@@ -444,9 +493,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (audioRef.current) {
       if (gameState !== GameState.START && !isMuted) {
-        audioRef.current.play().catch(() => {
-          // 忽略自动播放受限的错误
-        });
+        audioRef.current.play().catch(() => {});
       }
     }
   }, [gameState, isMuted]);
@@ -464,16 +511,6 @@ const App: React.FC = () => {
     if (savedNode && savedNode !== 'start') {
       setHasSave(true);
     }
-
-    const preloadList = [
-      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true",
-      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true",
-      "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true"
-    ];
-    preloadList.forEach(url => {
-      const img = new Image();
-      img.src = url;
-    });
   }, []);
 
   const handleSaveGame = () => {
@@ -567,7 +604,6 @@ const App: React.FC = () => {
 
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
-    if (!bgLoaded && currentNode.background.includes('scalenew.jpg')) return;
     
     if (isTyping) { 
       setTypedContent((currentNode.content || "").replace(/{playerName}/g, playerName)); 
@@ -641,11 +677,7 @@ const App: React.FC = () => {
       }));
     }
     setHistory(prev => [...prev, currentNodeId]);
-    if (choice.nextId === 'day4_kui_branch' || choice.nextId === 'day4_kui_train_1') {
-      setCurrentNodeId('day4_kui_train_1');
-    } else {
-      setCurrentNodeId(choice.nextId);
-    }
+    setCurrentNodeId(choice.nextId);
     setShowChoices(false);
   };
 
@@ -656,21 +688,14 @@ const App: React.FC = () => {
     setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), userMsg] }));
     setActionPoints(p => p - 1);
     setIsAiResponding(true);
-    const baseDelay = 3000;
-    const affectionBonus = Math.min(2500, selectedCharForChat.affection * 20);
-    const delay = Math.max(800, baseDelay - affectionBonus);
-    if (charId === 'lujunyi' && selectedCharForChat.affection <= 10) {
-      setTimeout(() => { setIsAiResponding(false); }, delay);
-      return;
-    }
+
     try {
       const response = await generateCharacterResponse(selectedCharForChat, chatHistory[charId] || [], text, playerName);
-      setTimeout(() => {
-        setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), { role: 'model', text: response }] }));
-        setIsAiResponding(false);
-        setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
-      }, delay);
-    } catch (error) { setIsAiResponding(false); }
+      setChatHistory(prev => ({ ...prev, [charId]: [...(prev[charId] || []), { role: 'model', text: response }] }));
+      setCharacters(prev => prev.map(c => c.id === charId ? { ...c, interactionCount: c.interactionCount + 1, affection: c.affection + 2 } : c));
+    } catch (error) {} finally {
+      setIsAiResponding(false);
+    }
   };
 
   const renderContent = () => {
@@ -701,36 +726,48 @@ const App: React.FC = () => {
       );
     }
 
-    const MEDITATION_CG_KEY = '%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1';
-    const HEARTBEAT_CG_KEY = '%E7%89%B9%E5%85%B8'; 
-    const isSpecialCG = displayBackground.includes(MEDITATION_CG_KEY) || displayBackground.includes(HEARTBEAT_CG_KEY);
-    const targetIsSpecialCG = currentNode.background.includes(MEDITATION_CG_KEY) || currentNode.background.includes(HEARTBEAT_CG_KEY);
     const isFightNode = ['day3_kui_yiling_10', 'day3_kui_help_1', 'day3_kui_help_5', 'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5'].includes(currentNodeId);
     const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_faint';
-    const isFaintNode = isFaintSequence;
-
+    
     const isScaleCG = displayBackground.includes('scalenew.jpg');
-    const isHuyanCG = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC');
     const isHuyanPan = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC.jpg');
-    const isDrillBG = displayBackground.includes('%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA');
     
     const isFullBrightness = (
       displayBackground.includes('特典') || 
       displayBackground.includes('%E7%89%B9%E5%85%B8') || 
       displayBackground.includes('CG') ||
-      isScaleCG || isHuyanCG || 
-      isSpecialCG
+      displayBackground.includes('%E9%A6%92%E5%A4%B4') || 
+      displayBackground.includes('%E8%92%B8%E7%AC%BC') || 
+      isScaleCG || isHuyanPan
     );
 
-    const dynamicKey = isFaintSequence ? 'faint-sequence-root' : (isFightNode ? currentNodeId : 'story-root');
+    // 检查是否在“一个馒头”故事剧情节点
+    const isStorytellingNode = [
+      'day3_kitchen_one_start',
+      'day3_kitchen_one_cg1_1',
+      'day3_kitchen_one_cg1_2',
+      'day3_kitchen_one_cg1_3',
+      'day3_kitchen_one_cg2_1',
+      'day3_kitchen_one_cg2_2'
+    ].includes(currentNodeId);
 
     return (
-      <div key={dynamicKey} className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`}>
+      <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`} onClick={handleNextDialogue}>
         {saveTooltip && <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">笔墨已收，录入丹青</div>}
+        
+        {/* 点击引导字样 */}
+        {isStorytellingNode && (
+          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] pointer-events-none">
+            <div className="bg-red-900/90 text-yellow-400 px-8 py-3 rounded-full font-bold animate-shake text-xl border-2 border-yellow-600 shadow-[0_0_20px_rgba(0,0,0,0.5)] vn-text-shadow">
+              点击背景听李老头继续讲述
+            </div>
+          </div>
+        )}
+
         <div className="fixed top-0 left-0 right-0 z-[100] h-16 bg-black/60 backdrop-blur-md border-b border-yellow-900/30 flex items-center justify-between px-8">
           <div className="flex items-center gap-8">
             <div className="flex flex-col"><span className="text-[10px] text-gray-500 uppercase tracking-widest leading-none mb-1">距离天限</span><span className="text-xl font-bold text-yellow-500">{108 - currentDay} 日</span></div>
-            <button onClick={() => setShowAttrs(true)} className="group flex flex-col items-center bg-yellow-900/20 border border-yellow-600/30 px-3 py-1 rounded hover:bg-yellow-900/40 transition-all">
+            <button onClick={(e) => { e.stopPropagation(); setShowAttrs(true); }} className="group flex flex-col items-center bg-yellow-900/20 border border-yellow-600/30 px-3 py-1 rounded hover:bg-yellow-900/40 transition-all">
               <span className="text-[10px] text-yellow-600/70 uppercase tracking-tighter mb-1">玩家属性</span>
               <div className="flex gap-3">
                 <span className="text-[10px] flex items-center gap-0.5" title="体重/气血">🩸体重:{playerAttributes.weight}</span>
@@ -742,14 +779,14 @@ const App: React.FC = () => {
             <div className="flex items-center gap-2">{Array.from({ length: 3 }).map((_, i) => (<div key={i} className={`w-3 h-3 rounded-full border border-yellow-500 ${i < actionPoints ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-transparent opacity-20'}`} />))}</div>
           </div>
           <div className="flex gap-4 items-center">
-            <button onClick={toggleMute} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl transition-all hover:bg-yellow-900/40" title={isMuted ? "播放音乐" : "静音"}>
+            <button onClick={(e) => { e.stopPropagation(); toggleMute(); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl transition-all hover:bg-yellow-900/40" title={isMuted ? "播放音乐" : "静音"}>
               {isMuted ? '🔇' : '🎵'}
             </button>
-            <button onClick={handleSaveGame} className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold">记录</button>
-            <button onClick={() => setShowDivination(true)} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
-            <button onClick={() => { if (!selectedCharForChat) setSelectedCharForChat(romanceableCharacters[0]); setIsChatWindowOpen(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="传信互动">✉️</button>
-            <button onClick={() => setGameState(GameState.GALLERY)} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
-            <button onClick={handlePassDay} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
+            <button onClick={(e) => { e.stopPropagation(); handleSaveGame(); }} className="px-4 py-1.5 bg-yellow-900/40 border border-yellow-500/50 text-yellow-500 rounded text-sm hover:bg-yellow-800 transition-colors font-bold">记录</button>
+            <button onClick={(e) => { e.stopPropagation(); setShowDivination(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="求卦">☯️</button>
+            <button onClick={(e) => { e.stopPropagation(); if (!selectedCharForChat) setSelectedCharForChat(romanceableCharacters[0]); setIsChatWindowOpen(true); }} className="p-2 bg-yellow-900/20 rounded border border-yellow-600/30 text-xl" title="传信互动">✉️</button>
+            <button onClick={(e) => { e.stopPropagation(); setGameState(GameState.GALLERY); }} className="px-6 py-2 border border-yellow-600/40 text-yellow-500 rounded-full text-sm">名册</button>
+            <button onClick={(e) => { e.stopPropagation(); handlePassDay(); }} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
         </div>
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -758,13 +795,13 @@ const App: React.FC = () => {
             src={displayBackground} 
             onLoad={() => setBgLoaded(true)}
             className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
-              isFullBrightness && !isFaintNode ? '!filter-none' : isFaintNode ? '' : 'brightness-[0.45]'
-            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${isSpecialCG ? 'animate-meditation-entry' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintNode && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
+              isFullBrightness && !isFaintSequence ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
+            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${isFaintSequence && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
-        {currentNode.characterId && !isSpecialCG && !targetIsSpecialCG && !isFaintNode && (
+        {currentNode.characterId && !isFaintSequence && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
               key={currentNode.characterId}
@@ -775,19 +812,20 @@ const App: React.FC = () => {
             />
           </div>
         )}
+        
         {showChoices ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-30 p-4 gap-6 animate-fadeIn">
             {currentNode.choices?.map((choice, idx) => (
-              <button key={idx} onClick={() => handleChoice(choice)} className="w-full max-w-2xl p-6 bg-[#1a110a]/98 border-2 border-yellow-800/60 text-gray-100 text-xl hover:bg-yellow-900/80 transition-all rounded-xl font-serif shadow-2xl">{choice.text}</button>
+              <button key={idx} onClick={(e) => { e.stopPropagation(); handleChoice(choice); }} className="w-full max-w-2xl p-6 bg-[#1a110a]/98 border-2 border-yellow-800/60 text-gray-100 text-xl hover:bg-yellow-900/80 transition-all rounded-xl font-serif shadow-2xl">{choice.text}</button>
             ))}
           </div>
         ) : (
-          <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`} onClick={handleNextDialogue}>
-            {!currentNode.isNameInput && (<><button onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }} className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'}`}>{isAutoPlay ? '手动播放' : '自动播放'}</button><button onClick={handleBack} disabled={history.length === 0 && !isAutoPlay} className={`absolute bottom-4 left-6 px-4 py-1 rounded-lg text-xs font-bold transition-all border ${history.length === 0 && !isAutoPlay ? 'opacity-20 bg-black/40 text-gray-500 border-gray-900 pointer-events-none' : 'bg-black/40 text-yellow-800 border-yellow-900/50 hover:border-yellow-600 hover:text-yellow-600'}`}>◀ 后退</button></>)}
+          <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`}>
+            {!currentNode.isNameInput && (<><button onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }} className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'}`}>{isAutoPlay ? '手动播放' : '自动播放'}</button><button onClick={(e) => { e.stopPropagation(); handleBack(e); }} disabled={history.length === 0 && !isAutoPlay} className={`absolute bottom-4 left-6 px-4 py-1 rounded-lg text-xs font-bold transition-all border ${history.length === 0 && !isAutoPlay ? 'opacity-20 bg-black/40 text-gray-500 border-gray-900 pointer-events-none' : 'bg-black/40 text-yellow-800 border-yellow-900/50 hover:border-yellow-600 hover:text-yellow-600'}`}>◀ 后退</button></>)}
             <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">{currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}</div>
             <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">
               {typedContent}
-              {currentNode.isNameInput && (<div className="mt-8 flex gap-4 animate-fade-in"><input autoFocus value={tempName} onChange={e => setPlayerNameTemp(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleNameSubmit()} placeholder="请输入你的名号..." className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl" /><button onClick={handleNameSubmit} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button></div>)}
+              {currentNode.isNameInput && (<div className="mt-8 flex gap-4 animate-fade-in"><input autoFocus value={tempName} onChange={e => { e.stopPropagation(); setPlayerNameTemp(e.target.value); }} onClick={e => e.stopPropagation()} onKeyDown={e => { e.stopPropagation(); e.key === 'Enter' && handleNameSubmit(); }} placeholder="请输入你的名号..." className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl" /><button onClick={(e) => { e.stopPropagation(); handleNameSubmit(); }} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button></div>)}
             </div>
             {!currentNode.isNameInput && (<div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">{isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : (isAutoPlay ? '⌛ 自动运行' : '▼ 继续剧幕'))}</div>)}
           </div>
@@ -804,38 +842,6 @@ const App: React.FC = () => {
       <audio ref={audioRef} src="https://github.com/wangdayu1996-lab/mygameasset/raw/refs/heads/main/Heroes%20Beneath%20the%20Willow.mp3" loop />
       {renderContent()}
     </>
-  );
-};
-
-const LandingPage: React.FC<{ onStart: () => void, onLoad: () => void, hasSave: boolean, onGallery: () => void }> = ({ onStart, onLoad, hasSave, onGallery }) => {
-  const [bgLoaded, setBgLoaded] = useState(false);
-  
-  return (
-    <div className="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <img 
-          src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%BC%80%E5%9C%BA.jpg?raw=true" 
-          onLoad={() => setBgLoaded(true)}
-          className={`w-full h-full object-cover transition-all duration-[2000ms] ${bgLoaded ? 'opacity-40 scale-100' : 'opacity-0 scale-110'}`} 
-          alt="bg" 
-        />
-      </div>
-      <div className={`relative z-10 text-center space-y-12 transition-all duration-1000 ${bgLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-        <div className="space-y-4">
-          <h1 className="text-9xl font-calligraphy text-yellow-500 vn-text-shadow tracking-tighter animate-pulse">水浒·星引缘</h1>
-          <p className="text-2xl text-yellow-800 tracking-[0.5em] font-serif font-bold">—— 百零八星宿的宿命羁绊 ——</p>
-        </div>
-        <div className="flex flex-col gap-6 justify-center items-center">
-          <div className="flex gap-8 justify-center">
-            <button onClick={onStart} className="px-16 py-5 bg-gradient-to-b from-yellow-600 to-yellow-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-yellow-400">开启剧幕</button>
-            {hasSave && (
-              <button onClick={onLoad} className="px-16 py-5 bg-gradient-to-b from-green-700 to-green-900 text-white rounded-full text-2xl font-calligraphy shadow-lg hover:scale-110 transition-all border-2 border-green-400">续写前缘</button>
-            )}
-          </div>
-          <button onClick={onGallery} className="px-20 py-4 bg-black/40 text-yellow-500 rounded-full text-2xl font-calligraphy border-2 border-yellow-700 hover:bg-yellow-900/20 transition-all">英雄名册</button>
-        </div>
-      </div>
-    </div>
   );
 };
 

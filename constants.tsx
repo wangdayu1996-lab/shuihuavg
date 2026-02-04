@@ -26,6 +26,13 @@ const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
 const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1.png?raw=true";
 
+// --- 吃馒头 CG ---
+const CG_BUNS_10 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%81%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
+const CG_BUNS_5 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%A6%92%E5%A4%B4%E4%BA%94%E4%B8%AA.png?raw=true";
+const CG_BUNS_3 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%89%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
+const CG_BUNS_1 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%80%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
+const CG_BUNS_EMPTY = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%92%B8%E7%AC%BC.png?raw=true";
+
 export const DIVINATION_BUFFS: DivinationBuff[] = [
   { id: 'tianxi', name: '上上签 · 天喜星动', description: '鸿运当头！今日传信互动好感额外+5。', effectType: 'affection', icon: '🏮' },
   { id: 'yima', name: '中签 · 驿马星驰', description: '偶遇英雄的几率提升。', effectType: 'speed', icon: '🐎' },
@@ -173,29 +180,28 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kitchen_2': { id: 'day3_kitchen_2', speaker: '李老头', content: '“哟，是公孙先生说的那位异人吧？来来，大师打过招呼了，刚蒸好的大白馒头，还烫嘴呢！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_3' },
   'day3_kitchen_3': { id: 'day3_kitchen_3', speaker: '{playerName}', content: '你嗅着空气中浓郁的面香，李老头端出一个大笸箩，热气腾腾的馒头堆得像小山一样。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_choice' },
   'day3_kitchen_choice': { id: 'day3_kitchen_choice', speaker: '李老头', content: '“饿坏了吧？快，趁热吃！你要吃几个？”', background: BG_KITCHEN_REALLY_NEW, choices: [
-    { text: '（矜持地）吃一个就够了。', nextId: 'day3_kitchen_one' },
+    { text: '（矜持地）吃一个就够了。', nextId: 'day3_kitchen_one_start' },
     { text: '（豪迈地）给我来十个！', nextId: 'day3_kitchen_weight_stat', attributeBonus: { weight: 1 } }
   ]},
-  'day3_kitchen_weight_stat': { id: 'day3_kitchen_weight_stat', speaker: '系统', content: '胃口惊人，体重属性 +1。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten' },
-  'day3_kitchen_one': { id: 'day3_kitchen_one', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃，不像我们梁山这些糙老爷们，一个个吃起饭来像饿狼投胎似的。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_4' },
-  'day3_kitchen_ten': { id: 'day3_kitchen_ten', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_4' },
+  'day3_kitchen_weight_stat': { id: 'day3_kitchen_weight_stat', speaker: '系统', content: '胃口惊人，体重属性 +1。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten_start' },
+  'day3_kitchen_ten_start': { id: 'day3_kitchen_ten_start', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten_4' },
 
-  'day4_kui_train_retry_consolation': { 
-    id: 'day4_kui_train_retry_consolation', 
-    speaker: '李逵', 
-    characterId: 'likui', 
-    content: '“咳咳。。。没事没事！小文书，我们下次必定百步穿杨！”', 
-    background: BG_DRILL, 
-    nextId: 'day4_kui_train_6' 
-  },
+  // --- 吃一个馒头分支：逻辑优化 ---
+  'day3_kitchen_one_start': { id: 'day3_kitchen_one_start', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃。不过咱们梁山的好汉，那可个个都是顶天立地的。趁这会儿工夫，老头子给你讲讲铁牛和大师的故事。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_one_cg1_1' },
+  'day3_kitchen_one_cg1_1': { id: 'day3_kitchen_one_cg1_1', speaker: '李老头', content: '“就说铁牛那黑汉子，虽然长得凶，心却最诚。当年俺孙子病重，大雪封山，是他光着膀子跑了几十里山路把郎中扛回来的。这种义气，没话说！”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg1_2' },
+  'day3_kitchen_one_cg1_2': { id: 'day3_kitchen_one_cg1_2', speaker: '李老头', content: '“大家都怕他那对板斧，可俺知道，他这人啊，比谁都见不得弱小受欺负。这山上的人，谁没受过他的一份傻力气？”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg1_3' },
+  'day3_kitchen_one_cg1_3': { id: 'day3_kitchen_one_cg1_3', speaker: '李老头', content: '“还有鲁大师，虽然爱喝酒爱闹事，却有一副活菩萨心肠。有回他在俺这儿偷酒喝，被俺抓了个现行，你猜怎么着？”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg2_1' },
+  'day3_kitchen_one_cg2_1': { id: 'day3_kitchen_one_cg2_1', speaker: '李老头', content: '“他不仅没恼，反倒嘿嘿一乐，说自己坏了规矩，硬是在这灶台边帮俺劈了一个月的柴火。你说这天下的和尚，哪有比他更直爽的？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_2' },
+  'day3_kitchen_one_cg2_2': { id: 'day3_kitchen_one_cg2_2', speaker: '李老头', content: '“这笸箩里的馒头啊，都是给这帮没心肺的汉子准备的。在这梁山，义气就是这热腾腾的面香味，不管你从哪儿来，吃饱了就是自家人。”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_end' },
+  'day3_kitchen_one_end': { id: 'day3_kitchen_one_end', speaker: '系统', content: '吃完这一个馒头，你谢过李老头。虽然腹中不算太饱，但听完英雄的故事，心中却对未来有了更深的定力。', background: BG_BLACK, nextId: 'day4_start' },
 
-  'day3_kitchen_4': { id: 'day3_kitchen_4', speaker: '李老头', content: '“老头子看尽好汉进出。要说真心，大师和铁牛是这山上顶尖的。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_5' },
-  'day3_kitchen_5': { id: 'day3_kitchen_5', speaker: '李老头', content: '“俺孙子病重时，铁牛大半夜跑几十里背回郎中. 他啊，嘴臭心最软.”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_6' },
-  'day3_kitchen_6': { id: 'day3_kitchen_6', speaker: '李老头', content: '“大师也是，偷酒被抓竟帮俺劈月余柴火抵债. 世间好人，难得欢实.”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_7' },
-  'day3_kitchen_7': { id: 'day3_kitchen_7', speaker: '{playerName}', content: '你听着老人的碎语，心中对这两位性格迥异的英雄有了更深的理解.', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_8' },
-  'day3_kitchen_8': { id: 'day3_kitchen_8', speaker: '系统', content: '吃完馒头，你谢过李老老头. 远处的聚义厅传来了豪爽的笑笑声，那是英雄们的日常.', background: BG_BLACK, nextId: 'day4_start' },
+  // --- 沂岭路径等后续略 ---
+  'day3_kitchen_ten_4': { id: 'day3_kitchen_ten_4', speaker: '李老头', content: '“老头子在这梁山也见了不少世面。要说这山上最有义气的，大师和铁牛绝对是头两个。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_5' },
+  'day3_kitchen_ten_5': { id: 'day3_kitchen_ten_5', speaker: '李老头', content: '“当年俺那小孙子病得只剩一口气，大雪封山，是铁牛这汉子，大半夜光着膀子跑了几十里山路，生生把郎中给背上山的。”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_6' },
+  'day3_kitchen_ten_6': { id: 'day3_kitchen_ten_6', speaker: '李老头', content: '“还有大师，头一回偷喝俺的好酒被抓住，不仅没翻脸，反倒帮俺劈了一个月的柴。这山上的人呐，面粗心却热。”', background: CG_BUNS_3, nextId: 'day3_kitchen_ten_7' },
+  'day3_kitchen_ten_7': { id: 'day3_kitchen_ten_7', speaker: '{playerName}', content: '你听着老人的碎语，解决了最后几个馒头，心中对这两位性格迥异的英雄有了更深的理解。', background: CG_BUNS_1, nextId: 'day3_kitchen_ten_8' },
+  'day3_kitchen_ten_8': { id: 'day3_kitchen_ten_8', speaker: '系统', content: '吃完十个馒头，你心满意足地谢过李老头。笸箩里只剩下一层蒸布。远处的聚义厅传来了豪爽的笑声...', background: CG_BUNS_EMPTY, nextId: 'day4_start' },
 
-  // --- 第三天：李逵心动剧情 - 沂岭杀四虎 ---
   'day3_kui_yiling_1': { id: 'day3_kui_yiling_1', speaker: '系统', content: '第三天. 天刚蒙蒙亮，李逵就火急火燎地把你拽出了被窝. ', background: BG_CAVE, nextId: 'day3_kui_yiling_2' },
   'day3_kui_yiling_2': { id: 'day3_kui_yiling_2', speaker: '李逵', characterId: 'likui', content: '“快走！俺要回沂岭接老娘上山，这路上不平，你心思细，陪俺走一趟！”', background: BG_CAVE, nextId: 'day3_kui_yiling_3' },
   'day3_kui_yiling_3': { id: 'day3_kui_yiling_3', speaker: '系统', content: '你们一路疾行至沂州境内的沂岭. 山路崎岖，林木幽深，隐约透着股不安的寂静.', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_4' },
@@ -212,8 +218,6 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '【拿起枯枝冲上去】哪怕力量微弱，也要为铁牛拖延时间！', nextId: 'day3_kui_help_1', affectionBonus: { charId: 'likui', points: 3 }, attributeBonus: { strength: 10 } },
     { text: '【在一旁恐惧观望】双腿发软动弹不得，只能凄厉呼救。', nextId: 'day3_kui_watch_1', affectionBonus: { charId: 'likui', points: -30 } }
   ]},
-
-  // --- 帮助路径 ---
   'day3_kui_help_1': { id: 'day3_kui_help_1', speaker: '{playerName}', content: '“畜生！滚开！！”你抓起地上一截粗壮的枯枝，发疯似地挥舞，挡在老母身前。', background: BG_FOREST, nextId: 'day3_kui_help_2' },
   'day3_kui_help_2': { id: 'day3_kui_help_2', speaker: '系统', content: '猛虎被你的气势震慑了一瞬，转而愤怒地向你扑来，腥臭的口气近在咫尺。', background: BG_FOREST, nextId: 'day3_kui_help_3' },
   'day3_kui_help_3': { id: 'day3_kui_help_3', speaker: '李逵', characterId: 'likui', content: '“尔敢动俺的人！！！哇呀呀呀呀！！！”', background: BG_FOREST, nextId: 'day3_kui_help_4' },
@@ -225,8 +229,6 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kui_help_9': { id: 'day3_kui_help_9', speaker: '李逵', content: '“{playerName}，别怕，有俺在，刚才。。。谢谢你护着俺娘”', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_bond_up' },
   'day3_kui_bond_up': { id: 'day3_kui_bond_up', speaker: '系统', content: '和李逵羁绊+3', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_help_10' },
   'day3_kui_help_10': { id: 'day3_kui_help_10', speaker: '李逵', characterId: 'likui', content: '“等回了梁山，俺一定教你更多真本事！俺李逵这条命，以后也是你的！”', background: BG_FOREST, nextId: 'day4_start' },
-
-  // --- 观看路径 ---
   'day3_kui_watch_1': { id: 'day3_kui_watch_1', speaker: '系统', content: '你被眼前的庞然大物彻底吓傻了，瘫软在地，甚至发不出求救的声音。', background: BG_FOREST, nextId: 'day3_kui_watch_2' },
   'day3_kui_watch_2': { id: 'day3_kui_watch_2', speaker: '系统', content: '猛虎的利爪几乎要触及老母的衣襟. 这时李逵才拎着水坛狂奔而归. ', background: BG_FOREST, nextId: 'day3_kui_watch_3' },
   'day3_kui_watch_3': { id: 'day3_kui_watch_3', speaker: '李逵', characterId: 'likui', content: '“畜生！！！受死！！！”', background: BG_FOREST, nextId: 'day3_kui_watch_4' },
@@ -237,22 +239,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kui_watch_8': { id: 'day3_kui_watch_8', speaker: '李逵', characterId: 'likui', content: '“……没事. 俺不怪你. 你这细身板，害怕也是常理. 咱们走吧. ”', background: BG_FOREST, nextId: 'day3_kui_watch_9' },
   'day3_kui_watch_9': { id: 'day3_kui_watch_9', speaker: '{playerName}', content: '你张了张嘴，却发现任何道歉都显得那么无力。', background: BG_FOREST, nextId: 'day3_kui_watch_10' },
   'day3_kui_watch_10': { id: 'day3_kui_watch_10', speaker: '李逵', characterId: 'likui', content: '（他自顾自地背起老娘，脚步比来时沉重了许多）“回山吧，别耽误了正事。”', background: BG_BLACK, nextId: 'day4_start' },
-
-  // --- 第四天：导师正式选择 ---
-  'day4_start': { 
-    id: 'day4_start', 
-    speaker: '系统', 
-    content: '第四天。这一日，你需要正式决定跟随哪位英雄开启正式的专项特训。', 
-    background: BG_CAMP, 
-    choices: [
-      { text: '卢俊义：研习“格物鉴宝”', nextId: 'day4_lu_1', attributeBonus: { intelligence: 10 } },
-      { text: '燕青：研习“潜伏谍报”', nextId: 'day4_yan_1', attributeBonus: { intelligence: 5, spirit: 5 } },
-      { text: '鲁智深：研习“禅意守护”', nextId: 'day4_luzhishen_branch', attributeBonus: { spirit: 10 } },
-      { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_train_1', attributeBonus: { strength: 10 } }
-    ]
-  },
-
-  // --- 李逵校场进阶训练剧情 ---
+  'day4_start': { id: 'day4_start', speaker: '系统', content: '第四天。这一日，你需要正式决定跟随哪位英雄开启正式的专项特训。', background: BG_CAMP, choices: [ { text: '卢俊义：研习“格物鉴宝”', nextId: 'day4_lu_1', attributeBonus: { intelligence: 10 } }, { text: '燕青：研习“潜伏谍报”', nextId: 'day4_yan_1', attributeBonus: { intelligence: 5, spirit: 5 } }, { text: '鲁智深：研习“禅意守护”', nextId: 'day4_luzhishen_branch', attributeBonus: { spirit: 10 } }, { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_train_1', attributeBonus: { strength: 10 } } ] },
   'day4_kui_train_1': { id: 'day4_kui_train_1', speaker: '李逵', characterId: 'likui', content: '“走走走，俺带你去校场！今天呼延将军在那，正好让他见识见识俺带出来的小文书！”', background: BG_BLACK, nextId: 'day4_kui_drill_pan_start' },
   'day4_kui_drill_pan_start': { id: 'day4_kui_drill_pan_start', speaker: '{playerName}', content: '（你跟着铁牛来到校场的高台……）', background: BG_DRILL_SCALE, nextId: 'day4_kui_drill_desc' },
   'day4_kui_drill_desc': { id: 'day4_kui_drill_desc', speaker: '系统', content: '校场上烟尘腾卷，兵器架列如林。吼声、金铁交鸣声、箭矢破空声织成一片. 远处呼延灼双鞭舞作一团银光，气度森严. 汗水砸在夯土上洇开深色斑痕，空气里满是草屑与铁锈的味道.', background: BG_HUYAN_CG, nextId: 'day4_kui_train_2' },
@@ -261,15 +248,10 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_train_4': { id: 'day4_kui_train_4', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_DRILL, nextId: 'day4_kui_train_4_player' },
   'day4_kui_train_4_player': { id: 'day4_kui_train_4_player', speaker: '{playerName}', content: '“啊？？。。。饶了我吧。。。”', background: BG_DRILL, nextId: 'day4_kui_train_5' },
   'day4_kui_train_5': { id: 'day4_kui_train_5', speaker: '系统', content: '在李逵的起哄和呼延灼的严厉喝斥下，你先是被推上颠簸的战马，双腿被磨得生疼；随后又被迫拉开沉重的牛角弓，双臂颤抖如筛糠...', background: BG_DRILL, nextId: 'day4_kui_train_6' },
-  
   'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的！呼延老哥，再给她加两圈跑操！”', background: BG_DRILL, nextId: 'day4_kui_train_7' },
   'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动。视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_DRILL, nextId: 'day4_kui_train_8' },
   'day4_kui_train_8': { id: 'day4_kui_train_8', speaker: '{playerName}', content: '“（不行了...天旋地转...好累...）”', background: BG_DRILL, nextId: 'day4_kui_train_faint' },
-  'day4_kui_train_faint': { id: 'day4_kui_train_faint', speaker: '系统', content: '由于高强度透支，你眼前一黑，彻底昏厥了过去. 系统提示：过度劳累导致元气损伤，体重 -1，灵力 -1.', background: BG_BLACK, choices: [
-    { text: '（陷入沉睡）', nextId: 'day5_start', attributeBonus: { weight: -1, spirit: -1 } }
-  ]},
-
-  // --- 卢俊义特训剧情：使用新房间背景 ---
+  'day4_kui_train_faint': { id: 'day4_kui_train_faint', speaker: '系统', content: '由于高强度透支，你眼前一黑，彻底昏厥了过去. 系统提示：过度劳累导致元气损伤，体重 -1，灵力 -1.', background: BG_BLACK, choices: [ { text: '（陷入沉睡）', nextId: 'day5_start', attributeBonus: { weight: -1, spirit: -1 } } ] },
   'day4_lu_1': { id: 'day4_lu_1', speaker: '系统', content: '你穿过两道朱红大门，来到了卢俊义在梁山的临时府邸. 院内陈设虽然简约，却极有格调. ', background: BG_LU_ROOM, nextId: 'day4_lu_2' },
   'day4_lu_2': { id: 'day4_lu_2', speaker: '系统', content: '书房内，卢俊义正对着几本厚重的账册和军需调度令发愁. 他的眉头紧锁，笔尖在纸上悬而未落. ', background: BG_LU_ROOM, nextId: 'day4_lu_3' },
   'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“卢员外，打扰了. 我来履行约定，跟您研习‘格物’之道. ”你轻声开口. ', background: BG_LU_ROOM, nextId: 'day4_lu_4' },
@@ -277,22 +259,14 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_lu_5': { id: 'day4_lu_5', speaker: '卢俊义', characterId: 'lujunyi', content: '“这军饷的调度比京城的买卖还要繁琐. 我现在满脑子偏移那些粮草数字，没工夫教你什么格物. ”', background: BG_LU_ROOM, nextId: 'day4_lu_6' },
   'day4_lu_6': { id: 'day4_lu_6', speaker: '{playerName}', content: '“可是……公孙胜先生说我的时间不多了，希望能尽早……”', background: BG_LU_ROOM, nextId: 'day4_lu_7' },
   'day4_lu_7': { id: 'day4_lu_7', speaker: '卢俊义', characterId: 'lujunyi', content: '（他有些不耐烦地搁下笔，朱砂墨溅到了他的袖口上）“我也希望能帮你，但此刻我身负全山兄弟的粮草命脉. ”', background: BG_LU_ROOM, nextId: 'day4_lu_8' },
-  'day4_lu_8': { id: 'day4_lu_8', speaker: '系统', content: '看着卢俊义那双因熬夜而略显红肿的眼睛，以及桌上已经变凉的残茶，你决定：', background: BG_LU_ROOM, choices: [
-    { text: '【体贴行事】默默走到一旁，为他沏上一盏温热的龙井。', nextId: 'day4_lu_9_success', affectionBonus: { charId: 'lujunyi', points: 15 }, attributeBonus: { intelligence: 5 } },
-    { text: '【强硬坚持】坚持今天必须开始，提醒他梁山以诺言为重。', nextId: 'day4_lu_9_fail', affectionBonus: { charId: 'lujunyi', points: -15 }, attributeBonus: { strength: 5 } }
-  ]},
+  'day4_lu_8': { id: 'day4_lu_8', speaker: '系统', content: '看着卢俊义那双因熬夜而略显红肿的眼睛，以及桌上已经变凉的残茶，你决定：', background: BG_LU_ROOM, choices: [ { text: '【体贴行事】默默走到一旁，为他沏上一盏温热的龙井。', nextId: 'day4_lu_9_success', affectionBonus: { charId: 'lujunyi', points: 15 }, attributeBonus: { intelligence: 5 } }, { text: '【强硬坚持】坚持今天必须开始，提醒他梁山以诺言为重。', nextId: 'day4_lu_9_fail', affectionBonus: { charId: 'lujunyi', points: -15 }, attributeBonus: { strength: 5 } } ] },
   'day4_lu_9_success': { id: 'day4_lu_9_success', speaker: '卢俊义', characterId: 'lujunyi', content: '（他端起你沏的热茶，闻着清雅的香气，神色终于缓和了一些）“……有心了. 这茶温润得恰到好处. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_success' },
-  'day4_lu_10_success': { id: 'day4_lu_10_success', speaker: '卢俊义', characterId: 'lujunyi', content: '“不过今日确实琐事沉身. 你且先回屋休息吧，明日清晨再来，我定会空出时间. ”（他虽然还是把你打发了，但语气温柔了许多）', background: BG_LU_ROOM, nextId: 'day5_start' },
-
-  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他猛地抬头，眼中闪过一丝愠色，语气冷若冰霜）“诺言？我卢俊义一生行事问心无愧，若因私废公才是真的背信弃义. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_fail' },
+  'day4_lu_10_success': { id: 'day4_lu_10_success', speaker: '卢俊义', characterId: 'lujunyi', content: '“不过今日确实琐事沉身. 你且先回屋休息吧，明日清晨再来，我定会空出时间. ”（他虽然还是把你打发了，投语其温柔了许多）', background: BG_LU_ROOM, nextId: 'day5_start' },
+  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他猛地抬头，眼中闪过一丝愠色，语气冷若霜）“诺言？我卢俊义一生行事问心无愧，若因私废公才是真的背信弃义. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_fail' },
   'day4_lu_10_fail': { id: 'day4_lu_10_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '“出去. 我现在不想听任何大道理. 既然你觉得我可靠，自便就是. ”（他摆了摆手，示意你离开，书房陷入了尴尬的死寂）', background: BG_LU_ROOM, nextId: 'day5_start' },
-
   'day4_yan_1': { id: 'day4_yan_1', speaker: '系统', content: '你扑了个空，燕青下山探查官军动向去了。', background: BG_MARKET, nextId: 'day5_start' },
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', characterId: 'luzhishen', content: '“哈哈！洒家就知道你放不下那竹林. ”', background: BG_BAMBOO, nextId: 'day5_start' },
-
   'day5_start': { id: 'day5_start', speaker: '系统', content: '第五天。你感觉到体内的“天罡灵气”稳固了许多。', background: BG_CAMP, nextId: 'ch1_final_node' },
-  'ch1_final_node': { id: 'ch1_final_node', speaker: '系统', content: '第一章：天罡初醒 · 完. ', background: BG_CAMP, choices: [
-    { text: '重新开始', nextId: 'start' }
-  ]},
+  'ch1_final_node': { id: 'ch1_final_node', speaker: '系统', content: '第一章：天罡初醒 · 完. ', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] },
   'free_talk_intro': { id: 'free_talk_intro', speaker: '系统', content: '现在可以自由传信互动了. ', background: BG_CAMP, nextId: 'free_talk_intro' }
 };
