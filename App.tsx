@@ -744,7 +744,7 @@ const App: React.FC = () => {
     // 检查是否在馒头故事剧情节点（含一个和十个的分支）
     const isStorytellingNode = [
       'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
-      'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_5', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
+      'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
     ].includes(currentNodeId);
 
     return (

@@ -93,7 +93,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“且慢！铁牛兄弟，此人动不得！……哥哥，大事！此子非凡间之人！贫道方才观星，见天狗食月，星宿移位，一道异芒坠于后山……竟应在此处！”', background: BG_CAMP, nextId: 'hall_song_scene_desc' },
   'hall_song_scene_desc': { id: 'hall_song_scene_desc', speaker: '系统', content: '只见一位道人疾步入厅。厅中一阵骚动。宋江抬手示意众人安静。', background: BG_CAMP, nextId: 'hall_song_ask_detail' },
   'hall_song_ask_detail': { id: 'hall_song_ask_detail', speaker: '宋江', content: '“公孙先生，且细说。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
-  'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任不管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
+  'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
   'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
   'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻名。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
@@ -185,7 +185,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   ]},
 
   // --- 吃一个馒头分支：点击交互 ---
-  'day3_kitchen_one_start': { id: 'day3_kitchen_one_start', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃。不过咱们梁山的好汉，那可个个都是顶天立地的。趁这会儿工夫，老头子给你讲讲铁牛和大师的故事。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_one_cg1_1' },
+  'day3_kitchen_one_start': { id: 'day3_kitchen_one_start', speaker: '李老老', content: '“哈哈，果然是文弱的女娃娃。不过咱们梁山的好汉，那可个个都是顶天立地的。趁这会儿工夫，老头子给你讲讲铁牛和大师的故事。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_one_cg1_1' },
   'day3_kitchen_one_cg1_1': { id: 'day3_kitchen_one_cg1_1', speaker: '李老头', content: '“就说铁牛那黑汉子，虽然长得凶，心却最诚。当年俺孙子病重，大雪封山，是他光着膀子跑了几十里山路把郎中扛回来的。这种义气，没话说！”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg2_1' },
   'day3_kitchen_one_cg2_1': { id: 'day3_kitchen_one_cg2_1', speaker: '李老头', content: '“还有鲁大师，虽然爱喝酒爱闹事，却有一副活菩萨心肠。有回他在俺这儿偷酒喝，被俺抓了个现行，你猜怎么着？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_2' },
   'day3_kitchen_one_cg2_2': { id: 'day3_kitchen_one_cg2_2', speaker: '李老头', content: '“他不仅没恼，反倒嘿嘿一乐，说自己坏了规矩，硬是在这灶台边帮俺劈了一个月的柴火。你说这天下的和尚，哪有比他更直爽的？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_3' },
@@ -194,15 +194,19 @@ export const STORY_DATA: Record<string, StoryNode> = {
 
   // --- 吃十个馒头分支：点击交互重构 ---
   'day3_kitchen_ten_start': { id: 'day3_kitchen_ten_start', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten_4' },
-  'day3_kitchen_ten_4': { id: 'day3_kitchen_ten_4', speaker: '李老头', content: '“老头子在这梁山也见了不少世面。要说这山上最有义气的，大师和铁牛绝对是头两个。当年俺孙子病重，大雪封山，是铁牛这汉子背回了郎中。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_5' },
-  'day3_kitchen_ten_5': { id: 'day3_kitchen_ten_5', speaker: '李老头', content: '“铁牛这人呐，看着凶，其实最是见不得旁人受难。他那对板斧是劈恶人的，可他这脊梁，是用来扛咱这些苦命人的。”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_6' },
+  'day3_kitchen_ten_4': { id: 'day3_kitchen_ten_4', speaker: '李老头', content: '“老头子在这梁山也见了不少世面。要说这山上最有义气的，大师和铁牛绝对是头两个。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_4_2' },
+  'day3_kitchen_ten_4_2': { id: 'day3_kitchen_ten_4_2', speaker: '李老头', content: '“当年俺小孙子病得只剩一口气，大雪封山，是铁牛这汉子，光着膀子跑了几十里山路，生生把郎中给背上山的。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_4_3' },
+  'day3_kitchen_ten_4_3': { id: 'day3_kitchen_ten_4_3', speaker: '李老头', content: '“这种舍命救人的义气，山上谁不服他？来，多吃点，这些都是专门给你们这些辛苦人备下的。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_5' },
+  'day3_kitchen_ten_5': { id: 'day3_kitchen_ten_5', speaker: '李老头', content: '“铁牛这人呐，看着凶，其实最是见不得旁人受难。他那对板斧是劈恶人的，可他这脊梁，是用来扛咱这些苦命人的。”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_5_2' },
+  'day3_kitchen_ten_5_2': { id: 'day3_kitchen_ten_5_2', speaker: '李老头', content: '“就说那年闹饥荒，铁牛背着这一袋米一袋面的，挨家挨户送。大家都说他是黑旋风，俺倒觉得他是及时雨派来的救苦天神。”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_5_3' },
+  'day3_kitchen_ten_5_3': { id: 'day3_kitchen_ten_5_3', speaker: '李老头', content: '“你瞅瞅你手里的馒头，那可是他亲自挑的山泉水和的面。这粗汉子细心起来，比谁都像个样儿。快，趁热吃！”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_6' },
   'day3_kitchen_ten_6': { id: 'day3_kitchen_ten_6', speaker: '李老头', content: '“还有鲁大师，虽然嗜酒如命，却是一副侠义心肠。有一回他偷了俺攒的陈酿，被发现后不仅没动粗，反倒乐呵呵地在这帮俺劈了一个月的柴火。”', background: CG_BUNS_3, nextId: 'day3_kitchen_ten_7' },
   'day3_kitchen_ten_7': { id: 'day3_kitchen_ten_7', speaker: '李老头', content: '“这山上的汉子啊，有的来自王侯将相，有的来自市井屠苏，但在这一笸箩大白馒头面前，大家伙都是一样的赤诚兄弟。”', background: CG_BUNS_1, nextId: 'day3_kitchen_ten_8_1' },
   'day3_kitchen_ten_8_1': { id: 'day3_kitchen_ten_8_1', speaker: '李老头', content: '“你这娃娃多吃点，把这灵气补得足足的。公孙先生说了，你的劫数也是咱们梁山的劫数，咱老头子没别的本事，管够你的肚子！”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_ten_8_2' },
   'day3_kitchen_ten_8_2': { id: 'day3_kitchen_ten_8_2', speaker: '李老头', content: '“看着你这吃相，俺就想起那些凯旋而归的好汉们。这笸箩虽空了，只要灶火不灭，梁山的魂就散不了。你说是不是这个理儿？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_ten_8_3' },
   'day3_kitchen_ten_8_3': { id: 'day3_kitchen_ten_8_3', speaker: '{playerName}', content: '你摸着圆滚滚的肚子，最后一口馒头的余香还在唇齿间缭绕。李老头的故事和这沉甸甸的食物，竟让你在乱世中感到了一丝莫名的安稳。', background: CG_BUNS_EMPTY, nextId: 'day4_start' },
 
-  // --- 沂岭路径等后续略 ---
+  // --- 沂岭路径等后续 ---
   'day3_kui_yiling_1': { id: 'day3_kui_yiling_1', speaker: '系统', content: '第三天. 天刚蒙蒙亮，李逵就火急火燎地把你拽出了被窝. ', background: BG_CAVE, nextId: 'day3_kui_yiling_2' },
   'day3_kui_yiling_2': { id: 'day3_kui_yiling_2', speaker: '李逵', characterId: 'likui', content: '“快走！俺要回沂岭接老娘上山，这路上不平，你心思细，陪俺走一趟！”', background: BG_CAVE, nextId: 'day3_kui_yiling_3' },
   'day3_kui_yiling_3': { id: 'day3_kui_yiling_3', speaker: '系统', content: '你们一路疾行至沂州境内的沂岭. 山路崎岖，林木幽深，隐约透着股不安的寂静.', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_4' },
@@ -217,7 +221,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kui_yiling_10': { id: 'day3_kui_yiling_10', speaker: '系统', content: '（吼——！）灌木丛中猛地窜出两头斑斓大虎，直扑惊恐的老母！', background: BG_FOREST, nextId: 'day3_kui_choice' },
   'day3_kui_choice': { id: 'day3_kui_choice', speaker: '系统', content: '危急时刻，你的抉择是：', background: BG_FOREST, choices: [
     { text: '【拿起枯枝冲上去】哪怕力量微弱，也要为铁牛拖延时间！', nextId: 'day3_kui_help_1', affectionBonus: { charId: 'likui', points: 3 }, attributeBonus: { strength: 10 } },
-    { text: '【在一旁恐惧观望】双腿发软动弹不得，只能凄厉呼救。', nextId: 'day3_kui_watch_1', affectionBonus: { charId: 'likui', points: -30 } }
+    { text: '【在一旁恐惧观望】双腿发软动弹不得，只能凄厉呼救。', nextId: 'day3_kitchen_one_start', affectionBonus: { charId: 'likui', points: -30 } }
   ]},
   'day3_kui_help_1': { id: 'day3_kui_help_1', speaker: '{playerName}', content: '“畜生！滚开！！”你抓起地上一截粗壮的枯枝，发疯似地挥舞，挡在老母身前。', background: BG_FOREST, nextId: 'day3_kui_help_2' },
   'day3_kui_help_2': { id: 'day3_kui_help_2', speaker: '系统', content: '猛虎被你的气势震慑了一瞬，转而愤怒地向你扑来，腥臭的口气近在咫尺。', background: BG_FOREST, nextId: 'day3_kui_help_3' },
