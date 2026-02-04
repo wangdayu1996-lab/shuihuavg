@@ -741,25 +741,21 @@ const App: React.FC = () => {
       isScaleCG || isHuyanPan
     );
 
-    // 检查是否在“一个馒头”故事剧情节点
+    // 检查是否在馒头故事剧情节点（含一个和十个的分支）
     const isStorytellingNode = [
-      'day3_kitchen_one_start',
-      'day3_kitchen_one_cg1_1',
-      'day3_kitchen_one_cg1_2',
-      'day3_kitchen_one_cg1_3',
-      'day3_kitchen_one_cg2_1',
-      'day3_kitchen_one_cg2_2'
+      'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
+      'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_5', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
     ].includes(currentNodeId);
 
     return (
       <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`} onClick={handleNextDialogue}>
         {saveTooltip && <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">笔墨已收，录入丹青</div>}
         
-        {/* 点击引导字样 */}
+        {/* 点击引导字样 - 素雅风格 */}
         {isStorytellingNode && (
           <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] pointer-events-none">
-            <div className="bg-red-900/90 text-yellow-400 px-8 py-3 rounded-full font-bold animate-shake text-xl border-2 border-yellow-600 shadow-[0_0_20px_rgba(0,0,0,0.5)] vn-text-shadow">
-              点击背景听李老头继续讲述
+            <div className="bg-black/60 text-white px-10 py-3 rounded-full font-medium animate-shake text-xl border border-white/20 shadow-xl backdrop-blur-sm tracking-widest">
+              点击馒头听李老头继续讲述
             </div>
           </div>
         )}

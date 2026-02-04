@@ -73,7 +73,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我聚义厅？”', background: BG_CAMP, nextId: 'hall_name_input' },
   'hall_name_input': { id: 'hall_name_input', speaker: '系统', content: '请在这尺素纸上写下你的姓名：', background: BG_CAMP, isNameInput: true, nextId: 'hall_self_intro' },
 
-  'hall_self_intro': { id: 'hall_self_intro', speaker: '{playerName}', content: '“我叫{playerName}，来自遥远的未来。我认识你们每一个人，梁山一百零八将的事迹在未来家喻晓。”', background: BG_CAMP, nextId: 'hall_song_test' },
+  'hall_self_intro': { id: 'hall_self_intro', speaker: '{playerName}', content: '“我叫{playerName}，来自遥远的未来。我认识你们每一个人，梁山一百零八将的事迹在未来家喻户晓。”', background: BG_CAMP, nextId: 'hall_song_test' },
   'hall_song_test': { id: 'hall_song_test', speaker: '宋江', content: '（堂下一片哗然，众人议论纷纷，宋江微微眯起眼）“既然你自称认识我们，那我且问你，宋某当年究竟是如何上的这梁山？”', background: BG_CAMP, choices: [
     { text: '因怒杀阎婆惜被发配江州，后在浔阳楼题反诗被救上山。', nextId: 'hall_song_verdict' },
     { text: '因为在京城卖保险赔个精光，为了躲债才跑来投奔晁盖。', nextId: 'game_over_hall' }
@@ -93,13 +93,13 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“且慢！铁牛兄弟，此人动不得！……哥哥，大事！此子非凡间之人！贫道方才观星，见天狗食月，星宿移位，一道异芒坠于后山……竟应在此处！”', background: BG_CAMP, nextId: 'hall_song_scene_desc' },
   'hall_song_scene_desc': { id: 'hall_song_scene_desc', speaker: '系统', content: '只见一位道人疾步入厅。厅中一阵骚动。宋江抬手示意众人安静。', background: BG_CAMP, nextId: 'hall_song_ask_detail' },
   'hall_song_ask_detail': { id: 'hall_song_ask_detail', speaker: '宋江', content: '“公孙先生，且细说。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
-  'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
+  'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任不管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
   'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
   'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻名。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
   'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '卢俊义', characterId: 'lujunyi', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
   'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》残卷。此乃记载我梁山兄弟天命轨迹之正册，可引动诸位兄弟的本命星力，与此子魂中暴气共鸣调和，方能导其归正，两全其美。”', background: BG_CAMP, nextId: 'hall_song_command' },
-  'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基。小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果。我梁山泊替天行道，讲的是一个‘义’字。今日，这桩事，宋江管了。卢俊义、燕青、鲁智深、李逵四位兄弟听令！命你四人，协同这位小友，寻访《水浒秘籍》四卷残篇。山寨资源，任尔调用。务务必在百日之内，功成而返！”', background: BG_CAMP, nextId: 'hall_song_welcome' },
+  'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基。小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果。我梁山泊替天行道，讲的是一个‘义’字。今日，这桩事，宋江管了。卢俊义、燕青、鲁智深、李逵四位兄弟听令！命你四人，协同这位小友，寻访《水浒秘籍》四卷残篇。山寨资源，任尔调用。务必在百日之内，功成而返！”', background: BG_CAMP, nextId: 'hall_song_welcome' },
   'hall_song_welcome': { id: 'hall_song_welcome', speaker: '宋江', content: '“{playerName}小友，从今日起，梁山便是你暂时安身之所. 望你与我等兄弟，同心协力，共渡此劫.”', background: BG_CAMP, choices: [
     { text: '为了活命，我愿意留在梁山！', nextId: 'hall_player_sigh' }
   ]},
@@ -181,27 +181,28 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kitchen_3': { id: 'day3_kitchen_3', speaker: '{playerName}', content: '你嗅着空气中浓郁的面香，李老头端出一个大笸箩，热气腾腾的馒头堆得像小山一样。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_choice' },
   'day3_kitchen_choice': { id: 'day3_kitchen_choice', speaker: '李老头', content: '“饿坏了吧？快，趁热吃！你要吃几个？”', background: BG_KITCHEN_REALLY_NEW, choices: [
     { text: '（矜持地）吃一个就够了。', nextId: 'day3_kitchen_one_start' },
-    { text: '（豪迈地）给我来十个！', nextId: 'day3_kitchen_weight_stat', attributeBonus: { weight: 1 } }
+    { text: '（豪迈地）给我来十个！', nextId: 'day3_kitchen_ten_start', attributeBonus: { weight: 1 } }
   ]},
-  'day3_kitchen_weight_stat': { id: 'day3_kitchen_weight_stat', speaker: '系统', content: '胃口惊人，体重属性 +1。', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten_start' },
-  'day3_kitchen_ten_start': { id: 'day3_kitchen_ten_start', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten_4' },
 
-  // --- 吃一个馒头分支：逻辑优化 ---
+  // --- 吃一个馒头分支：点击交互 ---
   'day3_kitchen_one_start': { id: 'day3_kitchen_one_start', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃。不过咱们梁山的好汉，那可个个都是顶天立地的。趁这会儿工夫，老头子给你讲讲铁牛和大师的故事。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_one_cg1_1' },
-  'day3_kitchen_one_cg1_1': { id: 'day3_kitchen_one_cg1_1', speaker: '李老头', content: '“就说铁牛那黑汉子，虽然长得凶，心却最诚。当年俺孙子病重，大雪封山，是他光着膀子跑了几十里山路把郎中扛回来的。这种义气，没话说！”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg1_2' },
-  'day3_kitchen_one_cg1_2': { id: 'day3_kitchen_one_cg1_2', speaker: '李老头', content: '“大家都怕他那对板斧，可俺知道，他这人啊，比谁都见不得弱小受欺负。这山上的人，谁没受过他的一份傻力气？”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg1_3' },
-  'day3_kitchen_one_cg1_3': { id: 'day3_kitchen_one_cg1_3', speaker: '李老头', content: '“还有鲁大师，虽然爱喝酒爱闹事，却有一副活菩萨心肠。有回他在俺这儿偷酒喝，被俺抓了个现行，你猜怎么着？”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg2_1' },
-  'day3_kitchen_one_cg2_1': { id: 'day3_kitchen_one_cg2_1', speaker: '李老头', content: '“他不仅没恼，反倒嘿嘿一乐，说自己坏了规矩，硬是在这灶台边帮俺劈了一个月的柴火。你说这天下的和尚，哪有比他更直爽的？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_2' },
-  'day3_kitchen_one_cg2_2': { id: 'day3_kitchen_one_cg2_2', speaker: '李老头', content: '“这笸箩里的馒头啊，都是给这帮没心肺的汉子准备的。在这梁山，义气就是这热腾腾的面香味，不管你从哪儿来，吃饱了就是自家人。”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_end' },
+  'day3_kitchen_one_cg1_1': { id: 'day3_kitchen_one_cg1_1', speaker: '李老头', content: '“就说铁牛那黑汉子，虽然长得凶，心却最诚。当年俺孙子病重，大雪封山，是他光着膀子跑了几十里山路把郎中扛回来的。这种义气，没话说！”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg2_1' },
+  'day3_kitchen_one_cg2_1': { id: 'day3_kitchen_one_cg2_1', speaker: '李老头', content: '“还有鲁大师，虽然爱喝酒爱闹事，却有一副活菩萨心肠。有回他在俺这儿偷酒喝，被俺抓了个现行，你猜怎么着？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_2' },
+  'day3_kitchen_one_cg2_2': { id: 'day3_kitchen_one_cg2_2', speaker: '李老头', content: '“他不仅没恼，反倒嘿嘿一乐，说自己坏了规矩，硬是在这灶台边帮俺劈了一个月的柴火。你说这天下的和尚，哪有比他更直爽的？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_3' },
+  'day3_kitchen_one_cg2_3': { id: 'day3_kitchen_one_cg2_3', speaker: '李老头', content: '“这笸箩里的馒头啊，都是给这帮没心肺的汉子准备的。在这梁山，义气就是这热腾腾的面香味，不管你从哪儿来，吃饱了就是自家人。”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_end' },
   'day3_kitchen_one_end': { id: 'day3_kitchen_one_end', speaker: '系统', content: '吃完这一个馒头，你谢过李老头。虽然腹中不算太饱，但听完英雄的故事，心中却对未来有了更深的定力。', background: BG_BLACK, nextId: 'day4_start' },
 
-  // --- 沂岭路径等后续略 ---
-  'day3_kitchen_ten_4': { id: 'day3_kitchen_ten_4', speaker: '李老头', content: '“老头子在这梁山也见了不少世面。要说这山上最有义气的，大师和铁牛绝对是头两个。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_5' },
-  'day3_kitchen_ten_5': { id: 'day3_kitchen_ten_5', speaker: '李老头', content: '“当年俺那小孙子病得只剩一口气，大雪封山，是铁牛这汉子，大半夜光着膀子跑了几十里山路，生生把郎中给背上山的。”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_6' },
-  'day3_kitchen_ten_6': { id: 'day3_kitchen_ten_6', speaker: '李老头', content: '“还有大师，头一回偷喝俺的好酒被抓住，不仅没翻脸，反倒帮俺劈了一个月的柴。这山上的人呐，面粗心却热。”', background: CG_BUNS_3, nextId: 'day3_kitchen_ten_7' },
-  'day3_kitchen_ten_7': { id: 'day3_kitchen_ten_7', speaker: '{playerName}', content: '你听着老人的碎语，解决了最后几个馒头，心中对这两位性格迥异的英雄有了更深的理解。', background: CG_BUNS_1, nextId: 'day3_kitchen_ten_8' },
-  'day3_kitchen_ten_8': { id: 'day3_kitchen_ten_8', speaker: '系统', content: '吃完十个馒头，你心满意足地谢过李老头。笸箩里只剩下一层蒸布。远处的聚义厅传来了豪爽的笑声...', background: CG_BUNS_EMPTY, nextId: 'day4_start' },
+  // --- 吃十个馒头分支：点击交互重构 ---
+  'day3_kitchen_ten_start': { id: 'day3_kitchen_ten_start', speaker: '李老头', content: '“（大惊失色）哎呀！你这小丫头看着细皮嫩肉，怎的胃口比铁牛还大？老头子在这灶台忙活大半辈子，从来没见过这么能吃女孩子！”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_ten_4' },
+  'day3_kitchen_ten_4': { id: 'day3_kitchen_ten_4', speaker: '李老头', content: '“老头子在这梁山也见了不少世面。要说这山上最有义气的，大师和铁牛绝对是头两个。当年俺孙子病重，大雪封山，是铁牛这汉子背回了郎中。”', background: CG_BUNS_10, nextId: 'day3_kitchen_ten_5' },
+  'day3_kitchen_ten_5': { id: 'day3_kitchen_ten_5', speaker: '李老头', content: '“铁牛这人呐，看着凶，其实最是见不得旁人受难。他那对板斧是劈恶人的，可他这脊梁，是用来扛咱这些苦命人的。”', background: CG_BUNS_5, nextId: 'day3_kitchen_ten_6' },
+  'day3_kitchen_ten_6': { id: 'day3_kitchen_ten_6', speaker: '李老头', content: '“还有鲁大师，虽然嗜酒如命，却是一副侠义心肠。有一回他偷了俺攒的陈酿，被发现后不仅没动粗，反倒乐呵呵地在这帮俺劈了一个月的柴火。”', background: CG_BUNS_3, nextId: 'day3_kitchen_ten_7' },
+  'day3_kitchen_ten_7': { id: 'day3_kitchen_ten_7', speaker: '李老头', content: '“这山上的汉子啊，有的来自王侯将相，有的来自市井屠苏，但在这一笸箩大白馒头面前，大家伙都是一样的赤诚兄弟。”', background: CG_BUNS_1, nextId: 'day3_kitchen_ten_8_1' },
+  'day3_kitchen_ten_8_1': { id: 'day3_kitchen_ten_8_1', speaker: '李老头', content: '“你这娃娃多吃点，把这灵气补得足足的。公孙先生说了，你的劫数也是咱们梁山的劫数，咱老头子没别的本事，管够你的肚子！”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_ten_8_2' },
+  'day3_kitchen_ten_8_2': { id: 'day3_kitchen_ten_8_2', speaker: '李老头', content: '“看着你这吃相，俺就想起那些凯旋而归的好汉们。这笸箩虽空了，只要灶火不灭，梁山的魂就散不了。你说是不是这个理儿？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_ten_8_3' },
+  'day3_kitchen_ten_8_3': { id: 'day3_kitchen_ten_8_3', speaker: '{playerName}', content: '你摸着圆滚滚的肚子，最后一口馒头的余香还在唇齿间缭绕。李老头的故事和这沉甸甸的食物，竟让你在乱世中感到了一丝莫名的安稳。', background: CG_BUNS_EMPTY, nextId: 'day4_start' },
 
+  // --- 沂岭路径等后续略 ---
   'day3_kui_yiling_1': { id: 'day3_kui_yiling_1', speaker: '系统', content: '第三天. 天刚蒙蒙亮，李逵就火急火燎地把你拽出了被窝. ', background: BG_CAVE, nextId: 'day3_kui_yiling_2' },
   'day3_kui_yiling_2': { id: 'day3_kui_yiling_2', speaker: '李逵', characterId: 'likui', content: '“快走！俺要回沂岭接老娘上山，这路上不平，你心思细，陪俺走一趟！”', background: BG_CAVE, nextId: 'day3_kui_yiling_3' },
   'day3_kui_yiling_3': { id: 'day3_kui_yiling_3', speaker: '系统', content: '你们一路疾行至沂州境内的沂岭. 山路崎岖，林木幽深，隐约透着股不安的寂静.', background: BG_MOUNTAIN, nextId: 'day3_kui_yiling_4' },
