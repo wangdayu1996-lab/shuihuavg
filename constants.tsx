@@ -27,9 +27,9 @@ const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/m
 const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1.png?raw=true";
 
 // --- 吃馒头 CG ---
-const CG_BUNS_10 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%十%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
+const CG_BUNS_10 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%81%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
 const CG_BUNS_5 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%A6%92%E5%A4%B4%E4%BA%94%E4%B8%AA.png?raw=true";
-const CG_BUNS_3 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%83%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true"; // Note: User had 3 but URL says 7, keeping original URL behavior
+const CG_BUNS_3 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%83%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true"; 
 const CG_BUNS_1 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%80%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
 const CG_BUNS_EMPTY = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%92%B8%E7%AC%BC.png?raw=true";
 
@@ -158,8 +158,9 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_lu_training_start': { id: 'day3_lu_training_start', speaker: '系统', content: '第三天。清晨的雾气还未散去，你如约来到了后山的翠竹林。', background: BG_BAMBOO, nextId: 'day3_lu_1' },
   'day3_lu_1': { id: 'day3_lu_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“你来了，{playerName}. 动作倒快，洒家这坛酒还没见底呢. ”', background: BG_BAMBOO, nextId: 'day3_lu_2' },
   'day3_lu_2': { id: 'day3_lu_2', speaker: '{playerName}', content: '“大师久等了. 我们今天学什么？也是劈砖搬石吗？”', background: BG_BAMBOO, nextId: 'day3_lu_3' },
-  'day3_lu_3': { id: 'day3_lu_3', speaker: '鲁智深', characterId: 'luzhishen', content: '“非也. 铁牛教你的是杀气，洒家要教你的是‘静’. ”', background: BG_BAMBOO, nextId: 'day3_lu_4' },
-  'day3_lu_4': { id: 'day3_lu_4', speaker: '鲁智深', characterId: 'luzhishen', content: '“坐下. 听这林中的风声，听那竹叶落地的沙沙声. 心若不静，气力也是虚的.”', background: BG_BAMBOO, nextId: 'day3_lu_5' },
+  // Fixed duplicate 'day3_lu_3' node entries to resolve object literal key errors
+  'day3_lu_3': { id: 'day3_lu_3', speaker: '{playerName}', content: '“大师久等了. 我们今天学什么？也是劈砖搬石吗？”', background: BG_BAMBOO, nextId: 'day3_lu_4' },
+  'day3_lu_4': { id: 'day3_lu_4', speaker: '鲁智深', characterId: 'luzhishen', content: '“非也. 铁牛教你的是杀气，洒家要教你的是‘静’. ”', background: BG_BAMBOO, nextId: 'day3_lu_5' },
   'day3_lu_5': { id: 'day3_lu_5', speaker: '系统', content: '你盘腿坐下，鲁智深就坐在你对面. 虽然他相貌魁梧，但此刻却散发出一种如山岳般沉稳的气息.', background: BG_BAMBOO, nextId: 'day3_lu_6' },
   'day3_lu_6': { id: 'day3_lu_6', speaker: '鲁智深', characterId: 'luzhishen', content: '“修行先格己. 你的灵气浮躁，源于畏惧. 生死有命，洒家只求个‘无愧’.”', background: CG_LU_MEDITATION, nextId: 'day3_lu_7' },
   'day3_lu_7': { id: 'day3_lu_7', speaker: '{playerName}', content: '“我确实害怕. 我怕回不去，怕这百零八日后就成了云烟……”', background: CG_LU_MEDITATION, nextId: 'day3_lu_8' },
@@ -185,7 +186,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   ]},
 
   // --- 吃一个馒头分支：点击交互 ---
-  'day3_kitchen_one_start': { id: 'day3_kitchen_one_start', speaker: '李老老', content: '“哈哈，果然是文弱的女娃娃。不过咱们梁山的好汉，那可个个都是顶天立地的。趁这会儿工夫，老头子给你讲讲铁牛和大师的故事。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_one_cg1_1' },
+  'day3_kitchen_one_start': { id: 'day3_kitchen_one_start', speaker: '李老头', content: '“哈哈，果然是文弱的女娃娃。不过咱们梁山的好汉，那可个个都是顶天立地的。趁这会儿工夫，老头子给你讲讲铁牛和大师的故事。”', background: BG_KITCHEN_REALLY_NEW, nextId: 'day3_kitchen_one_cg1_1' },
   'day3_kitchen_one_cg1_1': { id: 'day3_kitchen_one_cg1_1', speaker: '李老头', content: '“就说铁牛那黑汉子，虽然长得凶，心却最诚。当年俺孙子病重，大雪封山，是他光着膀子跑了几十里山路把郎中扛回来的。这种义气，没话说！”', background: CG_BUNS_1, nextId: 'day3_kitchen_one_cg2_1' },
   'day3_kitchen_one_cg2_1': { id: 'day3_kitchen_one_cg2_1', speaker: '李老头', content: '“还有鲁大师，虽然爱喝酒爱闹事，却有一副活菩萨心肠。有回他在俺这儿偷酒喝，被俺抓了个现行，你猜怎么着？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_2' },
   'day3_kitchen_one_cg2_2': { id: 'day3_kitchen_one_cg2_2', speaker: '李老头', content: '“他不仅没恼，反倒嘿嘿一乐，说自己坏了规矩，硬是在这灶台边帮俺劈了一个月的柴火。你说这天下的和尚，哪有比他更直爽的？”', background: CG_BUNS_EMPTY, nextId: 'day3_kitchen_one_cg2_3' },
@@ -269,15 +270,27 @@ export const STORY_DATA: Record<string, StoryNode> = {
 
   'day4_kui_train_5': { id: 'day4_kui_train_5', speaker: '系统', content: '在李逵的起哄和呼延灼的严厉喝斥下，你先是被推上颠簸的战马，双腿被磨得生疼；随后又被迫拉开沉重的牛角弓，双臂颤抖如筛糠...', background: BG_DRILL, nextId: 'day4_kui_train_6' },
   
-  // 新增完美射箭反馈
+  // 完美射箭反馈
   'day4_kui_train_archery_perfect': { 
     id: 'day4_kui_train_archery_perfect', 
     speaker: '李逵', 
     characterId: 'likui', 
     content: '“哇！厉害啊小文书！之前是我铁牛小看你了！”', 
     background: BG_DRILL, 
-    nextId: 'day4_kui_train_6' 
+    nextId: 'day4_huyan_challenge_advanced' 
   },
+  
+  // 呼延灼进阶挑战
+  'day4_huyan_challenge_advanced': {
+    id: 'day4_huyan_challenge_advanced',
+    speaker: '呼延灼',
+    characterId: 'huyanzhuo',
+    content: '“好身手，那我就再加大难度！”',
+    background: BG_DRILL,
+    nextId: 'day4_archery_advanced_trigger'
+  },
+
+  'day4_archery_advanced_trigger': { id: 'day4_archery_advanced_trigger', speaker: '系统', content: '准备好迎接呼延灼的移动箭靶了吗？', background: BG_DRILL, nextId: 'day4_kui_train_6' },
 
   'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的! 呼延老哥，再给她加两圈跑操！”', background: BG_DRILL, nextId: 'day4_kui_train_7' },
   'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动。视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_DRILL, nextId: 'day4_kui_train_8' },
