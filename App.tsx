@@ -20,7 +20,7 @@ const AttributesModal: React.FC<{
           {[
             { label: '体重 (气血)', value: attrs.weight, icon: '🩸', desc: '象征生命活力与体力，高体重耐受力强。' },
             { label: '智力 (思辨)', value: attrs.intelligence, icon: '📜', desc: '象征逻辑与策略，影响说服力与任务深度。' },
-            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突胜负。' },
+            { label: '武力 (攻守)', value: attrs.strength, icon: '⚔️', desc: '象征力量与技巧，决定冲突负。' },
             { label: '灵力 (星感)', value: attrs.spirit, icon: '✨', desc: '象征星宿感应，关联魂魄稳定。' }
           ].map(item => (
             <div key={item.label}>
@@ -264,7 +264,7 @@ const ChatWindow: React.FC<{
 
 // --- 子组件：射箭小游戏 ---
 const ArcheryMinigame: React.FC<{
-  onSuccess: () => void,
+  onSuccess: (attempts: number) => void,
   onCancel: () => void
 }> = ({ onSuccess, onCancel }) => {
   const [targetPos, setTargetPos] = useState({ x: 50, y: 50 });
@@ -314,7 +314,7 @@ const ArcheryMinigame: React.FC<{
 
     if (distance < 1.5) { 
       setResult('hit');
-      setTimeout(onSuccess, 1500);
+      setTimeout(() => onSuccess(failCount + 1), 1500);
     } else {
       setResult('miss');
       setFailCount(prev => prev + 1);
@@ -760,10 +760,19 @@ const App: React.FC = () => {
     if (gameState === GameState.ARCHERY_MINIGAME) {
       return (
         <ArcheryMinigame 
-          onSuccess={() => {
+          onSuccess={(attempts) => {
             setGameState(GameState.STORY);
             setHistory(prev => [...prev, currentNodeId]);
-            setCurrentNodeId('day4_kui_train_6');
+            
+            if (attempts === 1) {
+              setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 3 }));
+              setCurrentNodeId('day4_kui_train_archery_perfect');
+            } else if (attempts < 5) {
+              setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 1 }));
+              setCurrentNodeId('day4_kui_train_6');
+            } else {
+              setCurrentNodeId('day4_kui_train_6');
+            }
           }}
           onCancel={() => {
             setGameState(GameState.STORY);
