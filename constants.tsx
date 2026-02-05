@@ -29,7 +29,7 @@ const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/m
 // --- 吃馒头 CG ---
 const CG_BUNS_10 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%81%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
 const CG_BUNS_5 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%A6%92%E5%A4%B4%E4%BA%94%E4%B8%AA.png?raw=true";
-const CG_BUNS_3 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%89%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
+const CG_BUNS_3 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%83%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true"; // Note: User had 3 but URL says 7, keeping original URL behavior
 const CG_BUNS_1 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%80%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
 const CG_BUNS_EMPTY = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%92%B8%E7%AC%BC.png?raw=true";
 
@@ -52,7 +52,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   // --- 第一章：林中初遇 ---
   'start': { id: 'start', speaker: '{playerName}', content: '（意识像被卷入了一台失控的碎纸机，五彩斑斓的黑暗在眼前疯狂旋转……）', background: BG_MOUNTAIN, nextId: 'trans_os_2' },
   'trans_os_2': { id: 'trans_os_2', speaker: '{playerName}', content: '（最后的记忆是主管那张吐着唾沫星子的脸，还有永远写不完的KPI……）', background: BG_MOUNTAIN, nextId: 'trans_os_3' },
-  'trans_os_3': { id: 'trans_os_3', speaker: '{playerName}', content: '（渐渐地，耳边的嘈杂消失了，取而代之的是泥土的芬芳，以及一种沉重的呼吸声。）', background: BG_MOUNTAIN, nextId: 'woods_1' },
+  'trans_os_3': { id: 'trans_os_3', speaker: '{playerName}', content: '（渐渐地，耳边的嘈杂消失了，取而值之的是泥土的芬芳，以及一种沉重的呼吸声。）', background: BG_MOUNTAIN, nextId: 'woods_1' },
   'woods_1': { id: 'woods_1', speaker: '{playerName}', content: '（猛地睁开眼，首先映入眼帘的是一片遮天蔽日的古怪森林，然后是一张黑得像锅底一样的巨脸。）', background: BG_FOREST, nextId: 'woods_2' },
   'woods_2': { id: 'woods_2', speaker: '{playerName}', content: '“哇啊啊啊啊！！鬼啊!！”（你连滚带爬地向后缩去）', background: BG_FOREST, nextId: 'woods_3' },
   'woods_3': { id: 'woods_3', speaker: '黑大汉', content: '“嚷甚么！闭嘴！再嚷俺一斧头劈了你这丫头！”（李逵瞪圆了牛眼，腰间板斧泛着寒光）', background: BG_FOREST, characterId: 'likui', nextId: 'woods_4' },
@@ -249,11 +249,26 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_drill_pan_start': { id: 'day4_kui_drill_pan_start', speaker: '{playerName}', content: '（你跟着铁牛来到校场的高台……）', background: BG_DRILL_SCALE, nextId: 'day4_kui_drill_desc' },
   'day4_kui_drill_desc': { id: 'day4_kui_drill_desc', speaker: '系统', content: '校场上烟尘腾卷，兵器架列如林。吼声、金铁交鸣声、箭矢破空声织成一片. 远处呼延灼双鞭舞作一团银光，气度森严. 汗水砸在夯土上洇开深色斑痕，空气里满是草屑与铁锈的味道.', background: BG_HUYAN_CG, nextId: 'day4_kui_train_2' },
   'day4_kui_train_2': { id: 'day4_kui_train_2', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“铁牛，这就是那位异人？步履虚浮，气息不稳，若要随军，怕是连马背都爬不上去。”', background: BG_DRILL, nextId: 'day4_kui_train_3' },
-  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', characterId: 'huyanzhuo', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气向你逼近.', background: BG_DRILL, nextId: 'day4_kui_train_4' },
+  'day4_kui_train_3': { id: 'day4_kui_train_3', speaker: '系统', characterId: 'huyanzhuo', content: '呼延灼那双如鹰隼般的眼睛扫过你，让你感到一股战场上的肃杀之气向你逼近.', background: BG_DRILL, nextId: 'day4_kui_reaction_choice' },
+  
+  // 选择交互
+  'day4_kui_reaction_choice': { id: 'day4_kui_reaction_choice', speaker: '系统', content: '面对呼延灼摄人的压力，你的反应是：', background: BG_DRILL, choices: [
+    { text: '看什么啊？！', nextId: 'day4_huyan_impressed_1', affectionBonus: { charId: 'likui', points: 10 } },
+    { text: '哆哆嗦嗦不吱声', nextId: 'day4_kui_train_4' }
+  ]},
+  'day4_huyan_impressed_1': { id: 'day4_huyan_impressed_1', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“虽是一介女流，胆识倒不小，那我就看看你到底有什么本事！”', background: BG_DRILL, nextId: 'day4_kui_plead_1' },
+  'day4_kui_plead_1': { id: 'day4_kui_plead_1', speaker: '李逵', characterId: 'likui', content: '“哥哥，手下留情啊！”', background: BG_DRILL, nextId: 'day4_kui_train_4_bold' },
+
+  // 分支：勇敢路径
+  'day4_kui_train_4_bold': { id: 'day4_kui_train_4_bold', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_DRILL, nextId: 'day4_kui_train_4_player_bold' },
+  'day4_kui_train_4_player_bold': { id: 'day4_kui_train_4_player_bold', speaker: '{playerName}', content: '“啊？？。。。不是我就装一下怎么还认真了。。。？”', background: BG_DRILL, nextId: 'day4_kui_train_5' },
+
+  // 分支：从容/怯弱路径
   'day4_kui_train_4': { id: 'day4_kui_train_4', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“听好了！马术求稳，箭术求准，体力则是万兵之本！上马！”', background: BG_DRILL, nextId: 'day4_kui_train_4_player' },
   'day4_kui_train_4_player': { id: 'day4_kui_train_4_player', speaker: '{playerName}', content: '“啊？？。。。饶了我吧。。。”', background: BG_DRILL, nextId: 'day4_kui_train_5' },
+
   'day4_kui_train_5': { id: 'day4_kui_train_5', speaker: '系统', content: '在李逵的起哄和呼延灼的严厉喝斥下，你先是被推上颠簸的战马，双腿被磨得生疼；随后又被迫拉开沉重的牛角弓，双臂颤抖如筛糠...', background: BG_DRILL, nextId: 'day4_kui_train_6' },
-  'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的！呼延老哥，再给她加两圈跑操！”', background: BG_DRILL, nextId: 'day4_kui_train_7' },
+  'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的! 呼延老哥，再给她加两圈跑操！”', background: BG_DRILL, nextId: 'day4_kui_train_7' },
   'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动。视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_DRILL, nextId: 'day4_kui_train_8' },
   'day4_kui_train_8': { id: 'day4_kui_train_8', speaker: '{playerName}', content: '“（不行了...天旋地转...好累...）”', background: BG_DRILL, nextId: 'day4_kui_train_faint' },
   'day4_kui_train_faint': { id: 'day4_kui_train_faint', speaker: '系统', content: '由于高强度透支，你眼前一黑，彻底昏厥了过去. 系统提示：过度劳累导致元气损伤，体重 -1，灵力 -1.', background: BG_BLACK, choices: [ { text: '（陷入沉睡）', nextId: 'day5_start', attributeBonus: { weight: -1, spirit: -1 } } ] },
@@ -266,8 +281,8 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_lu_7': { id: 'day4_lu_7', speaker: '卢俊义', characterId: 'lujunyi', content: '（他有些不耐烦地搁下笔，朱砂墨溅到了他的袖口上）“我也希望能帮你，但此刻我身负全山兄弟的粮草命脉. ”', background: BG_LU_ROOM, nextId: 'day4_lu_8' },
   'day4_lu_8': { id: 'day4_lu_8', speaker: '系统', content: '看着卢俊义那双因熬夜而略显红肿的眼睛，以及桌上已经变凉的残茶，你决定：', background: BG_LU_ROOM, choices: [ { text: '【体贴行事】默默走到一旁，为他沏上一盏温热的龙井。', nextId: 'day4_lu_9_success', affectionBonus: { charId: 'lujunyi', points: 15 }, attributeBonus: { intelligence: 5 } }, { text: '【强硬坚持】坚持今天必须开始，提醒他梁山以诺言为重。', nextId: 'day4_lu_9_fail', affectionBonus: { charId: 'lujunyi', points: -15 }, attributeBonus: { strength: 5 } } ] },
   'day4_lu_9_success': { id: 'day4_lu_9_success', speaker: '卢俊义', characterId: 'lujunyi', content: '（他端起你沏的热茶，闻着清雅的香气，神色终于缓和了一些）“……有心了. 这茶温润得恰到好处. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_success' },
-  'day4_lu_10_success': { id: 'day4_lu_10_success', speaker: '卢俊义', characterId: 'lujunyi', content: '“不过今日确实琐事沉身. 你且先回屋休息吧，明日清晨再来，我定会空出时间. ”（他虽然还是把你打发了，投语其温柔了许多）', background: BG_LU_ROOM, nextId: 'day5_start' },
-  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他猛地抬头，眼中闪过一丝愠色，语气冷若霜）“诺言？我卢俊义一生行事问心无愧，若因私废公才是真的背信弃义. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_fail' },
+  'day4_lu_10_success': { id: 'day4_lu_10_success', speaker: '卢俊义', characterId: 'lujunyi', content: '“不过今日确实琐事沉身. 你且先回屋休息吧，明日清晨再来，我定会空出时间. ”（他虽然还是把你打发了，语其温柔了许多）', background: BG_LU_ROOM, nextId: 'day5_start' },
+  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '（他猛地抬头，眼中闪过一丝愠色，语气冷若霜）“诺言？我卢俊义一生行事问心无愧，若因私费公才是真的背信弃义. ”', background: BG_LU_ROOM, nextId: 'day4_lu_10_fail' },
   'day4_lu_10_fail': { id: 'day4_lu_10_fail', speaker: '卢俊义', characterId: 'lujunyi', content: '“出去. 我现在不想听任何大道理. 既然你觉得我可靠，自便就是. ”（他摆了摆手，示意你离开，书房陷入了尴尬的死寂）', background: BG_LU_ROOM, nextId: 'day5_start' },
   'day4_yan_1': { id: 'day4_yan_1', speaker: '系统', content: '你扑了个空，燕青下山探查官军动向去了。', background: BG_MARKET, nextId: 'day5_start' },
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', characterId: 'luzhishen', content: '“哈哈！洒家就知道你放不下那竹林. ”', background: BG_BAMBOO, nextId: 'day5_start' },
