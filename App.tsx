@@ -490,6 +490,9 @@ const App: React.FC = () => {
 
   const [hasSave, setHasSave] = useState<boolean>(false);
 
+  // 针对特定页面的加载与停顿控制
+  const [isWaitFinished, setIsWaitFinished] = useState(true);
+
   useEffect(() => {
     if (audioRef.current) {
       if (gameState !== GameState.START && !isMuted) {
@@ -545,11 +548,18 @@ const App: React.FC = () => {
 
   const handleStartNew = () => {
     setCurrentNodeId('start');
-    setCharacters(CHARACTERS);
+    // 确保角色数值恢复初始
+    setCharacters(CHARACTERS.map(c => ({ ...c, affection: 0, interactionCount: 0 })));
     setCurrentDay(1);
     setPlayerAttributes({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
     setChatHistory({});
     setGameState(GameState.STORY);
+    // 重置行动点、卜卦、历史和自动播放状态
+    setActionPoints(3);
+    setDivinationUsedToday(false);
+    setHistory([]);
+    setPlayerName('小文书');
+    setIsAutoPlay(false);
   };
 
   useEffect(() => {
@@ -586,6 +596,21 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentNodeId, playerName, currentNode.content]);
 
+  // 针对特定页面的“加载后停顿两秒”逻辑
+  useEffect(() => {
+    if (currentNodeId === 'day4_kui_drill_pan_start') {
+      setIsWaitFinished(false);
+      if (bgLoaded) {
+        const timer = setTimeout(() => {
+          setIsWaitFinished(true);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }
+    } else {
+      setIsWaitFinished(true);
+    }
+  }, [currentNodeId, bgLoaded]);
+
   // 吃馒头交互节点检测列表
   const STORYTELLING_NODES = [
     'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
@@ -594,7 +619,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let timer: number | undefined;
-    if (!isTyping && bgLoaded && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
+    // 自动播放条件：打字结束、背景加载完成、且特定页面的等待时间已过
+    if (!isTyping && bgLoaded && isWaitFinished && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
       // 特殊交互节点不执行自动播放逻辑
       if (currentNodeId === 'day4_kui_train_5') return;
       if (STORYTELLING_NODES.includes(currentNodeId)) return;
@@ -612,10 +638,13 @@ const App: React.FC = () => {
       }
     }
     return () => { if (timer) window.clearTimeout(timer); };
-  }, [isTyping, bgLoaded, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay, playerName]);
+  }, [isTyping, bgLoaded, isWaitFinished, currentNodeId, currentNode.nextId, currentNode.speaker, currentNode.choices, currentNode.isNameInput, gameState, isAutoPlay, playerName]);
 
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
+
+    // 强规则：在指定节点（你跟着铁牛来到校场的高台……），如果背景未加载完成或2秒等待未结束，拦截一切试图进入下一页的操作
+    if (currentNodeId === 'day4_kui_drill_pan_start' && (!bgLoaded || !isWaitFinished)) return;
     
     if (isTyping) { 
       setTypedContent((currentNode.content || "").replace(/{playerName}/g, playerName)); 
@@ -674,6 +703,13 @@ const App: React.FC = () => {
   };
 
   const handleChoice = (choice: Choice) => {
+    // 检测是否是跳转回起始点（重新开始）
+    if (choice.nextId === 'start') {
+      handleStartNew();
+      setShowChoices(false);
+      return;
+    }
+
     if (choice.affectionBonus) {
       setCharacters(prev => prev.map(c => 
         c.id === choice.affectionBonus?.charId ? { ...c, affection: c.affection + choice.affectionBonus!.points } : c
