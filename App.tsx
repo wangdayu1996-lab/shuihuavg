@@ -492,6 +492,7 @@ const App: React.FC = () => {
 
   // 针对特定页面的加载与停顿控制
   const [isWaitFinished, setIsWaitFinished] = useState(true);
+  const [faintPhase, setFaintPhase] = useState<'none' | 'stay' | 'anim'>('none');
 
   useEffect(() => {
     if (audioRef.current) {
@@ -596,7 +597,7 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentNodeId, playerName, currentNode.content]);
 
-  // 针对特定页面的“加载后停顿两秒”逻辑
+  // 针对特定页面的“加载后停顿”逻辑
   useEffect(() => {
     if (currentNodeId === 'day4_kui_drill_pan_start') {
       setIsWaitFinished(false);
@@ -606,7 +607,30 @@ const App: React.FC = () => {
         }, 2000);
         return () => clearTimeout(timer);
       }
+    } else if (currentNodeId === 'day4_kui_train_8') {
+      setIsWaitFinished(false);
+      setFaintPhase('stay');
+      if (bgLoaded) {
+        const stayTimer = setTimeout(() => {
+          setIsWaitFinished(true);
+          setHistory(prev => [...prev, currentNodeId]);
+          setCurrentNodeId('day4_kui_train_8_player');
+        }, 3000);
+        return () => clearTimeout(stayTimer);
+      }
+    } else if (currentNodeId === 'day4_kui_train_8_player') {
+      setIsWaitFinished(false);
+      setFaintPhase('anim');
+      if (bgLoaded) {
+        const animTimer = setTimeout(() => {
+          setIsWaitFinished(true);
+          setHistory(prev => [...prev, currentNodeId]);
+          setCurrentNodeId('day4_kui_train_faint');
+        }, 3000);
+        return () => clearTimeout(animTimer);
+      }
     } else {
+      setFaintPhase('none');
       setIsWaitFinished(true);
     }
   }, [currentNodeId, bgLoaded]);
@@ -614,7 +638,7 @@ const App: React.FC = () => {
   // 吃馒头交互节点检测列表
   const STORYTELLING_NODES = [
     'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
-    'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
+    'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
   ];
 
   useEffect(() => {
@@ -622,7 +646,7 @@ const App: React.FC = () => {
     // 自动播放条件：打字结束、背景加载完成、且特定页面的等待时间已过
     if (!isTyping && bgLoaded && isWaitFinished && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
       // 特殊交互节点不执行自动播放逻辑
-      if (currentNodeId === 'day4_kui_train_5') return;
+      if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') return;
       if (STORYTELLING_NODES.includes(currentNodeId)) return;
 
       if (isAutoPlay) {
@@ -643,8 +667,8 @@ const App: React.FC = () => {
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
 
-    // 强规则：在指定节点（你跟着铁牛来到校场的高台……），如果背景未加载完成或2秒等待未结束，拦截一切试图进入下一页的操作
-    if (currentNodeId === 'day4_kui_drill_pan_start' && (!bgLoaded || !isWaitFinished)) return;
+    // 强规则：在指定节点，拦截一切试图进入下一页的操作直到等待结束
+    if ((currentNodeId === 'day4_kui_drill_pan_start' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') && (!bgLoaded || !isWaitFinished)) return;
     
     if (isTyping) { 
       setTypedContent((currentNode.content || "").replace(/{playerName}/g, playerName)); 
@@ -784,7 +808,7 @@ const App: React.FC = () => {
     }
 
     const isFightNode = ['day3_kui_yiling_10', 'day3_kui_help_1', 'day3_kui_help_5', 'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5'].includes(currentNodeId);
-    const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_faint';
+    const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player' || currentNodeId === 'day4_kui_train_faint';
     
     const isScaleCG = displayBackground.includes('scalenew.jpg');
     const isHuyanPan = displayBackground.includes('%E5%91%BC%E5%BB%B6%E7%81%BC.jpg');
@@ -795,13 +819,13 @@ const App: React.FC = () => {
       displayBackground.includes('CG') ||
       displayBackground.includes('%E9%A6%92%E5%A4%B4') || 
       displayBackground.includes('%E8%92%B8%E7%AC%BC') || 
-      isScaleCG || isHuyanPan
+      isScaleCG || isHuyanPan || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player'
     );
 
     const isStorytellingNode = STORYTELLING_NODES.includes(currentNodeId);
 
     return (
-      <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode ? 'animate-shake' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_8' ? 'animate-faint-shake' : ''}`} onClick={handleNextDialogue}>
+      <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode || (faintPhase === 'anim') ? 'animate-shake' : ''}`} onClick={handleNextDialogue}>
         {saveTooltip && <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">笔墨已收，录入丹青</div>}
         
         {/* 点击引导字样 - 素雅风格 */}
@@ -844,8 +868,8 @@ const App: React.FC = () => {
             src={displayBackground} 
             onLoad={() => setBgLoaded(true)}
             className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
-              isFullBrightness && !isFaintSequence ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
-            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${isFaintSequence && currentNodeId === 'day4_kui_train_8' ? 'animate-eyes-closing' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
+              isFullBrightness && !isFaintSequence ? '!filter-none' : (isFullBrightness && isFaintSequence && currentNodeId !== 'day4_kui_train_faint' && faintPhase !== 'anim') ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
+            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
