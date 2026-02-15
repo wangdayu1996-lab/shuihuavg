@@ -102,7 +102,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_song_ask_detail': { id: 'hall_song_ask_detail', speaker: '宋江', content: '“公孙先生，且细说。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
   'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任不管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
-  'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
+  'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
   'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
   'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '卢俊义', characterId: 'lujunyi', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_lujunyi_ask_next' },
   'hall_lujunyi_ask_next': { id: 'hall_lujunyi_ask_next', speaker: '系统', content: '卢俊义看向公孙胜。', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
@@ -275,6 +275,11 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_train_archery_win_1': { id: 'day4_kui_train_archery_win_1', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！好样的！俺就说这Y头有灵性，这第一箭射得真是有模有样，没给俺丢脸！”', background: BG_DRILL, nextId: 'day4_kui_train_archery_win_2' },
   'day4_kui_train_archery_win_2': { id: 'day4_kui_train_archery_win_2', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“哼，不过是运气好罢了。战场上瞬息万变，敌人可不会站着不动让你射。既然第一关过了，那就加大点难度！如果你还能射中，我便教你百步穿杨的真意！”', background: BG_DRILL, nextId: 'day4_kui_train_archery_level2_trigger' },
   'day4_kui_train_archery_level2_trigger': { id: 'day4_kui_train_archery_level2_trigger', speaker: '系统', content: '呼延灼命人调整了箭靶的位置，虽然靶子看起来变小了一些，但周围的风似乎也静了。准备好迎接更高强度的挑战了吗？', background: BG_DRILL },
+
+  // --- 第三关过渡剧情 ---
+  'day4_kui_train_archery_win_2_success': { id: 'day4_kui_train_archery_win_2_success', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！痛快！俺铁牛带出来的兵，就是比这帮憨鸟强！两回都中了红心，呼延将军，这下你没话说了吧！”', background: BG_DRILL, nextId: 'day4_kui_train_archery_win_2_huyan' },
+  'day4_kui_train_archery_win_2_huyan': { id: 'day4_kui_train_archery_win_2_huyan', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“莫要得意得太早！战场之上，敌将可不会如死木般等你去射。最后的考验：远处将有三个移动靶横向疾驰，你需在十息（10秒）之内将其全部击落！若能做到，呼延灼便认你这份本事！”', background: BG_DRILL, nextId: 'day4_kui_train_archery_level3_trigger' },
+  'day4_kui_train_archery_level3_trigger': { id: 'day4_kui_train_archery_level3_trigger', speaker: '系统', content: '校场尽头，三个木制靶标开始飞速左右平移。你的呼吸变得急促，手指死死扣住弓弦。准星此刻由你的意志（鼠标）直接操控，务必在限时内全灭目标！', background: BG_DRILL },
 
   'day4_kui_train_6': { id: 'day4_kui_train_6', speaker: '李逵', characterId: 'likui', content: '“哈哈哈！用力！别像个小鸡崽子似的! 呼延老哥，再给她加两圈跑操！”', background: BG_DRILL, nextId: 'day4_kui_train_7' },
   'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动. 视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_DRILL, nextId: 'day4_kui_train_8' },

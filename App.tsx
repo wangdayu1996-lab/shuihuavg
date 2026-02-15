@@ -269,34 +269,83 @@ const ArcheryMinigame: React.FC<{
   onSuccess: (attempts: number) => void,
   onCancel: () => void
 }> = ({ level, onSuccess, onCancel }) => {
-  const [targetPos, setTargetPos] = useState({ x: 50, y: 50 });
-  const [crosshairPos, setTargetCrosshair] = useState({ x: 50, y: 50 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [targets, setTargets] = useState<{ id: number; x: number; y: number; hit: boolean; speed: number; dir: number }[]>([]);
+  const [crosshairPos, setCrosshairPos] = useState({ x: 50, y: 50 });
+  const [rawMousePos, setRawMousePos] = useState({ x: 50, y: 50 });
   const [isFiring, setIsFiring] = useState(false);
   const [result, setResult] = useState<'hit' | 'miss' | null>(null);
   const [failCount, setFailCount] = useState(0);
-
+  const [timeLeft, setTimeLeft] = useState(10);
   const [isFocusing, setIsFocusing] = useState(false);
-  const [focusTime, setFocusTime] = useState(0); 
+  const [focusTime, setFocusTime] = useState(0);
 
-  // 根据关卡决定难度和尺寸
-  // 第一关采用原来的放大比例（约2.2倍），第二关要求在原图（13rem）基础上放大1.8倍（即23.4rem）
-  const targetSizeRem = level === 1 ? 28.6 : 23.4; 
-  // 第一关抖动 39，第二关相应缩小抖动程度
-  const jitterMagnitude = level === 1 ? 39 : 15;
+  const baseSize = 13;
+  // 第一关2.2倍，第二关1.8倍，第三关2.2倍
+  const targetSizeRem = level === 1 ? baseSize * 2.2 : level === 2 ? baseSize * 1.8 : baseSize * 2.2;
+  // 第一关抖动39，第二关15，第三关13.5 (15*0.9)
+  const jitterMagnitude = level === 1 ? 39 : level === 2 ? 15 : 13.5;
 
+  // 初始化第三关靶子
   useEffect(() => {
-    const intervalTime = isFocusing ? 200 : 100;
+    if (level === 3) {
+      setTargets([
+        { id: 1, x: 20, y: 40, hit: false, speed: 0.5, dir: 1 },
+        { id: 2, x: 50, y: 50, hit: false, speed: 0.8, dir: -1 },
+        { id: 3, x: 80, y: 60, hit: false, speed: 0.6, dir: 1 }
+      ]);
+      setTimeLeft(10);
+    } else {
+      setTargets([{ id: 0, x: 50, y: 50, hit: false, speed: 0, dir: 0 }]);
+    }
+  }, [level]);
+
+  // 第三关计时器与移动逻辑
+  useEffect(() => {
+    if (level !== 3) return;
     
+    const moveInterval = setInterval(() => {
+      setTargets(prev => prev.map(t => {
+        if (t.hit) return t;
+        let nextX = t.x + t.speed * t.dir;
+        let nextDir = t.dir;
+        if (nextX > 90) { nextX = 90; nextDir = -1; }
+        if (nextX < 10) { nextX = 10; nextDir = 1; }
+        return { ...t, x: nextX, dir: nextDir };
+      }));
+    }, 20);
+
+    const timerInterval = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 0) {
+          clearInterval(timerInterval);
+          clearInterval(moveInterval);
+          onCancel(); // 超时失败
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(moveInterval);
+      clearInterval(timerInterval);
+    };
+  }, [level, onCancel]);
+
+  // 准星抖动逻辑
+  useEffect(() => {
+    const intervalTime = (level < 3 && isFocusing) ? 200 : 100;
     const interval = setInterval(() => {
       if (isFiring) return;
 
       let magnitude = jitterMagnitude;
-      if (isFocusing) {
+      if (level < 3 && isFocusing) {
         if (focusTime < 2500) {
-          magnitude = jitterMagnitude * 0.2; // 凝神时减少 80% 抖动
+          magnitude = jitterMagnitude * 0.2;
           setFocusTime(prev => prev + intervalTime);
         } else {
-          magnitude = jitterMagnitude; 
+          magnitude = jitterMagnitude;
         }
       }
 
@@ -304,81 +353,127 @@ const ArcheryMinigame: React.FC<{
       const offsetX = (Math.sin(t * 1.5) * 0.6 + Math.sin(t * 3.7) * 0.4) * (magnitude / 2);
       const offsetY = (Math.cos(t * 1.2) * 0.6 + Math.cos(t * 2.9) * 0.4) * (magnitude / 2);
 
-      setTargetCrosshair({
-        x: 50 + offsetX, 
-        y: 50 + offsetY  
+      const basePos = level === 3 ? rawMousePos : { x: 50, y: 50 };
+      setCrosshairPos({
+        x: basePos.x + offsetX,
+        y: basePos.y + offsetY
       });
     }, intervalTime);
     return () => clearInterval(interval);
-  }, [isFiring, isFocusing, focusTime, jitterMagnitude]);
+  }, [isFiring, isFocusing, focusTime, jitterMagnitude, level, rawMousePos]);
+
+  // 鼠标移动监听（第三关）
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (level !== 3 || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setRawMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100
+    });
+  };
 
   const handleShoot = () => {
     if (isFiring) return;
     setIsFiring(true);
-    
-    const dx = Math.abs(crosshairPos.x - targetPos.x);
-    const dy = Math.abs(crosshairPos.y - targetPos.y);
-    const distance = Math.sqrt(dx*dx + dy*dy);
 
-    if (distance < 1.5) { 
-      setResult('hit');
-      setTimeout(() => onSuccess(failCount + 1), 1500);
+    if (level === 3) {
+      // 第三关碰撞检测
+      let hitAny = false;
+      const newTargets = targets.map(t => {
+        if (t.hit) return t;
+        const dx = Math.abs(crosshairPos.x - t.x);
+        const dy = Math.abs(crosshairPos.y - t.y);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 2.5) { // 移动靶判定稍微宽松一点
+          hitAny = true;
+          return { ...t, hit: true };
+        }
+        return t;
+      });
+
+      if (hitAny) {
+        setResult('hit');
+        setTargets(newTargets);
+        if (newTargets.every(t => t.hit)) {
+          setTimeout(() => onSuccess(1), 1500);
+        } else {
+          setTimeout(() => { setIsFiring(false); setResult(null); }, 800);
+        }
+      } else {
+        setResult('miss');
+        setTimeout(() => { setIsFiring(false); setResult(null); }, 800);
+      }
     } else {
-      setResult('miss');
-      setFailCount(prev => prev + 1);
-      setTimeout(() => {
-        setIsFiring(false);
-        setResult(null);
-        setFocusTime(0); 
-      }, 1500);
+      // 第一、二关碰撞检测
+      const t = targets[0];
+      const dx = Math.abs(crosshairPos.x - t.x);
+      const dy = Math.abs(crosshairPos.y - t.y);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 1.5) {
+        setResult('hit');
+        setTimeout(() => onSuccess(failCount + 1), 1500);
+      } else {
+        setResult('miss');
+        setFailCount(prev => prev + 1);
+        setTimeout(() => {
+          setIsFiring(false);
+          setResult(null);
+          setFocusTime(0);
+        }, 1500);
+      }
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[500] bg-black/90 flex flex-col items-center justify-center overflow-hidden select-none">
+    <div className="fixed inset-0 z-[500] bg-black/90 flex flex-col items-center justify-center overflow-hidden select-none" onMouseMove={handleMouseMove}>
       <div className="absolute top-10 text-center space-y-2">
         <h2 className="text-4xl font-calligraphy text-yellow-500">校场挽弓：第 {level} 关</h2>
+        {level === 3 && <div className="text-6xl font-bold text-red-500 animate-pulse">余时：{timeLeft}s</div>}
       </div>
 
       <div 
+        ref={containerRef}
         className="relative w-[80vw] h-[60vh] bg-[#2a1a10]/50 border-4 border-yellow-900 rounded-3xl overflow-hidden cursor-crosshair"
-        onMouseDown={() => !isFiring && setIsFocusing(true)}
+        onMouseDown={() => {
+          if (level < 3) setIsFocusing(true);
+          else handleShoot();
+        }}
         onMouseUp={() => {
-          if (isFocusing) {
+          if (level < 3 && isFocusing) {
             handleShoot();
             setIsFocusing(false);
             setFocusTime(0);
           }
         }}
-        onMouseLeave={() => {
-          setIsFocusing(false);
-          setFocusTime(0);
-        }}
       >
         <div className="absolute inset-0 opacity-20 bg-[url('https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true')] bg-cover bg-center" />
 
-        <div 
-          className="absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
-          style={{ 
-            left: `${targetPos.x}%`, 
-            top: `${targetPos.y}%`,
-            width: `${targetSizeRem}rem`,
-            height: `${targetSizeRem}rem`
-          }}
-        >
-          <img 
-            src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%9D%B6%E5%AD%90.png?raw=true" 
-            className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(153,27,27,0.4)]" 
-            alt="target" 
-          />
-        </div>
+        {targets.map(t => (
+          <div 
+            key={t.id}
+            className={`absolute -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 ${t.hit ? 'opacity-0 scale-50' : 'opacity-100'}`}
+            style={{ 
+              left: `${t.x}%`, 
+              top: `${t.y}%`,
+              width: `${targetSizeRem}rem`,
+              height: `${targetSizeRem}rem`
+            }}
+          >
+            <img 
+              src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%9D%B6%E5%AD%90.png?raw=true" 
+              className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(153,27,27,0.4)]" 
+              alt="target" 
+            />
+          </div>
+        ))}
 
         <div 
           className={`absolute w-16 h-16 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all ${isFiring ? 'scale-75 opacity-50' : 'scale-100 opacity-100'}`}
           style={{ 
             left: `${crosshairPos.x}%`, 
             top: `${crosshairPos.y}%`,
-            transition: isFiring ? 'none' : `all ${isFocusing ? '0.2s' : '0.1s'} linear` 
+            transition: isFiring ? 'none' : `all 0.1s linear` 
           }}
         >
           <div className={`absolute inset-0 border-2 rounded-full transition-colors ${isFocusing && focusTime < 2500 ? 'border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'border-yellow-500'}`} />
@@ -386,7 +481,7 @@ const ArcheryMinigame: React.FC<{
           <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-yellow-500/50" />
         </div>
 
-        {result === 'hit' && (
+        {result === 'hit' && level !== 3 && (
           <div className="absolute inset-0 flex items-center justify-center bg-green-500/20 animate-fade-in">
             <div className="text-8xl font-calligraphy text-green-400 vn-text-shadow">正中靶心！</div>
           </div>
@@ -399,8 +494,10 @@ const ArcheryMinigame: React.FC<{
       </div>
 
       <div className="mt-10 flex flex-col items-center gap-4 text-center px-4">
-        <p className="text-gray-400 font-serif text-3xl leading-relaxed">长按鼠标可以“凝神”来抑制颤抖，“凝神”时长有限，请在失效前松开鼠标进行射击</p>
-        {failCount >= 10 && (
+        <p className="text-gray-400 font-serif text-3xl leading-relaxed">
+          {level === 3 ? "移动鼠标进行瞄准，点击左键射击！全灭目标即可过关！" : "长按鼠标可以“凝神”来抑制颤抖，“凝神”时长有限，请在失效前松开鼠标进行射击"}
+        </p>
+        {(failCount >= 10 || (level === 3 && timeLeft <= 0)) && (
           <button onClick={onCancel} className="text-yellow-900/50 hover:text-yellow-600 underline text-sm transition-colors mt-2">暂且退回</button>
         )}
       </div>
@@ -669,8 +766,7 @@ const App: React.FC = () => {
   useEffect(() => {
     let timer: number | undefined;
     if (!isTyping && bgLoaded && isWaitFinished && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
-      // 避免某些需要点击或自动跳转的节点被错误处理
-      if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_archery_level2_trigger' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') return;
+      if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_archery_level2_trigger' || currentNodeId === 'day4_kui_train_archery_level3_trigger' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') return;
       if (STORYTELLING_NODES.includes(currentNodeId)) return;
 
       if (isAutoPlay) {
@@ -696,7 +792,7 @@ const App: React.FC = () => {
       return; 
     }
 
-    if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_archery_level2_trigger') {
+    if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_archery_level2_trigger' || currentNodeId === 'day4_kui_train_archery_level3_trigger') {
       setGameState(GameState.ARCHERY_MINIGAME);
       return;
     }
@@ -808,17 +904,15 @@ const App: React.FC = () => {
             setGameState(GameState.STORY);
             setHistory(prev => [...prev, currentNodeId]);
             if (archeryLevel === 1) {
-                // 第一关结束后，进入夸赞和挑战剧情
-                setArcheryLevel(2);
-                setCurrentNodeId('day4_kui_train_archery_win_1');
+              setArcheryLevel(2);
+              setCurrentNodeId('day4_kui_train_archery_win_1');
+            } else if (archeryLevel === 2) {
+              setArcheryLevel(3);
+              setCurrentNodeId('day4_kui_train_archery_win_2_success');
             } else {
-                // 第二关结束后，进入原有的结算流程
-                if (attempts === 1) {
-                  setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 3 }));
-                } else {
-                  setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 1 }));
-                }
-                setCurrentNodeId('day4_kui_train_6');
+              // 第三关结算
+              setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 5 }));
+              setCurrentNodeId('day4_kui_train_6');
             }
           }}
           onCancel={() => {
