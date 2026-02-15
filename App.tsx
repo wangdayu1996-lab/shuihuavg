@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff, PlayerAttributes } from './types';
 import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS } from './constants';
@@ -281,18 +280,15 @@ const ArcheryMinigame: React.FC<{
   const [focusTime, setFocusTime] = useState(0);
 
   const baseSize = 13;
-  // 第一关2.2倍，第二关1.8倍，第三关2.2倍
   const targetSizeRem = level === 1 ? baseSize * 2.2 : level === 2 ? baseSize * 1.8 : baseSize * 2.2;
-  // 第一关抖动39，第二关15，第三关13.5 (15*0.9)
-  const jitterMagnitude = level === 1 ? 39 : level === 2 ? 15 : 13.5;
+  const jitterMagnitude = level === 1 ? 39 : 15;
 
-  // 初始化第三关靶子
   useEffect(() => {
     if (level === 3) {
       setTargets([
-        { id: 1, x: 20, y: 40, hit: false, speed: 0.5, dir: 1 },
-        { id: 2, x: 50, y: 50, hit: false, speed: 0.8, dir: -1 },
-        { id: 3, x: 80, y: 60, hit: false, speed: 0.6, dir: 1 }
+        { id: 1, x: 20, y: 40, hit: false, speed: 0.25, dir: 1 },
+        { id: 2, x: 50, y: 50, hit: false, speed: 0.4, dir: -1 },
+        { id: 3, x: 80, y: 60, hit: false, speed: 0.3, dir: 1 }
       ]);
       setTimeLeft(10);
     } else {
@@ -300,7 +296,6 @@ const ArcheryMinigame: React.FC<{
     }
   }, [level]);
 
-  // 第三关计时器与移动逻辑
   useEffect(() => {
     if (level !== 3) return;
     
@@ -320,7 +315,7 @@ const ArcheryMinigame: React.FC<{
         if (prev <= 0) {
           clearInterval(timerInterval);
           clearInterval(moveInterval);
-          onCancel(); // 超时失败
+          onCancel();
           return 0;
         }
         return prev - 1;
@@ -333,8 +328,14 @@ const ArcheryMinigame: React.FC<{
     };
   }, [level, onCancel]);
 
-  // 准星抖动逻辑
   useEffect(() => {
+    if (level === 3) {
+      const syncInterval = setInterval(() => {
+        setCrosshairPos(rawMousePos);
+      }, 16);
+      return () => clearInterval(syncInterval);
+    }
+
     const intervalTime = (level < 3 && isFocusing) ? 200 : 100;
     const interval = setInterval(() => {
       if (isFiring) return;
@@ -353,16 +354,14 @@ const ArcheryMinigame: React.FC<{
       const offsetX = (Math.sin(t * 1.5) * 0.6 + Math.sin(t * 3.7) * 0.4) * (magnitude / 2);
       const offsetY = (Math.cos(t * 1.2) * 0.6 + Math.cos(t * 2.9) * 0.4) * (magnitude / 2);
 
-      const basePos = level === 3 ? rawMousePos : { x: 50, y: 50 };
       setCrosshairPos({
-        x: basePos.x + offsetX,
-        y: basePos.y + offsetY
+        x: 50 + offsetX,
+        y: 50 + offsetY
       });
     }, intervalTime);
     return () => clearInterval(interval);
   }, [isFiring, isFocusing, focusTime, jitterMagnitude, level, rawMousePos]);
 
-  // 鼠标移动监听（第三关）
   const handleMouseMove = (e: React.MouseEvent) => {
     if (level !== 3 || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -377,14 +376,13 @@ const ArcheryMinigame: React.FC<{
     setIsFiring(true);
 
     if (level === 3) {
-      // 第三关碰撞检测
       let hitAny = false;
       const newTargets = targets.map(t => {
         if (t.hit) return t;
         const dx = Math.abs(crosshairPos.x - t.x);
         const dy = Math.abs(crosshairPos.y - t.y);
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 2.5) { // 移动靶判定稍微宽松一点
+        if (distance < 2.5) { 
           hitAny = true;
           return { ...t, hit: true };
         }
@@ -404,7 +402,6 @@ const ArcheryMinigame: React.FC<{
         setTimeout(() => { setIsFiring(false); setResult(null); }, 800);
       }
     } else {
-      // 第一、二关碰撞检测
       const t = targets[0];
       const dx = Math.abs(crosshairPos.x - t.x);
       const dy = Math.abs(crosshairPos.y - t.y);
@@ -473,7 +470,7 @@ const ArcheryMinigame: React.FC<{
           style={{ 
             left: `${crosshairPos.x}%`, 
             top: `${crosshairPos.y}%`,
-            transition: isFiring ? 'none' : `all 0.1s linear` 
+            transition: isFiring ? 'none' : (level === 3 ? 'none' : 'all 0.1s linear')
           }}
         >
           <div className={`absolute inset-0 border-2 rounded-full transition-colors ${isFocusing && focusTime < 2500 ? 'border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'border-yellow-500'}`} />
@@ -602,7 +599,6 @@ const App: React.FC = () => {
 
   const [hasSave, setHasSave] = useState<boolean>(false);
 
-  // 针对特定页面的加载与停顿控制
   const [isWaitFinished, setIsWaitFinished] = useState(true);
   const [faintPhase, setFaintPhase] = useState<'none' | 'stay' | 'anim'>('none');
 
@@ -661,13 +657,11 @@ const App: React.FC = () => {
 
   const handleStartNew = () => {
     setCurrentNodeId('start');
-    // 确保角色数值恢复初始
     setCharacters(CHARACTERS.map(c => ({ ...c, affection: 0, interactionCount: 0 })));
     setCurrentDay(1);
     setPlayerAttributes({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
     setChatHistory({});
     setGameState(GameState.STORY);
-    // 重置行动点、卜卦、历史和自动播放状态
     setActionPoints(3);
     setDivinationUsedToday(false);
     setHistory([]);
@@ -688,7 +682,6 @@ const App: React.FC = () => {
     }
   }, [currentNode.background]);
 
-  // 立绘显示逻辑
   const spriteToDisplay = (currentNode.speaker === '系统' || currentNodeId === 'day4_kui_drill_pan_start') 
     ? undefined 
     : (currentNode.characterId || (currentNode.speaker === '{playerName}' ? lastCharacterId : undefined));
@@ -910,9 +903,8 @@ const App: React.FC = () => {
               setArcheryLevel(3);
               setCurrentNodeId('day4_kui_train_archery_win_2_success');
             } else {
-              // 第三关结算
               setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 5 }));
-              setCurrentNodeId('day4_kui_train_6');
+              setCurrentNodeId('day4_kui_train_archery_all_win_player');
             }
           }}
           onCancel={() => {
