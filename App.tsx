@@ -350,14 +350,14 @@ const ArcheryMinigame: React.FC<{
         <div className="absolute inset-0 opacity-20 bg-[url('https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true')] bg-cover bg-center" />
 
         <div 
-          className="absolute w-52 h-52 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
+          className="absolute w-[28.6rem] h-[28.6rem] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
           style={{ left: `${targetPos.x}%`, top: `${targetPos.y}%` }}
         >
-          <div className="w-full h-full rounded-full border-4 border-white flex items-center justify-center bg-red-800 shadow-[0_0_40px_rgba(153,27,27,0.6)]">
-            <div className="w-32 h-32 rounded-full border-4 border-white flex items-center justify-center bg-white/20">
-              <div className="w-10 h-10 rounded-full bg-red-500 animate-pulse shadow-[0_0_20px_rgba(239,68,68,0.9)]" />
-            </div>
-          </div>
+          <img 
+            src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%9D%B6%E5%AD%90.png?raw=true" 
+            className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(153,27,27,0.4)]" 
+            alt="target" 
+          />
         </div>
 
         <div 
@@ -576,19 +576,15 @@ const App: React.FC = () => {
     }
   }, [currentNode.background]);
 
-  // 立绘显示逻辑：如果是系统提示或者特定排除节点，强制不显示立绘。
-  // 否则，优先显示当前节点指定的角色，若当前是玩家说话，则尝试继承上一页记录的角色立绘。
+  // 立绘显示逻辑
   const spriteToDisplay = (currentNode.speaker === '系统' || currentNodeId === 'day4_kui_drill_pan_start') 
     ? undefined 
     : (currentNode.characterId || (currentNode.speaker === '{playerName}' ? lastCharacterId : undefined));
 
   useEffect(() => {
     if (currentNode.characterId && currentNode.speaker !== '系统') {
-      // 只有在非系统节点有指定角色时，才更新最后一次立绘记忆
       setLastCharacterId(currentNode.characterId);
     } else if (currentNode.speaker === '系统' || (currentNode.speaker !== '{playerName}' && !currentNode.characterId) || currentNodeId === 'day4_kui_drill_pan_start') {
-      // 如果当前页是系统提示、或者是没有任何立绘的其他说话者、或者是特定排除节点，
-      // 则清除记忆，这会使得紧接着的玩家对话页不再显示立绘。
       setLastCharacterId(undefined);
     }
     setSpriteLoaded(false);
@@ -613,7 +609,6 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentNodeId, playerName, currentNode.content]);
 
-  // 针对特定页面的“加载后停顿”逻辑
   useEffect(() => {
     if (currentNodeId === 'day4_kui_drill_pan_start') {
       setIsWaitFinished(false);
@@ -651,24 +646,19 @@ const App: React.FC = () => {
     }
   }, [currentNodeId, bgLoaded]);
 
-  // 吃馒头交互节点检测列表
   const STORYTELLING_NODES = [
     'day3_kitchen_one_start', 'day3_kitchen_one_cg1_1', 'day3_kitchen_one_cg2_1', 'day3_kitchen_one_cg2_2', 'day3_kitchen_one_cg2_3',
-    'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
+    'day3_kitchen_ten_start', 'day3_kitchen_ten_4', 'day3_kitchen_ten_4_2', 'day3_kitchen_ten_4_3', 'day3_kitchen_ten_5', 'day3_kitchen_ten_5_2', 'day3_kitchen_ten_5_3', 'day3_kitchen_ten_6', 'day3_kitchen_ten_7', 'day3_kitchen_ten_8_1', 'day3_kitchen_ten_8_2', 'day3_kitchen_ten_8_3'
   ];
 
   useEffect(() => {
     let timer: number | undefined;
-    // 自动播放条件：打字结束、背景加载完成、且特定页面的等待时间已过
     if (!isTyping && bgLoaded && isWaitFinished && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
-      // 特殊交互节点不执行自动播放逻辑
       if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') return;
       if (STORYTELLING_NODES.includes(currentNodeId)) return;
 
       if (isAutoPlay) {
-        // 计算处理后的台词长度
         const processedContent = (currentNode.content || "").replace(/{playerName}/g, playerName);
-        // 如果字数大于78，则停顿20秒，否则维持原有逻辑（系统3秒，角色4秒）
         const delay = processedContent.length > 78 ? 20000 : (currentNode.speaker === '系统' ? 3000 : 4000);
 
         timer = window.setTimeout(() => {
@@ -682,8 +672,6 @@ const App: React.FC = () => {
 
   const handleNextDialogue = () => {
     if (currentNode.isNameInput) return;
-
-    // 强规则：在指定节点，拦截一切试图进入下一页的操作直到等待结束
     if ((currentNodeId === 'day4_kui_drill_pan_start' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') && (!bgLoaded || !isWaitFinished)) return;
     
     if (isTyping) { 
@@ -743,7 +731,6 @@ const App: React.FC = () => {
   };
 
   const handleChoice = (choice: Choice) => {
-    // 检测是否是跳转回起始点（重新开始）
     if (choice.nextId === 'start') {
       handleStartNew();
       setShowChoices(false);
@@ -803,7 +790,6 @@ const App: React.FC = () => {
           onSuccess={(attempts) => {
             setGameState(GameState.STORY);
             setHistory(prev => [...prev, currentNodeId]);
-            
             if (attempts === 1) {
               setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 3 }));
               setCurrentNodeId('day4_kui_train_archery_perfect');
@@ -844,7 +830,6 @@ const App: React.FC = () => {
       <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode || (faintPhase === 'anim') ? 'animate-shake' : ''}`} onClick={handleNextDialogue}>
         {saveTooltip && <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">笔墨已收，录入丹青</div>}
         
-        {/* 点击引导字样 - 素雅风格 */}
         {isStorytellingNode && (
           <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] pointer-events-none">
             <div className="bg-black/60 text-white px-10 py-3 rounded-full font-medium animate-shake text-xl border border-white/20 shadow-xl backdrop-blur-sm tracking-widest">
