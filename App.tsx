@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff, PlayerAttributes } from './types';
 import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS } from './constants';
@@ -264,9 +265,10 @@ const ChatWindow: React.FC<{
 
 // --- 子组件：射箭小游戏 ---
 const ArcheryMinigame: React.FC<{
+  level: number,
   onSuccess: (attempts: number) => void,
   onCancel: () => void
-}> = ({ onSuccess, onCancel }) => {
+}> = ({ level, onSuccess, onCancel }) => {
   const [targetPos, setTargetPos] = useState({ x: 50, y: 50 });
   const [crosshairPos, setTargetCrosshair] = useState({ x: 50, y: 50 });
   const [isFiring, setIsFiring] = useState(false);
@@ -276,19 +278,25 @@ const ArcheryMinigame: React.FC<{
   const [isFocusing, setIsFocusing] = useState(false);
   const [focusTime, setFocusTime] = useState(0); 
 
+  // 根据关卡决定难度和尺寸
+  // 第一关采用原来的放大比例（约2.2倍），第二关要求在原图（13rem）基础上放大1.8倍（即23.4rem）
+  const targetSizeRem = level === 1 ? 28.6 : 23.4; 
+  // 第一关抖动 39，第二关相应缩小抖动程度
+  const jitterMagnitude = level === 1 ? 39 : 15;
+
   useEffect(() => {
     const intervalTime = isFocusing ? 200 : 100;
     
     const interval = setInterval(() => {
       if (isFiring) return;
 
-      let magnitude = 39;
+      let magnitude = jitterMagnitude;
       if (isFocusing) {
         if (focusTime < 2500) {
-          magnitude = 7.8; 
+          magnitude = jitterMagnitude * 0.2; // 凝神时减少 80% 抖动
           setFocusTime(prev => prev + intervalTime);
         } else {
-          magnitude = 39; 
+          magnitude = jitterMagnitude; 
         }
       }
 
@@ -302,7 +310,7 @@ const ArcheryMinigame: React.FC<{
       });
     }, intervalTime);
     return () => clearInterval(interval);
-  }, [isFiring, isFocusing, focusTime]);
+  }, [isFiring, isFocusing, focusTime, jitterMagnitude]);
 
   const handleShoot = () => {
     if (isFiring) return;
@@ -329,7 +337,7 @@ const ArcheryMinigame: React.FC<{
   return (
     <div className="fixed inset-0 z-[500] bg-black/90 flex flex-col items-center justify-center overflow-hidden select-none">
       <div className="absolute top-10 text-center space-y-2">
-        <h2 className="text-4xl font-calligraphy text-yellow-500">校场挽弓：精准一射</h2>
+        <h2 className="text-4xl font-calligraphy text-yellow-500">校场挽弓：第 {level} 关</h2>
       </div>
 
       <div 
@@ -350,8 +358,13 @@ const ArcheryMinigame: React.FC<{
         <div className="absolute inset-0 opacity-20 bg-[url('https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true')] bg-cover bg-center" />
 
         <div 
-          className="absolute w-[28.6rem] h-[28.6rem] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
-          style={{ left: `${targetPos.x}%`, top: `${targetPos.y}%` }}
+          className="absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
+          style={{ 
+            left: `${targetPos.x}%`, 
+            top: `${targetPos.y}%`,
+            width: `${targetSizeRem}rem`,
+            height: `${targetSizeRem}rem`
+          }}
         >
           <img 
             src="https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%9D%B6%E5%AD%90.png?raw=true" 
@@ -470,6 +483,7 @@ const App: React.FC = () => {
   const [actionPoints, setActionPoints] = useState(3);
   const [divinationUsedToday, setDivinationUsedToday] = useState(false);
   const [lastCharacterId, setLastCharacterId] = useState<string | undefined>();
+  const [archeryLevel, setArcheryLevel] = useState(1);
 
   const [isChatWindowOpen, setIsChatWindowOpen] = useState<boolean>(false);
   const [selectedCharForChat, setSelectedCharForChat] = useState<Character | null>(null);
@@ -563,6 +577,7 @@ const App: React.FC = () => {
     setPlayerName('小文书');
     setIsAutoPlay(false);
     setLastCharacterId(undefined);
+    setArcheryLevel(1);
   };
 
   useEffect(() => {
@@ -654,7 +669,8 @@ const App: React.FC = () => {
   useEffect(() => {
     let timer: number | undefined;
     if (!isTyping && bgLoaded && isWaitFinished && gameState === GameState.STORY && !currentNode.choices && !currentNode.isNameInput && currentNode.nextId) {
-      if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') return;
+      // 避免某些需要点击或自动跳转的节点被错误处理
+      if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_archery_level2_trigger' || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player') return;
       if (STORYTELLING_NODES.includes(currentNodeId)) return;
 
       if (isAutoPlay) {
@@ -680,7 +696,7 @@ const App: React.FC = () => {
       return; 
     }
 
-    if (currentNodeId === 'day4_kui_train_5') {
+    if (currentNodeId === 'day4_kui_train_5' || currentNodeId === 'day4_kui_train_archery_level2_trigger') {
       setGameState(GameState.ARCHERY_MINIGAME);
       return;
     }
@@ -787,17 +803,22 @@ const App: React.FC = () => {
     if (gameState === GameState.ARCHERY_MINIGAME) {
       return (
         <ArcheryMinigame 
+          level={archeryLevel}
           onSuccess={(attempts) => {
             setGameState(GameState.STORY);
             setHistory(prev => [...prev, currentNodeId]);
-            if (attempts === 1) {
-              setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 3 }));
-              setCurrentNodeId('day4_kui_train_archery_perfect');
-            } else if (attempts < 5) {
-              setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 1 }));
-              setCurrentNodeId('day4_kui_train_6');
+            if (archeryLevel === 1) {
+                // 第一关结束后，进入夸赞和挑战剧情
+                setArcheryLevel(2);
+                setCurrentNodeId('day4_kui_train_archery_win_1');
             } else {
-              setCurrentNodeId('day4_kui_train_6');
+                // 第二关结束后，进入原有的结算流程
+                if (attempts === 1) {
+                  setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 3 }));
+                } else {
+                  setPlayerAttributes(prev => ({ ...prev, strength: prev.strength + 1 }));
+                }
+                setCurrentNodeId('day4_kui_train_6');
             }
           }}
           onCancel={() => {
