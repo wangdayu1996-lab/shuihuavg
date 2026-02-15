@@ -10,7 +10,7 @@ const AttributesModal: React.FC<{
 }> = ({ attrs, onClose }) => {
   return (
     <div className="fixed inset-0 z-[400] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6" onClick={onClose}>
-      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-w-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#1a110a] border-2 border-yellow-700/50 w-full max-md rounded-2xl p-8 shadow-2xl animate-fade-up" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-8 border-b border-yellow-900/30 pb-4">
           <h2 className="text-3xl font-calligraphy text-yellow-500">文书手札</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-white">✕</button>
@@ -469,6 +469,7 @@ const App: React.FC = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const [actionPoints, setActionPoints] = useState(3);
   const [divinationUsedToday, setDivinationUsedToday] = useState(false);
+  const [lastCharacterId, setLastCharacterId] = useState<string | undefined>();
 
   const [isChatWindowOpen, setIsChatWindowOpen] = useState<boolean>(false);
   const [selectedCharForChat, setSelectedCharForChat] = useState<Character | null>(null);
@@ -561,6 +562,7 @@ const App: React.FC = () => {
     setHistory([]);
     setPlayerName('小文书');
     setIsAutoPlay(false);
+    setLastCharacterId(undefined);
   };
 
   useEffect(() => {
@@ -574,9 +576,23 @@ const App: React.FC = () => {
     }
   }, [currentNode.background]);
 
+  // 立绘显示逻辑：如果是系统提示或者特定排除节点，强制不显示立绘。
+  // 否则，优先显示当前节点指定的角色，若当前是玩家说话，则尝试继承上一页记录的角色立绘。
+  const spriteToDisplay = (currentNode.speaker === '系统' || currentNodeId === 'day4_kui_drill_pan_start') 
+    ? undefined 
+    : (currentNode.characterId || (currentNode.speaker === '{playerName}' ? lastCharacterId : undefined));
+
   useEffect(() => {
+    if (currentNode.characterId && currentNode.speaker !== '系统') {
+      // 只有在非系统节点有指定角色时，才更新最后一次立绘记忆
+      setLastCharacterId(currentNode.characterId);
+    } else if (currentNode.speaker === '系统' || (currentNode.speaker !== '{playerName}' && !currentNode.characterId) || currentNodeId === 'day4_kui_drill_pan_start') {
+      // 如果当前页是系统提示、或者是没有任何立绘的其他说话者、或者是特定排除节点，
+      // 则清除记忆，这会使得紧接着的玩家对话页不再显示立绘。
+      setLastCharacterId(undefined);
+    }
     setSpriteLoaded(false);
-  }, [currentNode.characterId]);
+  }, [currentNodeId, currentNode.characterId, currentNode.speaker]);
 
   useEffect(() => {
     setTypedContent('');
@@ -874,13 +890,13 @@ const App: React.FC = () => {
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
-        {currentNode.characterId && !isFaintSequence && (
+        {spriteToDisplay && !isFaintSequence && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
-              key={currentNode.characterId}
-              src={characters.find(c => c.id === currentNode.characterId)?.sprite} 
+              key={spriteToDisplay}
+              src={characters.find(c => c.id === spriteToDisplay)?.sprite} 
               onLoad={() => setSpriteLoaded(true)}
-              className={`w-auto animate-fade-up object-contain origin-bottom transition-opacity duration-1000 ${spriteLoaded ? 'opacity-100' : 'opacity-0'} ${['lujunyi', 'yanqing', 'luzhishen'].includes(currentNode.characterId) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
+              className={`w-auto animate-fade-up object-contain origin-bottom transition-opacity duration-1000 ${spriteLoaded ? 'opacity-100' : 'opacity-0'} ${['lujunyi', 'yanqing', 'luzhishen'].includes(spriteToDisplay) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
               alt="portrait" 
             />
           </div>
@@ -895,7 +911,7 @@ const App: React.FC = () => {
         ) : (
           <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-5xl bg-black/90 border-2 border-yellow-900/50 p-10 z-20 rounded-2xl ${currentNode.isNameInput ? '' : 'cursor-pointer hover:border-yellow-600'}`}>
             {!currentNode.isNameInput && (<><button onClick={(e) => { e.stopPropagation(); setIsAutoPlay(!isAutoPlay); }} className={`absolute top-4 right-6 px-3 py-1 rounded-lg text-xs font-bold transition-all border ${isAutoPlay ? 'bg-yellow-600 text-white border-yellow-400' : 'bg-black/40 text-yellow-800 border-yellow-900/50'}`}>{isAutoPlay ? '手动播放' : '自动播放'}</button><button onClick={(e) => { e.stopPropagation(); handleBack(e); }} disabled={history.length === 0 && !isAutoPlay} className={`absolute bottom-4 left-6 px-4 py-1 rounded-lg text-xs font-bold transition-all border ${history.length === 0 && !isAutoPlay ? 'opacity-20 bg-black/40 text-gray-500 border-gray-900 pointer-events-none' : 'bg-black/40 text-yellow-800 border-yellow-900/50 hover:border-yellow-600 hover:text-yellow-600'}`}>◀ 后退</button></>)}
-            <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-calligraphy">{currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}</div>
+            <div className="absolute -top-6 left-12 px-10 py-2 bg-[#2a1a10] border-2 border-yellow-600 text-yellow-500 font-bold text-2xl font-sans">{currentNode.speaker === '{playerName}' ? playerName : (currentNode.speaker || '梁山秘史')}</div>
             <div className="text-xl md:text-3xl leading-[1.7] text-gray-200 min-h-[6rem] font-serif pt-4 whitespace-pre-wrap tracking-wide">
               {typedContent}
               {currentNode.isNameInput && (<div className="mt-8 flex gap-4 animate-fade-in"><input autoFocus value={tempName} onChange={e => { e.stopPropagation(); setPlayerNameTemp(e.target.value); }} onClick={e => e.stopPropagation()} onKeyDown={e => { e.stopPropagation(); e.key === 'Enter' && handleNameSubmit(); }} placeholder="请输入你的名号..." className="flex-1 bg-transparent border-b-2 border-yellow-800 text-yellow-500 p-2 outline-none text-2xl" /><button onClick={(e) => { e.stopPropagation(); handleNameSubmit(); }} className="px-8 py-2 bg-yellow-800 text-white rounded-lg font-bold hover:bg-yellow-700 transition-colors">确定</button></div>)}
