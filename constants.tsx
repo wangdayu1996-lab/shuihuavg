@@ -273,14 +273,14 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_train_archery_all_win_player': { id: 'day4_kui_train_archery_all_win_player', speaker: '{playerName}', content: '你放下长弓，潇洒地擦了擦额头的细汗，回头看向呼延灼，语气不屑：“呼延将军，这也太简单了吧？这就是名将之后设计的‘最高难度’？我甚至还没用力呢。”', background: BG_DRILL, nextId: 'day4_kui_train_archery_all_win_kui' },
   'day4_kui_train_archery_all_win_kui': { id: 'day4_kui_train_archery_all_win_kui', speaker: '李逵', characterId: 'likui', content: '“哇哈哈！痛快！太给俺铁牛长脸了！呼延老哥，瞧见没？这丫头动动手指，你那些个靶子就全碎了！我看你这双鞭大将军的名头，不如让给咱们小文书当当？”', background: BG_DRILL, nextId: 'day4_kui_train_archery_all_win_huyan' },
   'day4_kui_train_archery_all_win_huyan': { id: 'day4_kui_train_archery_all_win_huyan', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“（被堵得老脸一红，恼羞成怒）胡闹！这只是基本功！既然这点难度难不倒你，那便再上一层！来人！把箭靶挂在飞奔的劣马尾巴上，再给这位异人蒙上双眼，让她听声辨位射个倒挂金钩……”', background: BG_DRILL, nextId: 'day4_kui_train_archery_all_win_kui_stop' },
-  'day4_kui_train_archery_all_win_kui_stop': { id: 'day4_kui_train_archery_all_win_kui_stop', speaker: '李逵', characterId: 'likui', content: '“（赶紧一把捂住呼延灼的嘴）去去去！老哥哥你疯魔了不成！她只是个写文书的，又不是那能上天入地的公孙先生！再练下去，俺的小文书就要被你练成烤家雀了！走走走，小文书，别理这憨鸟，俺带你加练‘极致跑操’去！”', background: BG_DRILL, nextId: 'day4_player_resistance_1' },
+  'day4_kui_train_archery_all_win_kui_stop': { id: 'day4_kui_train_archery_all_win_kui_stop', speaker: '李逵', characterId: 'likui', content: '“（赶紧一把捂住呼延灼的嘴）去去去！老哥哥你疯魔了不成！她只是个写文书的，又不是那能上天入地的公孙先生！走走走，小文书，别理这憨鸟，俺带你加练‘极致跑操’去！”', background: BG_DRILL, nextId: 'day4_player_resistance_1' },
 
   // --- 反抗与昏迷剧情链 ---
-  'day4_player_resistance_1': { id: 'day4_player_resistance_1', speaker: '{playerName}', content: '“等等……极致跑操？！不，我不去！李铁牛你放手！我是文书，不是牲口！我抗议，我要去公明哥哥那里投诉你暴力教学！”你发疯似的挣扎，试图逃离这个魔鬼训练场。', background: BG_DRILL, nextId: 'day4_player_resistance_2' },
+  'day4_player_resistance_1': { id: 'day4_player_resistance_1', speaker: '{playerName}', content: '“等等……极致跑操？！不，我不去！我是文书，不是牲口！”你发疯似的挣扎，试图逃离这个魔鬼训练场。', background: BG_DRILL, nextId: 'day4_player_resistance_2' },
   'day4_player_resistance_2': { id: 'day4_player_resistance_2', speaker: '李逵', characterId: 'likui', content: '“嘿！这丫头刚才赢靶子的那股子狂劲儿哪去了？俺这是为了磨砺你的筋骨，走你！”说罢，他像拎麻袋一样把你再次扛了起来，根本不理会你的拳打脚踢，大步流星地奔向跑道。', background: BG_DRILL, nextId: 'day4_player_resistance_3' },
   'day4_player_resistance_3': { id: 'day4_player_resistance_3', speaker: '系统', content: '你在李逵厚实的肩膀上徒劳地挣扎着，视线随着他的步伐剧烈晃动。原本清朗的天空开始出现重影，胃里更是一阵翻江倒海，夕阳的余辉在你模糊的视野中拉成了一道道扭曲的金色虚影。', background: BG_DRILL, nextId: 'day4_kui_train_7' },
 
-  'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '太阳底下，你拖着灌了铅的双腿机械地挪动. 视线开始模糊，耳边的喧嚣渐渐远去...', background: BG_DRILL, nextId: 'day4_kui_train_8' },
+  'day4_kui_train_7': { id: 'day4_kui_train_7', speaker: '系统', content: '慢慢的，你逐渐感觉视线开始模糊，耳边的喧嚣渐渐远去..', background: BG_DRILL, nextId: 'day4_kui_train_8' },
   'day4_kui_train_8': { id: 'day4_kui_train_8', speaker: '李逵', content: '“小文书，你怎么了？！”', background: BG_FAINT_CG, nextId: 'day4_kui_train_8_player' },
   'day4_kui_train_8_player': { id: 'day4_kui_train_8_player', speaker: '{playerName}', content: '“不行了。。。好累。。。”', background: BG_FAINT_CG, nextId: 'day4_kui_train_faint' },
   'day4_kui_train_faint': { id: 'day4_kui_train_faint', speaker: '系统', content: '由于高强度透支，你眼前一黑，彻底昏厥了过去. 系统提示：过度劳累导致元气损伤，体重 -1，灵力 -1.', background: BG_BLACK, choices: [ { text: '（陷入沉睡）', nextId: 'day5_start', attributeBonus: { weight: -1, spirit: -1 } } ] },
