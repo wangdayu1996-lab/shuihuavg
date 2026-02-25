@@ -494,9 +494,17 @@ const ArcheryMinigame: React.FC<{
         <p className="text-gray-400 font-serif text-3xl leading-relaxed">
           {level === 3 ? "移动鼠标进行瞄准，点击左键射击！全灭目标即可过关！" : "长按鼠标可以“凝神”来抑制颤抖，“凝神”时长有限，请在失效前松开鼠标进行射击"}
         </p>
-        {(failCount >= 10 || (level === 3 && timeLeft <= 0)) && (
-          <button onClick={onCancel} className="text-yellow-900/50 hover:text-yellow-600 underline text-sm transition-colors mt-2">暂且退回</button>
-        )}
+        <div className="flex items-center gap-6">
+          <button 
+            onClick={() => onSuccess(1)} 
+            className="px-6 py-2 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-500 font-calligraphy text-xl rounded-lg border border-yellow-700/50 transition-all hover:scale-105"
+          >
+            跳过此关
+          </button>
+          {(failCount >= 10 || (level === 3 && timeLeft <= 0)) && (
+            <button onClick={onCancel} className="text-yellow-900/50 hover:text-yellow-600 underline text-sm transition-colors">暂且退回</button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -585,6 +593,8 @@ const App: React.FC = () => {
   const [isAiResponding, setIsAiResponding] = useState<boolean>(false);
 
   const [showDivination, setShowDivination] = useState(false);
+  const [isDivinationUnlocked, setIsDivinationUnlocked] = useState(false);
+  const [isStrollUnlocked, setIsStrollUnlocked] = useState(false);
 
   // 音频控制
   const [isMuted, setIsMuted] = useState(false);
@@ -632,6 +642,8 @@ const App: React.FC = () => {
     localStorage.setItem('shuihu_chat', JSON.stringify(chatHistory));
     localStorage.setItem('shuihu_player_name', playerName);
     localStorage.setItem('shuihu_attrs', JSON.stringify(playerAttributes));
+    localStorage.setItem('shuihu_divination_unlocked', isDivinationUnlocked.toString());
+    localStorage.setItem('shuihu_stroll_unlocked', isStrollUnlocked.toString());
     setSaveTooltip(true);
     setHasSave(true);
     setTimeout(() => setSaveTooltip(false), 2000);
@@ -644,6 +656,8 @@ const App: React.FC = () => {
     const savedChat = localStorage.getItem('shuihu_chat');
     const savedName = localStorage.getItem('shuihu_player_name');
     const savedAttrs = localStorage.getItem('shuihu_attrs');
+    const savedDivinationUnlocked = localStorage.getItem('shuihu_divination_unlocked');
+    const savedStrollUnlocked = localStorage.getItem('shuihu_stroll_unlocked');
 
     if (savedChars) setCharacters(JSON.parse(savedChars));
     if (savedDay) setCurrentDay(Number(savedDay));
@@ -651,12 +665,16 @@ const App: React.FC = () => {
     if (savedChat) setChatHistory(JSON.parse(savedChat));
     if (savedName) setPlayerName(savedName);
     if (savedAttrs) setPlayerAttributes(JSON.parse(savedAttrs));
+    if (savedDivinationUnlocked) setIsDivinationUnlocked(savedDivinationUnlocked === 'true');
+    if (savedStrollUnlocked) setIsStrollUnlocked(savedStrollUnlocked === 'true');
     
     setGameState(GameState.STORY);
   };
 
   const handleStartNew = () => {
     setCurrentNodeId('start');
+    setIsDivinationUnlocked(false);
+    setIsStrollUnlocked(false);
     setCharacters(CHARACTERS.map(c => ({ ...c, affection: 0, interactionCount: 0 })));
     setCurrentDay(1);
     setPlayerAttributes({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
@@ -795,6 +813,12 @@ const App: React.FC = () => {
       return; 
     }
     if (currentNode.nextId && !currentNode.choices) {
+      if (currentNodeId === 'day5_gongsun_invite') {
+        setIsDivinationUnlocked(true);
+      }
+      if (currentNodeId === 'day5_marsh_unlock') {
+        setIsStrollUnlocked(true);
+      }
       setHistory(prev => [...prev, currentNodeId]);
       setCurrentNodeId(currentNode.nextId);
     }
@@ -838,6 +862,16 @@ const App: React.FC = () => {
   const handleChoice = (choice: Choice) => {
     if (choice.nextId === 'start') {
       handleStartNew();
+      setShowChoices(false);
+      return;
+    }
+    if (choice.nextId === 'back') {
+      if (history.length > 0) {
+        const newHistory = [...history];
+        const lastNodeId = newHistory.pop();
+        setHistory(newHistory);
+        setCurrentNodeId(lastNodeId!);
+      }
       setShowChoices(false);
       return;
     }
@@ -928,7 +962,7 @@ const App: React.FC = () => {
       displayBackground.includes('CG') ||
       displayBackground.includes('%E9%A6%92%E5%A4%B4') || 
       displayBackground.includes('%E8%92%B8%E7%AC%BC') || 
-      isScaleCG || isHuyanPan || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player'
+      isScaleCG || isHuyanPan || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player' || currentNodeId === 'day5_start'
     );
 
     const isStorytellingNode = STORYTELLING_NODES.includes(currentNodeId);
@@ -970,6 +1004,21 @@ const App: React.FC = () => {
             <button onClick={(e) => { e.stopPropagation(); handlePassDay(); }} className="px-6 py-2 bg-yellow-800 text-white rounded-full text-sm font-bold">渡过此日</button>
           </div>
         </div>
+
+        {isStrollUnlocked && (
+          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-4">
+            <button 
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                setHistory(prev => [...prev, currentNodeId]);
+                setCurrentNodeId('stroll_marsh_start'); 
+              }} 
+              className="w-16 h-40 bg-blue-900/60 backdrop-blur-md border-2 border-blue-400/50 text-blue-100 rounded-full flex items-center justify-center hover:bg-blue-800 transition-all shadow-2xl group"
+            >
+              <span className="vertical-text font-calligraphy text-2xl tracking-widest group-hover:scale-110 transition-transform">闲逛水泊</span>
+            </button>
+          </div>
+        )}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
             key={displayBackground}
@@ -977,7 +1026,7 @@ const App: React.FC = () => {
             onLoad={() => setBgLoaded(true)}
             className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
               isFullBrightness && !isFaintSequence ? '!filter-none' : (isFullBrightness && isFaintSequence && currentNodeId !== 'day4_kui_train_faint' && faintPhase !== 'anim') ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
-            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
+            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${currentNodeId === 'day5_start' ? 'animate-eyes-opening' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
@@ -1011,7 +1060,7 @@ const App: React.FC = () => {
             {!currentNode.isNameInput && (<div className="absolute bottom-4 right-6 text-[11px] text-yellow-900/80 animate-pulse tracking-[0.3em] font-bold uppercase">{isTyping ? '笔墨游走中...' : (currentNode.choices ? '▼ 查看抉择' : (isAutoPlay ? '⌛ 自动运行' : '▼ 继续剧幕'))}</div>)}
           </div>
         )}
-        {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} isLocked={gameState === GameState.STORY} />}
+        {showDivination && <DivinationModal used={divinationUsedToday} onClose={() => setShowDivination(false)} onDraw={(b) => {setDivinationUsedToday(true);}} isLocked={!isDivinationUnlocked} />}
         {showAttrs && <AttributesModal attrs={playerAttributes} onClose={() => setShowAttrs(false)} />}
         {isChatWindowOpen && selectedCharForChat && (<ChatWindow characters={romanceableCharacters} activeChar={selectedCharForChat} onSelectChar={setSelectedCharForChat} playerName={playerName} messages={chatHistory[selectedCharForChat.id] || []} onSend={handleSendMessage} onClose={() => setIsChatWindowOpen(false)} isResponding={isAiResponding} />)}
       </div>

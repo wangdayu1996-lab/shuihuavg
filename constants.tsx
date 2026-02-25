@@ -23,6 +23,7 @@ const BG_MARKET = "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?
 const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B1%8B%E5%86%85.png?raw=true";
 const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
 const BG_LU_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
+const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%B0%B4%E6%B3%8A.png?raw=true";
 const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
 const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1.png?raw=true";
@@ -106,14 +107,19 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“且慢！动不得，万万动不得！……哥哥，快叫校尉退下！此子非凡间之人！贫道方才观星，见天狗食月，星宿移位，一道异芒坠于后山……竟应在此处！”', background: BG_CAMP, nextId: 'hall_song_scene_desc' },
   'hall_song_scene_desc': { id: 'hall_song_scene_desc', speaker: '系统', content: '只见一位道人疾步入厅。厅中一阵骚动。宋江抬手示意众人安静。', background: BG_CAMP, nextId: 'hall_song_ask_detail' },
   'hall_song_ask_detail': { id: 'hall_song_ask_detail', speaker: '宋江', content: '“公孙先生，且细说。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
-  'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中冲撞不休。若放任管……一则，此子百日之内，必魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，气运衰败，性命堪忧！”', background: BG_CAMP, nextId: 'hall_kui_comment' },
+  'hall_gongsun_reveal': { id: 'hall_gongsun_reveal', speaker: '公孙胜', content: '“此子魂魄之中，竟蕴含着极其浓郁的天罡地煞之气！此乃我梁山一百单八将之本命星力。如今星力无主，在其魂中如怒涛般冲撞不休。若放任不管……一则，此子肉身凡胎，百日之内必被星力撑爆，魂飞魄散；二则，星力暴走，恐会反噬我梁山诸位兄弟的本命星，致使气运衰败，性命堪忧！”', background: BG_CAMP, choices: [
+    { text: '我就跟你们说了我不是一般人！', nextId: 'hall_kui_comment' },
+    { text: '啊？？我吗....?', nextId: 'hall_kui_comment' }
+  ]},
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
   'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇，正想劝哥哥莫要急着赶人。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
   'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
   'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '卢俊义', characterId: 'lujunyi', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_lujunyi_ask_next' },
   'hall_lujunyi_ask_next': { id: 'hall_lujunyi_ask_next', speaker: '系统', content: '卢俊义看向公孙胜。', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
-  'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》残卷。此乃记载我梁山兄弟天命轨迹之正册，可引动诸位兄弟的本命星力，与此子魂中暴气共鸣调和，方能导其归正，两全其美。”', background: BG_CAMP, nextId: 'hall_song_command' },
-  'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基. 小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果. 我梁山泊替天行道，讲的是一个‘义’字. 今日，这桩事，宋江管了. 卢俊义、燕青、鲁智深、李逵四位兄弟听令！命你四人，协同这位小友，寻访《水浒秘籍》四卷残篇. 山寨资源，任尔调用. 务必在百日之内，功成而返！”', background: BG_CAMP, nextId: 'hall_song_welcome' },
+  'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》四卷残章。此书乃是上应天命、下契地脉的奇书，记载着一百单八将的真元轨迹。你身为异界之人，魂魄如无根浮萍，唯有集齐这四卷残章，借其中蕴含的‘四象星元’之力，方能构筑起跨越虚空的‘星桥’。若无此桥，纵使你有通天之能，也无法穿透这重重位面，寻回故土。”', background: BG_CAMP, nextId: 'hall_player_ask_home' },
+  'hall_player_ask_home': { id: 'hall_player_ask_home', speaker: '{playerName}', content: '“公孙先生，如果我真的集齐了那四卷残章，是不是就一定能回到我原来的世界？”你紧紧盯着公孙胜，声音中带着一丝颤抖和希冀。', background: BG_CAMP, nextId: 'hall_gongsun_uncertain' },
+  'hall_gongsun_uncertain': { id: 'hall_gongsun_uncertain', speaker: '公孙胜', content: '公孙胜沉默了片刻，轻轻摇了摇头：“天机变幻莫测，贫道亦不敢断言。集齐残章只是给了你一个‘可能’，至于最终能否功成……唯有尽人事，听天命。但若不试这一试，你便连这万分之一的机会也将失去。”', background: BG_CAMP, nextId: 'hall_song_command' },
+  'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基. 小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果. 我梁山泊替天行道，讲的是一个‘义’字. 今日，这桩事，宋江管了。”', background: BG_CAMP, nextId: 'hall_song_welcome' },
   'hall_song_welcome': { id: 'hall_song_welcome', speaker: '宋江', content: '“{playerName}小友，从今日起，梁山便是你暂时安身之所. 望你与我等兄弟，同心协力，共渡此劫.”', background: BG_CAMP, choices: [
     { text: '为了活命，我愿意留在梁山！', nextId: 'hall_player_sigh' }
   ]},
@@ -293,5 +299,28 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', content: '“出去！”', background: BG_LU_ROOM, nextId: 'day5_start' },
   'day4_yan_1': { id: 'day4_yan_1', speaker: '系统', content: '燕青下山了。', background: BG_MARKET, nextId: 'day5_start' },
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', content: '“洒家就知道你防不下那竹林.”', background: BG_BAMBOO, nextId: 'day5_start' },
-  'day5_start': { id: 'day5_start', speaker: '系统', content: '第五天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
+  'day5_start': { id: 'day5_start', speaker: '{playerName}', content: '（眼皮沉重得像灌了铅，你费力地睁开眼，视线由模糊逐渐变得清晰……）', background: BG_CAVE, nextId: 'day5_where_am_i' },
+  'day5_where_am_i': { id: 'day5_where_am_i', speaker: '{playerName}', content: '“这里是……我的房间？我记得我在校场……”你揉着隐隐作痛的太阳穴，试图回忆昏迷前发生的事。', background: BG_CAVE, nextId: 'day5_kui_entry' },
+  'day5_kui_entry': { id: 'day5_kui_entry', speaker: '李逵', characterId: 'likui', content: '“你醒啦！{playerName}！俺就说你这丫头命硬，出不了事！”李逵端着一碗黑乎乎的药汁，风风火火地闯了进来，脸上满是掩饰不住的欣喜。', background: BG_CAVE, nextId: 'day5_kui_medicine' },
+  'day5_kui_medicine': { id: 'day5_kui_medicine', speaker: '李逵', characterId: 'likui', content: '“快，趁热把这药喝了！这是公孙先生特意给你熬的。”', background: BG_CAVE, choices: [{ text: '喝下药汤', nextId: 'day5_drink_medicine' }] },
+  'day5_drink_medicine': { id: 'day5_drink_medicine', speaker: '{playerName}', content: '（你皱着眉喝下了那碗苦涩的药汁，一股暖流随即在体内散开……）', background: BG_CAVE, nextId: 'day5_gongsun_visit' },
+  'day5_gongsun_visit': { id: 'day5_gongsun_visit', speaker: '李逵', characterId: 'likui', content: '“公孙先生来看过你了，他说你是因为太劳累，导致魂魄里的灵力受损，这才晕倒的。都怪俺，不该拉着你拼命练那劳什子跑操……”', background: BG_CAVE, choices: [
+    { text: '“没关系，我也想变强。”', nextId: 'day5_kui_happy', affectionBonus: { charId: 'likui', points: 10 } },
+    { text: '“下次能不能温柔点？”', nextId: 'day5_kui_scratch', affectionBonus: { charId: 'likui', points: 5 } }
+  ]},
+  'day5_kui_happy': { id: 'day5_kui_happy', speaker: '李逵', characterId: 'likui', content: '“哈哈！不愧是俺器重的人！等你好了，俺带你去吃好吃的补补！”', background: BG_CAVE, nextId: 'day5_gongsun_real_entry' },
+  'day5_kui_scratch': { id: 'day5_kui_scratch', speaker: '李逵', characterId: 'likui', content: '“（挠挠头）俺这粗人，手脚重了些……下次俺一定注意，一定注意！”', background: BG_CAVE, nextId: 'day5_gongsun_real_entry' },
+  'day5_gongsun_real_entry': { id: 'day5_gongsun_real_entry', speaker: '系统', content: '正说着，门外传来一阵轻盈的脚步声，公孙胜身披道袍，仙风道骨地走了进来。', background: BG_CAVE, nextId: 'day5_gongsun_check' },
+  'day5_gongsun_check': { id: 'day5_gongsun_check', speaker: '公孙胜', content: '“看来药力已经散开，气色好多了。”公孙胜微微颔首，目光深邃地看着你。', background: BG_CAVE, nextId: 'day5_gongsun_explain' },
+  'day5_gongsun_explain': { id: 'day5_gongsun_explain', speaker: '公孙胜', content: '“你本非此界之人，肉身虽在，魂魄却如风中残烛。昨日你在校场强行引动星力，却不知你的‘灵力’便是维系魂魄与这具躯壳的粘合之物。灵力一旦透支，魂魄便会产生脱壳之兆，这便是你昏厥的真相。”', background: BG_CAVE, nextId: 'day5_gongsun_home' },
+  'day5_gongsun_home': { id: 'day5_gongsun_home', speaker: '公孙胜', content: '“你要明白，灵力不仅是你在此界生存的‘本钱’，更是开启归家星门所需的‘引子’。每损耗一分，你离故乡便远了一分。若灵力彻底散尽，你的神魂将永远迷失在位面缝隙之中，再无归期。更重要的是，你的灵力盈亏亦牵动着我梁山泊的安危气运，你我早已是休戚与共。”', background: BG_CAVE, nextId: 'day5_gongsun_invite' },
+  'day5_gongsun_invite': { id: 'day5_gongsun_invite', speaker: '公孙胜', content: '“以后若有闲暇，可多来我处坐坐。贫道不仅可以教你一些提升灵力的法门，若你心有迷茫，贫道亦可为你卜上一卦，窥一窥天机。”', background: BG_CAVE, nextId: 'day5_afternoon_start' },
+  'day5_afternoon_start': { id: 'day5_afternoon_start', speaker: '系统', content: '下午，你感觉身体轻快了许多，灵力似乎也在药力的作用下慢慢恢复。你试着下地走了几步，虽然还有些虚弱，但已无大碍。', background: BG_CAVE, nextId: 'day5_ask_kui_tour' },
+  'day5_ask_kui_tour': { id: 'day5_ask_kui_tour', speaker: '{playerName}', content: '“铁牛，俺在屋里憋坏了，你带俺去山下转转吧？”你对正坐在一旁啃果子的李逵说道。', background: BG_CAVE, nextId: 'day5_kui_agree' },
+  'day5_kui_agree': { id: 'day5_kui_agree', speaker: '李逵', characterId: 'likui', content: '“嘿！你这丫头倒是个闲不住的！行，俺带你去水泊边上透透气，那里的景色可比这闷屋子强多了！”', background: BG_CAVE, nextId: 'day5_marsh_intro' },
+  'day5_marsh_intro': { id: 'day5_marsh_intro', speaker: '系统', content: '李逵领着你穿过几道山径，眼前豁然开朗。只见烟波浩渺，芦苇摇曳，这便是闻名天下的梁山水泊。', background: BG_MARSH, nextId: 'day5_marsh_desc' },
+  'day5_marsh_desc': { id: 'day5_marsh_desc', speaker: '{playerName}', content: '“好壮阔的水域……这就是梁山的天然屏障吗？”你深深吸了一口带着水汽的清凉空气，感觉精神为之一振。', background: BG_MARSH, nextId: 'day5_marsh_unlock' },
+  'day5_marsh_unlock': { id: 'day5_marsh_unlock', speaker: '李逵', characterId: 'likui', content: '“那是自然！以后你想来，随时跟俺说，或者你自己顺着这条路溜达过来也成。这水泊大得很，够你逛的！”', background: BG_MARSH, nextId: 'day6_start' },
+  'stroll_marsh_start': { id: 'stroll_marsh_start', speaker: '系统', content: '你独自来到梁山水泊边。微风拂过，水面波光粼粼，芦苇丛中偶尔惊起几只水鸟。在这里闲逛，你的心情变得舒畅了许多。', background: BG_MARSH, choices: [{ text: '返回', nextId: 'back' }] },
+  'day6_start': { id: 'day6_start', speaker: '系统', content: '第六天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
 };

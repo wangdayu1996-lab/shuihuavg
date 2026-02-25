@@ -60,6 +60,13 @@
         .animate-eyes-closing {
             animation: eyesClosing 3s ease-in-out forwards;
         }
+        @keyframes eyesOpening {
+            0% { filter: brightness(0) blur(20px); }
+            100% { filter: brightness(1) blur(0); }
+        }
+        .animate-eyes-opening {
+            animation: eyesOpening 3s ease-in-out forwards;
+        }
         @keyframes shake {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
           5%, 25%, 45%, 65%, 85% { transform: translate(-3px, -2px) rotate(-1deg); }
@@ -104,6 +111,10 @@
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
         }
     </style>
 <script type="importmap">
