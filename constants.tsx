@@ -5,8 +5,8 @@ const LIKUI_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6
 const LIKUI_JPG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5.jpg?raw=true";
 const LUZHISHEN_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%B2%81%E6%99%BA%E6%B7%B1%E5%AF%B9%E8%AF%9D.jpg?raw=true";
 const LUZHISHEN_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%B2%81%E6%99%BA%E6%B7%B1png.png?raw=true";
-const LUJUNYI_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/lujunyiduihua.jpg?raw=true";
-const LUJUNYI_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89png.png?raw=true";
+const LINCHONG_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/lujunyiduihua.jpg?raw=true";
+const LINCHONG_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89png.png?raw=true";
 const YANQING_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92lihui.jpg?raw=true";
 const YANQING_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92png.png?raw=true";
 const HUYANZHUO_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.png?raw=true";
@@ -21,8 +21,9 @@ const BG_FOREST = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6
 const BG_BAMBOO = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97.png?raw=true";
 const BG_MARKET = "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=2000";
 const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B1%8B%E5%86%85.png?raw=true";
+const BG_NIGHT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%A4%9C%E9%97%B4.png?raw=true";
 const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
-const BG_LU_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
+const BG_LIN_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
 const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%B0%B4%E6%B3%8A.png?raw=true";
 const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
@@ -43,7 +44,7 @@ export const DIVINATION_BUFFS: DivinationBuff[] = [
 ];
 
 export const CHARACTERS: Character[] = [
-  { id: 'lujunyi', name: '卢俊义', title: '玉麒麟', description: '河北首富，懂生活更懂你。', avatar: LUJUNYI_IMAGE, portrait: LUJUNYI_IMAGE, sprite: LUJUNYI_PNG, personality: '优雅、严谨、深情', affection: 0, interactionCount: 0, difficulty: 3, archetype: '导师', heartbeatEvents: [] },
+  { id: 'linchong', name: '林冲', title: '豹子头', description: '八十万禁军教头，枪法绝伦。', avatar: LINCHONG_IMAGE, portrait: LINCHONG_IMAGE, sprite: LINCHONG_PNG, personality: '隐忍、刚毅、深情', affection: 0, interactionCount: 0, difficulty: 3, archetype: '导师', heartbeatEvents: [] },
   { id: 'yanqing', name: '燕青', title: '浪子', description: '梁山第一特工，情趣大师。', avatar: YANQING_IMAGE, portrait: YANQING_IMAGE, sprite: YANQING_PNG, personality: '狡黠、浪漫', affection: 0, interactionCount: 0, difficulty: 4, archetype: '竹马', heartbeatEvents: [] },
   { id: 'luzhishen', name: '鲁智深', title: '花和尚', description: '大智若愚，你的随身保镖。', avatar: LUZHISHEN_IMAGE, portrait: LUZHISHEN_IMAGE, sprite: LUZHISHEN_PNG, personality: '豪爽、赤诚', affection: 0, interactionCount: 0, difficulty: 2, archetype: '守护者', heartbeatEvents: [] },
   { id: 'likui', name: '李逵', title: '黑旋风', description: '直球之王，单纯得让人头疼。', avatar: LIKUI_PNG, portrait: LIKUI_JPG, sprite: LIKUI_PNG, personality: '狂放、憨直', affection: 0, interactionCount: 0, difficulty: 1, archetype: '犬系', heartbeatEvents: [] },
@@ -76,7 +77,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_entry': { id: 'hall_entry', speaker: '系统', content: '（你就这样地扛进了聚义厅，直到被李逵砰地一声丢在地砖上。）', background: BG_CAMP, nextId: 'hall_kui_explain' },
   'hall_kui_explain': { id: 'hall_kui_explain', speaker: '李逵', characterId: 'likui', content: '“哥哥，俺在林子里打旋，见这丫头从天上‘啪嗒’一下掉在俺脚跟前，俺还以为是个甚么野果，凑近一看才见是个活人！”', background: BG_CAMP, nextId: 'hall_reaction_crowd' },
   'hall_reaction_crowd': { id: 'hall_reaction_crowd', speaker: '系统', content: '堂上众人面面相觑。宋江手捋胡须，神色复杂地打量着你。', background: BG_CAMP, nextId: 'hall_song_ask' },
-  'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我聚义厅？”', background: BG_CAMP, nextId: 'hall_inner_monologue' },
+  'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我梁山泊？”', background: BG_CAMP, nextId: 'hall_inner_monologue' },
   'hall_inner_monologue': { id: 'hall_inner_monologue', speaker: '系统', content: '你揉了揉眼睛，抬头看了看大厅上方的牌匾，那上面赫然写着“聚义厅”三个大字', background: BG_CAMP, nextId: 'hall_inner_shock' },
   'hall_inner_shock': { id: 'hall_inner_shock', speaker: '{playerName}', content: '（不会吧...这地方怎么跟我在电视剧里看到的聚义厅完全长一样啊...上面坐着的那个黑哥不会是宋江吧...那个秃子不会是鲁智深吧...我不会真穿进水浒传了吧）', background: BG_CAMP, nextId: 'hall_inner_monologue_2' },
   'hall_inner_monologue_2': { id: 'hall_inner_monologue_2', speaker: '{playerName}', content: '（冷静，一定要冷静。现在硬碰硬只有死路一条。看宋江的神色，似乎还在权衡。既然如此，不如先暂时配合，保住性命再寻良策……）', background: BG_CAMP, nextId: 'hall_name_input' },
@@ -114,8 +115,8 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
   'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇，正想劝哥哥莫要急着赶人。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
   'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
-  'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '卢俊义', characterId: 'lujunyi', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_lujunyi_ask_next' },
-  'hall_lujunyi_ask_next': { id: 'hall_lujunyi_ask_next', speaker: '系统', content: '卢俊义看向公孙胜。', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
+  'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '林冲', characterId: 'linchong', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_lujunyi_ask_next' },
+  'hall_lujunyi_ask_next': { id: 'hall_lujunyi_ask_next', speaker: '系统', content: '林冲看向公孙胜。', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
   'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》四卷残章。此书乃是上应天命、下契地脉的奇书，记载着一百单八将的真元轨迹。你身为异界之人，魂魄如无根浮萍，唯有集齐这四卷残章，借其中蕴含的‘四象星元’之力，方能构筑起跨越虚空的‘星桥’。若无此桥，纵使你有通天之能，也无法穿透这重重位面，寻回故土。”', background: BG_CAMP, nextId: 'hall_player_ask_home' },
   'hall_player_ask_home': { id: 'hall_player_ask_home', speaker: '{playerName}', content: '“公孙先生，如果我真的集齐了那四卷残章，是不是就一定能回到我原来的世界？”你紧紧盯着公孙胜，声音中带着一丝颤抖和希冀。', background: BG_CAMP, nextId: 'hall_gongsun_uncertain' },
   'hall_gongsun_uncertain': { id: 'hall_gongsun_uncertain', speaker: '公孙胜', content: '公孙胜沉默了片刻，轻轻摇了摇头：“天机变幻莫测，贫道亦不敢断言。集齐残章只是给了你一个‘可能’，至于最终能否功成……唯有尽人事，听天命。但若不试这一试，你便连这万分之一的机会也将失去。”', background: BG_CAMP, nextId: 'hall_song_command' },
@@ -163,13 +164,84 @@ export const STORY_DATA: Record<string, StoryNode> = {
   ]},
   'day2_choice_stay_kui_lu_msg': { id: 'day2_choice_stay_kui_lu_msg', speaker: '鲁智深', characterId: 'luzhishen', content: '“既然如此，洒家也不强求. 你若想听禅定心，随时可来寻洒家.”', background: BG_FOREST, nextId: 'day2_choice_stay_kui' },
   'day2_choice_stay_kui': { id: 'day2_choice_stay_kui', speaker: '李逵', characterId: 'likui', content: '“哈哈！够意思！还是俺带你练带劲！”', background: BG_FOREST, nextId: 'day2_choice_stay_kui_t' },
-  'day2_choice_stay_kui_t': { id: 'day2_choice_stay_kui_t', speaker: '李逵', characterId: 'likui', content: '“来，接着吼！别像个娘们似的. 要把肚子里那口恶气全撒出来！”', background: BG_FOREST, nextId: 'day3_kui_yiling_1' },
+  'day2_choice_stay_kui_t': { id: 'day2_choice_stay_kui_t', speaker: '李逵', characterId: 'likui', content: '“来，接着吼！别像个娘们似的. 要把肚子里那口恶气全撒出来！”理论上，这一天就在这震天的吼声中结束了。', background: BG_FOREST, nextId: 'day2_night_kui_1' },
+
+  // --- 第二天夜晚：独自复盘与思乡 ---
+  'day2_night_kui_1': { id: 'day2_night_kui_1', speaker: '系统', content: '夜深了，梁山的喧嚣渐渐散去。你独自回到房间，坐在桌前，看着摇曳的烛火。', background: BG_NIGHT, nextId: 'day2_night_kui_3' },
+  'day2_night_kui_3': { id: 'day2_night_kui_3', speaker: '{playerName}', content: '（如果是在家里，这时候我应该正刷着手机，喝着冰可乐，吐槽着无脑的剧集吧？而不是在这里担心什么星力暴走，还要被铁牛拽着去跑操，甚至还要学什么“吼出来”……）', background: BG_NIGHT, nextId: 'day2_night_kui_4' },
+  'day2_night_kui_4': { id: 'day2_night_kui_4', speaker: '{playerName}', content: '（公孙胜说我的命运和梁山息息相关。这到底意味着什么？我真的能集齐残卷回家吗？还是说，我会永远留在这个充满杀伐与义气的时代，直到神魂俱灭？）', background: BG_NIGHT, nextId: 'day2_night_kui_5' },
+  'day2_night_kui_5': { id: 'day2_night_kui_5', speaker: '系统', content: '你叹了口气，吹灭蜡烛躺在床上。在不安与思念中，你渐渐进入了梦乡。', background: BG_BLACK, nextId: 'day2_night_attack_start_kui' },
 
   // --- 分支：答应鲁智深后的后续 ---
   'day2_choice_accept_lu': { id: 'day2_choice_accept_lu', speaker: '李逵', characterId: 'likui', content: '“呸！那老和尚除了喝酒就是念经，有甚么好见的！”李逵虽然嘴上骂着，还是没松开拽着你手腕的手。', background: BG_FOREST, nextId: 'day2_lu_kui_1' },
   'day2_lu_kui_1': { id: 'day2_lu_kui_1', speaker: '李逵', characterId: 'likui', content: '“答应归答应，今天你还是俺的人！来，给俺扎半个时辰马步！”', background: BG_FOREST, nextId: 'day2_lu_kui_2' },
   'day2_lu_kui_2': { id: 'day2_lu_kui_2', speaker: '{playerName}', content: '“半个时辰？铁牛大哥，我的腿会断的……”你惨叫着被强行按了下去。', background: BG_FOREST, nextId: 'day2_lu_kui_3' },
-  'day2_lu_kui_3': { id: 'day2_lu_kui_3', speaker: '李逵', characterId: 'likui', content: '“断了俺背你！这腰给俺挺直了！扎够了，明天爱找谁找谁去！”', background: BG_FOREST, nextId: 'day3_lu_training_start' },
+  'day2_lu_kui_3': { id: 'day2_lu_kui_3', speaker: '李逵', characterId: 'likui', content: '“断了俺背你！这腰给俺挺直了！扎够了，明天爱找谁找谁去！”', background: BG_FOREST, nextId: 'day2_night_lu_1' },
+
+  'day2_night_lu_1': { id: 'day2_night_lu_1', speaker: '系统', content: '夜深了，梁山的喧嚣渐渐散去。你独自回到房间，坐在桌前，看着摇曳的烛火。', background: BG_NIGHT, nextId: 'day2_night_lu_3' },
+  'day2_night_lu_3': { id: 'day2_night_lu_3', speaker: '{playerName}', content: '（如果是在家里，这时候我应该正刷着手机，喝着冰可乐，吐槽着无脑的剧集吧？而不是在这里担心什么星力暴走，还要被铁牛拽着去跑操，甚至还要学什么“吼出来”……）', background: BG_NIGHT, nextId: 'day2_night_lu_4' },
+  'day2_night_lu_4': { id: 'day2_night_lu_4', speaker: '{playerName}', content: '（公孙胜说我的命运和梁山息息相关。这到底意味着什么？我真的能集齐残卷回家吗？还是说，我会永远留在这个充满杀伐与义气的时代，直到神魂俱灭？）', background: BG_NIGHT, nextId: 'day2_night_lu_5' },
+  'day2_night_lu_5': { id: 'day2_night_lu_5', speaker: '系统', content: '你叹了口气，吹灭蜡烛躺在床上。在不安与思念中，你渐渐进入了梦乡。', background: BG_BLACK, nextId: 'day2_night_attack_start_lu' },
+
+  // --- 第二天深夜：突发袭击剧情 (通用逻辑) ---
+  'day2_night_attack_start_kui': { id: 'day2_night_attack_start_kui', speaker: '系统', content: '入夜，梁山泊北山房内。寒风吹得窗棂格格作响。你独处室内，灯火忽明忽暗。', background: BG_NIGHT, nextId: 'day2_night_attack_noise_kui' },
+  'day2_night_attack_start_lu': { id: 'day2_night_attack_start_lu', speaker: '系统', content: '入夜，梁山泊北山房内。寒风吹得窗棂格格作响。你独处室内，灯火忽明忽暗。', background: BG_NIGHT, nextId: 'day2_night_attack_noise_lu' },
+  
+  'day2_night_attack_noise_kui': { id: 'day2_night_attack_noise_kui', speaker: '系统', content: '你正准备熄灯，忽然听到房梁上传来轻微的木材挤压声。', background: BG_NIGHT, nextId: 'day2_night_attack_breakin_kui' },
+  'day2_night_attack_noise_lu': { id: 'day2_night_attack_noise_lu', speaker: '系统', content: '你正准备熄灯，忽然听到房梁上传来轻微的木材挤压声。', background: BG_NIGHT, nextId: 'day2_night_attack_breakin_lu' },
+
+  'day2_night_attack_breakin_kui': { id: 'day2_night_attack_breakin_kui', speaker: '系统', content: '一个黑影从窗外闪过，紧接着房门被重重踢开！两名蒙面歹徒闯了进来。', background: BG_NIGHT, nextId: 'day2_night_attack_crisis_kui' },
+  'day2_night_attack_breakin_lu': { id: 'day2_night_attack_breakin_lu', speaker: '系统', content: '一个黑影从窗外闪过，紧接着房门被重重踢开！两名蒙面歹徒闯了进来。', background: BG_NIGHT, nextId: 'day2_night_attack_crisis_lu' },
+
+  'day2_night_attack_crisis_kui': { id: 'day2_night_attack_crisis_kui', speaker: '系统', content: '歹徒持短刀逼近，你在退后时撞翻了烛台，屋内陷入黑暗。其中一人低声狞笑：“交出公孙胜给你的宝贝！”', background: BG_BLACK, nextId: 'day2_night_attack_choice_kui' },
+  'day2_night_attack_crisis_lu': { id: 'day2_night_attack_crisis_lu', speaker: '系统', content: '歹徒持短刀逼近，你在退后时撞翻了烛台，屋内陷入黑暗。其中一人低声狞笑：“交出公孙胜给你的宝贝！”', background: BG_BLACK, nextId: 'day2_night_attack_choice_lu' },
+
+  'day2_night_attack_choice_kui': { id: 'day2_night_attack_choice_kui', speaker: '系统', content: '危急时刻，你打算怎么办？', background: BG_BLACK, choices: [
+    { text: '【大声呼救】救命啊！！', nextId: 'day2_night_attack_rescue_kui', attributeBonus: { intelligence: -1, strength: 1 } },
+    { text: '【抄起板凳反抗】跟你们拼了！', nextId: 'day2_night_attack_rescue_kui', attributeBonus: { strength: 3, weight: 1 } }
+  ]},
+  'day2_night_attack_choice_lu': { id: 'day2_night_attack_choice_lu', speaker: '系统', content: '危急时刻，你打算怎么办？', background: BG_BLACK, choices: [
+    { text: '【大声呼救】救命啊！！', nextId: 'day2_night_attack_rescue_lu', attributeBonus: { intelligence: -1, strength: 1 } },
+    { text: '【抄起板凳反抗】跟你们拼了！', nextId: 'day2_night_attack_rescue_lu', attributeBonus: { strength: 3, weight: 1 } }
+  ]},
+
+  'day2_night_attack_rescue_kui': { id: 'day2_night_attack_rescue_kui', speaker: '系统', content: '就在歹徒即将攻击你的刹那，黑暗中一道银光破窗而入！那是长枪的尖刃，精准地挑开了歹徒的短刀。', background: BG_BLACK, nextId: 'day2_night_attack_lin_silhouette_kui' },
+  'day2_night_attack_rescue_lu': { id: 'day2_night_attack_rescue_lu', speaker: '系统', content: '就在歹徒即将攻击你的刹那，黑暗中一道银光破窗而入！那是长枪的尖刃，精准地挑开了歹徒的短刀。', background: BG_BLACK, nextId: 'day2_night_attack_lin_silhouette_lu' },
+
+  'day2_night_attack_lin_silhouette_kui': { id: 'day2_night_attack_lin_silhouette_kui', speaker: '系统', content: '月光透过的瞬间，你能看到一个披着素色斗篷、身形修长稳健的剪影。他出招极快且克制，仅用枪尖扫过歹徒手腕，便令其痛呼倒地。', background: BG_NIGHT, nextId: 'day2_night_attack_lin_voice_kui' },
+  'day2_night_attack_lin_silhouette_lu': { id: 'day2_night_attack_lin_silhouette_lu', speaker: '系统', content: '月光透过的瞬间，你能看到一个披着素色斗篷、身形修长稳健的剪影。他出招极快且克制，仅用枪尖扫过歹徒手腕，便令其痛呼倒地。', background: BG_NIGHT, nextId: 'day2_night_attack_lin_voice_lu' },
+
+  'day2_night_attack_lin_voice_kui': { id: 'day2_night_attack_lin_voice_kui', speaker: '神秘人', content: '“梁山禁地，岂容尔等作乱？滚。”对方声音低沉且带有某种由于压抑而产生的磁性。', background: BG_NIGHT, nextId: 'day2_night_attack_flee_kui' },
+  'day2_night_attack_lin_voice_lu': { id: 'day2_night_attack_lin_voice_lu', speaker: '神秘人', content: '“梁山禁地，岂容尔等作乱？滚。”对方声音低沉且带有某种由于压抑而产生的磁性。', background: BG_NIGHT, nextId: 'day2_night_attack_flee_lu' },
+
+  'day2_night_attack_flee_kui': { id: 'day2_night_attack_flee_kui', speaker: '系统', content: '歹徒连滚带爬逃走。神秘人站在暗处，并没有上前扶起你，而是保持着礼貌而疏远的距离。', background: BG_NIGHT, nextId: 'day2_night_attack_heroes_arrive_kui' },
+  'day2_night_attack_flee_lu': { id: 'day2_night_attack_flee_lu', speaker: '系统', content: '歹徒连滚带爬逃走。神秘人站在暗处，并没有上前扶起你，而是保持着礼貌而疏远的距离。', background: BG_NIGHT, nextId: 'day2_night_attack_heroes_arrive_lu' },
+
+  'day2_night_attack_heroes_arrive_kui': { id: 'day2_night_attack_heroes_arrive_kui', speaker: '系统', content: '就在此时，一阵急促的脚步声传来。梁山的其他好汉被惊动，纷纷跑来查看情况。神秘人见状，趁乱悄然离开了。', background: BG_NIGHT, nextId: 'day2_night_attack_interrogation_1_kui' },
+  'day2_night_attack_heroes_arrive_lu': { id: 'day2_night_attack_heroes_arrive_lu', speaker: '系统', content: '就在此时，一阵急促的脚步声传来。梁山的其他好汉被惊动，纷纷跑来查看情况。神秘人见状，趁乱悄然离开了。', background: BG_NIGHT, nextId: 'day2_night_attack_interrogation_1_lu' },
+
+  'day2_night_attack_interrogation_1_kui': { id: 'day2_night_attack_interrogation_1_kui', speaker: '系统', content: '以李逵为首的众好汉将那两名还没跑远的歹徒团团围住。李逵瞪着铜铃般的大眼，一把揪住其中一人的衣领。', background: BG_NIGHT, nextId: 'day2_night_attack_interrogation_2_kui' },
+  'day2_night_attack_interrogation_2_kui': { id: 'day2_night_attack_interrogation_2_kui', speaker: '李逵', characterId: 'likui', content: '“说！哪个借你们的胆子，敢在梁山上撒野？！”', background: BG_NIGHT, nextId: 'day2_night_attack_reveal_1_kui' },
+  
+  'day2_night_attack_interrogation_1_lu': { id: 'day2_night_attack_interrogation_1_lu', speaker: '系统', content: '以李逵为首的众好汉将那两名还没跑远的歹徒团团围住。李逵瞪着铜铃般的大眼，一把揪住其中一人的衣领。', background: BG_NIGHT, nextId: 'day2_night_attack_interrogation_2_lu' },
+  'day2_night_attack_interrogation_2_lu': { id: 'day2_night_attack_interrogation_2_lu', speaker: '李逵', characterId: 'likui', content: '“说！哪个借你们的胆子，敢在梁山上撒野？！”', background: BG_NIGHT, nextId: 'day2_night_attack_reveal_1_lu' },
+
+  'day2_night_attack_reveal_1_kui': { id: 'day2_night_attack_reveal_1_kui', speaker: '系统', content: '经过一番就地审问，真相大白。原来这两人是山寨中尚未被完全收服的小喽啰。', background: BG_NIGHT, nextId: 'day2_night_attack_reveal_2_kui' },
+  'day2_night_attack_reveal_2_kui': { id: 'day2_night_attack_reveal_2_kui', speaker: '歹徒', content: '“饶命啊铁牛哥哥！我们……我们只是觉得这异人既然是‘天罡星命定之人’，身上定有宝贝。而且见您白天训练她时那么上心，肯定手里攥着好东西……”', background: BG_NIGHT, nextId: 'day2_night_attack_reveal_3_kui' },
+  'day2_night_attack_reveal_3_kui': { id: 'day2_night_attack_reveal_3_kui', speaker: '系统', content: '原来，从白天的训练开始，这两个贪婪的家伙就已经跟了你们一路了。', background: BG_NIGHT, nextId: 'day2_night_attack_kui_action_kui' },
+
+  'day2_night_attack_reveal_1_lu': { id: 'day2_night_attack_reveal_1_lu', speaker: '系统', content: '经过一番就地审问，真相大白。原来这两人是山寨中尚未被完全收服的小喽啰。', background: BG_NIGHT, nextId: 'day2_night_attack_reveal_2_lu' },
+  'day2_night_attack_reveal_2_lu': { id: 'day2_night_attack_reveal_2_lu', speaker: '歹徒', content: '“饶命啊铁牛哥哥！我们……我们只是觉得这异人既然是‘天罡星命定之人’，身上定有宝贝。而且见您白天训练她时那么上心，肯定手里攥着好东西……”', background: BG_NIGHT, nextId: 'day2_night_attack_reveal_3_lu' },
+  'day2_night_attack_reveal_3_lu': { id: 'day2_night_attack_reveal_3_lu', speaker: '系统', content: '原来，从白天的训练开始，这两个贪婪的家伙就已经跟了你们一路了。', background: BG_NIGHT, nextId: 'day2_night_attack_kui_action_lu' },
+
+  'day2_night_attack_kui_action_kui': { id: 'day2_night_attack_kui_action_kui', speaker: '李逵', characterId: 'likui', content: '“呸！没出息的鸟人！敢动俺的人，活腻歪了！带走，关进地牢去！”', background: BG_NIGHT, nextId: 'day2_night_attack_kui_comfort_kui' },
+  'day2_night_attack_kui_comfort_kui': { id: 'day2_night_attack_kui_comfort_kui', speaker: '李逵', characterId: 'likui', content: '“小文书，别怕！有俺铁牛在，看谁还敢来触霉头。你安心睡，俺这就叫几个兄弟在门口守着！”', background: BG_NIGHT, nextId: 'day2_night_attack_end_kui' },
+
+  'day2_night_attack_kui_action_lu': { id: 'day2_night_attack_kui_action_lu', speaker: '李逵', characterId: 'likui', content: '“呸！没出息的鸟人！敢动俺的人，活腻歪了！带走，关进地牢去！”', background: BG_NIGHT, nextId: 'day2_night_attack_kui_comfort_lu' },
+  'day2_night_attack_kui_comfort_lu': { id: 'day2_night_attack_kui_comfort_lu', speaker: '李逵', characterId: 'likui', content: '“小文书，别怕！有俺铁牛在，看谁还敢来触霉头。你安心睡，俺这就叫几个兄弟在门口守着！”', background: BG_NIGHT, nextId: 'day2_night_attack_end_lu' },
+
+  'day2_night_attack_end_kui': { id: 'day2_night_attack_end_kui', speaker: '系统', content: '你惊魂未定，虽然歹徒已被抓走，但这一夜你再难入眠...直到黎明破晓。', background: BG_BLACK, nextId: 'day3_kui_yiling_1' },
+  'day2_night_attack_end_lu': { id: 'day2_night_attack_end_lu', speaker: '系统', content: '你惊魂未定，虽然歹徒已被抓走，但这一夜你再难入眠...直到黎明破晓。', background: BG_BLACK, nextId: 'day3_lu_training_start' },
 
   // --- 第三天：鲁智深特训 ---
   'day3_lu_training_start': { id: 'day3_lu_training_start', speaker: '系统', content: '第三天。清晨的雾气还未散去，你如约来到了后山的翠竹林。', background: BG_BAMBOO, nextId: 'day3_lu_1' },
@@ -250,7 +322,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day3_kui_bond_up': { id: 'day3_kui_bond_up', speaker: '系统', content: '和李逵羁绊+3', background: CG_KUI_HEARTBEAT, nextId: 'day3_kui_help_10' },
   'day3_kui_help_10': { id: 'day3_kui_help_10', speaker: '李逵', characterId: 'likui', content: '“等回了梁山，俺一定教你更多真本事！俺李逵这条命，以后也是你的！”', background: BG_FOREST, nextId: 'day4_start' },
 
-  'day4_start': { id: 'day4_start', speaker: '系统', content: '第四天，你想跟随哪位英雄开启今日的专项特训？', background: BG_CAMP, choices: [ { text: '卢俊义：研习“格物鉴宝”', nextId: 'day4_lu_1', attributeBonus: { intelligence: 10 } }, { text: '燕青：研习“潜伏谍报”', nextId: 'day4_yan_1', attributeBonus: { intelligence: 5, spirit: 5 } }, { text: '鲁智深：研习“禅意守护”', nextId: 'day4_luzhishen_branch', attributeBonus: { spirit: 10 } }, { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_train_1', attributeBonus: { strength: 10 } } ] },
+  'day4_start': { id: 'day4_start', speaker: '系统', content: '第四天，你想跟随哪位英雄开启今日的专项特训？', background: BG_CAMP, choices: [ { text: '林冲：研习“枪法要义”', nextId: 'day4_lu_1', attributeBonus: { intelligence: 10 } }, { text: '燕青：研习“潜伏谍报”', nextId: 'day4_yan_1', attributeBonus: { intelligence: 5, spirit: 5 } }, { text: '鲁智深：研习“禅意守护”', nextId: 'day4_luzhishen_branch', attributeBonus: { spirit: 10 } }, { text: '李逵：研习“极致体魄”', nextId: 'day4_kui_train_1', attributeBonus: { strength: 10 } } ] },
   'day4_kui_train_1': { id: 'day4_kui_train_1', speaker: '李逵', characterId: 'likui', content: '“走走走，俺带你去校场！今天呼延将军在那，正好让他见识见识俺带出来的小文书！”', background: BG_BLACK, nextId: 'day4_kui_drill_pan_start' },
   'day4_kui_drill_pan_start': { id: 'day4_kui_drill_pan_start', speaker: '{playerName}', content: '（你跟着铁牛来到校场的高台……）', background: BG_DRILL_SCALE, nextId: 'day4_kui_drill_desc' },
   'day4_kui_drill_desc': { id: 'day4_kui_drill_desc', speaker: '系统', content: '校场上烟尘腾卷，兵器架列如林。吼声、金铁交鸣声、箭矢破空声织成一片. 远处呼延灼双鞭舞作一团银光，气度森严. 汗水砸在夯土上洇开深色斑痕，空气里满是草屑与铁锈的味道.', background: BG_HUYAN_CG, nextId: 'day4_kui_train_2' },
@@ -291,12 +363,12 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day4_kui_train_8_player': { id: 'day4_kui_train_8_player', speaker: '{playerName}', content: '“不行了。。。好累。。。”', background: BG_FAINT_CG, nextId: 'day4_kui_train_faint' },
   'day4_kui_train_faint': { id: 'day4_kui_train_faint', speaker: '系统', content: '由于高强度透支，你眼前一黑，彻底昏厥了过去. 系统提示：过度劳累导致元气损伤，体重 -1，灵力 -1.', background: BG_BLACK, choices: [ { text: '（陷入沉睡）', nextId: 'day5_start', attributeBonus: { weight: -1, spirit: -1 } } ] },
 
-  'day4_lu_1': { id: 'day4_lu_1', speaker: '系统', content: '你来到了卢俊义的府邸. ', background: BG_LU_ROOM, nextId: 'day4_lu_2' },
-  'day4_lu_2': { id: 'day4_lu_2', speaker: '系统', content: '书房内，卢俊义正忙于调度. ', background: BG_LU_ROOM, nextId: 'day4_lu_3' },
-  'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“卢员外，打扰了. ”', background: BG_LU_ROOM, nextId: 'day4_lu_4' },
-  'day4_lu_4': { id: 'day4_lu_4', speaker: '卢俊义', characterId: 'lujunyi', content: '“是你啊. 今天不凑巧. ”\n\n（卢俊义看起来很疲惫。）', background: BG_LU_ROOM, choices: [ { text: '【体贴行事】沏茶。', nextId: 'day4_lu_9_success', affectionBonus: { charId: 'lujunyi', points: 15 }, attributeBonus: { intelligence: 5 } }, { text: '【强硬坚持】催促。', nextId: 'day4_lu_9_fail', affectionBonus: { charId: 'lujunyi', points: -15 }, attributeBonus: { strength: 5 } } ] },
-  'day4_lu_9_success': { id: 'day4_lu_9_success', speaker: '卢俊义', content: '“有心了.”', background: BG_LU_ROOM, nextId: 'day5_start' },
-  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '卢俊义', content: '“出去！”', background: BG_LU_ROOM, nextId: 'day5_start' },
+  'day4_lu_1': { id: 'day4_lu_1', speaker: '系统', content: '你来到了林冲的府邸. ', background: BG_LIN_ROOM, nextId: 'day4_lu_2' },
+  'day4_lu_2': { id: 'day4_lu_2', speaker: '系统', content: '书房内，林冲正忙于调度. ', background: BG_LIN_ROOM, nextId: 'day4_lu_3' },
+  'day4_lu_3': { id: 'day4_lu_3', speaker: '{playerName}', content: '“林教头，打扰了. ”', background: BG_LIN_ROOM, nextId: 'day4_lu_4' },
+  'day4_lu_4': { id: 'day4_lu_4', speaker: '林冲', characterId: 'linchong', content: '“是你啊. 今天不凑巧. ”\n\n（林冲看起来很疲惫。）', background: BG_LIN_ROOM, choices: [ { text: '【体贴行事】沏茶。', nextId: 'day4_lu_9_success', affectionBonus: { charId: 'linchong', points: 15 }, attributeBonus: { intelligence: 5 } }, { text: '【强硬坚持】催促。', nextId: 'day4_lu_9_fail', affectionBonus: { charId: 'linchong', points: -15 }, attributeBonus: { strength: 5 } } ] },
+  'day4_lu_9_success': { id: 'day4_lu_9_success', speaker: '林冲', content: '“有心了.”', background: BG_LIN_ROOM, nextId: 'day5_start' },
+  'day4_lu_9_fail': { id: 'day4_lu_9_fail', speaker: '林冲', content: '“出去！”', background: BG_LIN_ROOM, nextId: 'day5_start' },
   'day4_yan_1': { id: 'day4_yan_1', speaker: '系统', content: '燕青下山了。', background: BG_MARKET, nextId: 'day5_start' },
   'day4_luzhishen_branch': { id: 'day4_luzhishen_branch', speaker: '鲁智深', content: '“洒家就知道你防不下那竹林.”', background: BG_BAMBOO, nextId: 'day5_start' },
   'day5_start': { id: 'day5_start', speaker: '{playerName}', content: '（眼皮沉重得像灌了铅，你费力地睁开眼，视线由模糊逐渐变得清晰……）', background: BG_CAVE, nextId: 'day5_where_am_i' },

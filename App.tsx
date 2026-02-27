@@ -597,7 +597,7 @@ const App: React.FC = () => {
   const [isStrollUnlocked, setIsStrollUnlocked] = useState(false);
 
   // 音频控制
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const currentNode = STORY_DATA[currentNodeId] || STORY_DATA['start'];
@@ -913,7 +913,7 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
-    const ROMANCEABLE_IDS = ['lujunyi', 'yanqing', 'luzhishen', 'likui'];
+    const ROMANCEABLE_IDS = ['linchong', 'yanqing', 'luzhishen', 'likui'];
     const romanceableCharacters = characters.filter(c => ROMANCEABLE_IDS.includes(c.id));
 
     if (gameState === GameState.START) {
@@ -1037,7 +1037,7 @@ const App: React.FC = () => {
               key={spriteToDisplay}
               src={characters.find(c => c.id === spriteToDisplay)?.sprite} 
               onLoad={() => setSpriteLoaded(true)}
-              className={`w-auto animate-fade-up object-contain origin-bottom transition-opacity duration-1000 ${spriteLoaded ? 'opacity-100' : 'opacity-0'} ${['lujunyi', 'yanqing', 'luzhishen'].includes(spriteToDisplay) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
+              className={`w-auto animate-fade-up object-contain origin-bottom transition-opacity duration-1000 ${spriteLoaded ? 'opacity-100' : 'opacity-0'} ${['linchong', 'yanqing', 'luzhishen'].includes(spriteToDisplay) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
               alt="portrait" 
             />
           </div>
