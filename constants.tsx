@@ -129,7 +129,9 @@ export const STORY_DATA: Record<string, StoryNode> = {
   // --- 第二天：特训 ---
   'day2_start': { id: 'day2_start', speaker: '系统', content: '第二天清晨。门砰地一声被撞开了，李逵闯了进来。', background: BG_CAVE, nextId: 'day2_kui_naked' },
   'day2_kui_naked': { id: 'day2_kui_naked', speaker: '{playerName}', content: '“哇！李铁牛你进屋不敲门吗！”你还没穿好衣服，手忙脚乱地抓过外褂。', background: BG_CAVE, nextId: 'day2_kui_oblivious' },
-  'day2_kui_oblivious': { id: 'day2_kui_oblivious', speaker: '李逵', characterId: 'likui', content: '“敲甚么门！俺要带你去特训！快穿上衣服，迟了俺就扛你走！”', background: BG_CAVE, nextId: 'day2_kui_monologue' },
+  'day2_kui_oblivious': { id: 'day2_kui_oblivious', speaker: '李逵', characterId: 'likui', content: '“敲甚么门！俺要带你去特训！快穿上衣服，迟了俺就扛你走！”', background: BG_CAVE, nextId: 'day2_kui_ask_why' },
+  'day2_kui_ask_why': { id: 'day2_kui_ask_why', speaker: '{playerName}', content: '“等等！铁牛大哥，你总得告诉我为什么要特训吧？我只是个拿笔的，又不上阵杀敌。”', background: BG_CAVE, nextId: 'day2_kui_explain' },
+  'day2_kui_explain': { id: 'day2_kui_explain', speaker: '李逵', characterId: 'likui', content: '“你这细皮嫩肉的，懂个甚么！公孙哥哥说了，那劳什子残卷邪门得很，你要去寻它们，少不得要经受各路考验。若是没个好身子骨，半路被那劳什子心魔给吞了，俺铁牛上哪儿找你去？练好这筋骨，才是保命的本钱！少废话，快走！”', background: BG_CAVE, nextId: 'day2_kui_monologue' },
   'day2_kui_monologue': { id: 'day2_kui_monologue', speaker: '{playerName}', content: '“。。。真是无语。”看着铁牛风风火火的背影，你叹了口气，只能认命地跟上。', background: BG_CAVE, nextId: 'day2_kui_black_forest' },
   'day2_kui_black_forest': { id: 'day2_kui_black_forest', speaker: '系统', content: '树林中', background: BG_BLACK, nextId: 'day2_kui_pre_1' },
   'day2_kui_pre_1': { id: 'day2_kui_pre_1', speaker: '李逵', characterId: 'likui', content: '“跑起来！别磨蹭！这山路要是都走不动，以后怎么跟着俺杀敌！”', background: BG_FOREST, nextId: 'day2_kui_pre_2' },
@@ -155,7 +157,8 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day2_kui_shout_success': { id: 'day2_kui_shout_success', speaker: '{playerName}', content: '“滚！！！”你用尽全身力气大喊，感觉一股热气从脚底直冲天灵盖。', background: BG_FOREST, nextId: 'day2_kui_shout_response_ok' },
   'day2_kui_shout_response_ok': { id: 'day2_kui_shout_response_ok', speaker: '李逵', characterId: 'likui', content: '“哈哈！好！作为我们梁山好汉，从气势上就不能输！”', background: BG_FOREST, nextId: 'day2_kui_shout_next_sys' },
   'day2_kui_shout_response_fail': { id: 'day2_kui_shout_response_fail', speaker: '李逵', characterId: 'likui', content: '“害臊什么！真没出息！”', background: BG_FOREST, nextId: 'day2_kui_shout_next_sys' },
-  'day2_kui_shout_next_sys': { id: 'day2_kui_shout_next_sys', speaker: '系统', content: '突然，你们远远看见一道魁梧的身影从对面走来——你与李逵同时回过头来', background: BG_FOREST, nextId: 'day2_kui_tease_lu' },
+
+  'day2_kui_shout_next_sys': { id: 'day2_kui_shout_next_sys', speaker: '系统', content: '你们正准备继续训练，忽然远远看见一道魁梧的身影从对面走来——你与李逵同时回过头来', background: BG_FOREST, nextId: 'day2_kui_tease_lu' },
   'day2_kui_tease_lu': { id: 'day2_kui_tease_lu', speaker: '李逵', characterId: 'likui', content: '“哈哈！那边的秃和尚，挑这几担水晃晃悠悠的，莫不如昨日又偷喝了哥哥的陈年好酒，腿软了？”', background: BG_FOREST, nextId: 'day2_see_lu' },
   'day2_see_lu': { id: 'day2_see_lu', speaker: '系统', content: '你正憋足了劲，忽然看到远处的鲁智深挑着两桶水稳步走来。', background: BG_FOREST, nextId: 'day2_lu_chat' },
   'day2_lu_chat': { id: 'day2_lu_chat', speaker: '鲁智深', characterId: 'luzhishen', content: '“铁牛休要胡说. 洒家这是去后山竹林禅修，顺便躲个清静. {playerName}姑娘若是有意，明日可来竹林寻洒家，教你几招定心的本事，总好过在这林子里乱吼. 怎么样，明日可愿来？”', background: BG_FOREST, choices: [
@@ -164,7 +167,60 @@ export const STORY_DATA: Record<string, StoryNode> = {
   ]},
   'day2_choice_stay_kui_lu_msg': { id: 'day2_choice_stay_kui_lu_msg', speaker: '鲁智深', characterId: 'luzhishen', content: '“既然如此，洒家也不强求. 你若想听禅定心，随时可来寻洒家.”', background: BG_FOREST, nextId: 'day2_choice_stay_kui' },
   'day2_choice_stay_kui': { id: 'day2_choice_stay_kui', speaker: '李逵', characterId: 'likui', content: '“哈哈！够意思！还是俺带你练带劲！”', background: BG_FOREST, nextId: 'day2_choice_stay_kui_t' },
-  'day2_choice_stay_kui_t': { id: 'day2_choice_stay_kui_t', speaker: '李逵', characterId: 'likui', content: '“来，接着吼！别像个娘们似的. 要把肚子里那口恶气全撒出来！”理论上，这一天就在这震天的吼声中结束了。', background: BG_FOREST, nextId: 'day2_night_kui_1' },
+  'day2_choice_stay_kui_t': { id: 'day2_choice_stay_kui_t', speaker: '李逵', characterId: 'likui', content: '“来，接着吼！要把肚子里那口恶气全撒出来！”', background: BG_FOREST, nextId: 'day2_gongsun_arrive_kui' },
+
+  // --- 第二天结尾：公孙胜赠予法器剧情 ---
+  'day2_gongsun_arrive_kui': { id: 'day2_gongsun_arrive_kui', speaker: '系统', content: '你深吸一口气，正无奈地准备再次发出那羞耻的呐喊，林间忽然起了一阵清风，公孙胜不知何时已站在了你们身后。', background: BG_FOREST, nextId: 'day2_gongsun_chat_1_kui' },
+  'day2_gongsun_arrive_lu': { id: 'day2_gongsun_arrive_lu', speaker: '系统', content: '你正咬牙坚持着马步，汗水顺着脸颊滑落，林间忽然起了一阵清风，公孙胜不知何时已站在了你们身后。', background: BG_FOREST, nextId: 'day2_gongsun_chat_1_lu' },
+
+  'day2_gongsun_chat_1_kui': { id: 'day2_gongsun_chat_1_kui', speaker: '李逵', characterId: 'likui', content: '“公孙哥哥！你来得正好，俺正带这小文书特训呢！”', background: BG_FOREST, nextId: 'day2_gongsun_chat_2_kui' },
+  'day2_gongsun_chat_1_lu': { id: 'day2_gongsun_chat_1_lu', speaker: '李逵', characterId: 'likui', content: '“公孙哥哥！你来得正好，俺正带这小文书特训呢！”', background: BG_FOREST, nextId: 'day2_gongsun_chat_2_lu' },
+
+  'day2_gongsun_chat_2_kui': { id: 'day2_gongsun_chat_2_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“呵呵，铁牛，贫道此番前来并非偶遇，而是专程为这位小友而来。”', background: BG_FOREST, nextId: 'day2_gongsun_interaction_kui' },
+  'day2_gongsun_chat_2_lu': { id: 'day2_gongsun_chat_2_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“呵呵，铁牛，贫道此番前来并非偶遇，而是专程为这位小友而来。”', background: BG_FOREST, nextId: 'day2_gongsun_interaction_lu' },
+
+  'day2_gongsun_interaction_kui': { id: 'day2_gongsun_interaction_kui', speaker: '系统', content: '公孙胜目光深邃地看着你，你心中一动，开口问道：', background: BG_FOREST, choices: [
+    { text: '“专程为我而来？难道是残卷有了消息？”', nextId: 'day2_gongsun_purpose_kui' }
+  ]},
+  'day2_gongsun_interaction_lu': { id: 'day2_gongsun_interaction_lu', speaker: '系统', content: '公孙胜目光深邃地看着你，你心中一动，开口问道：', background: BG_FOREST, choices: [
+    { text: '“专程为我而来？难道是残卷有了消息？”', nextId: 'day2_gongsun_purpose_lu' }
+  ]},
+
+  'day2_gongsun_reveal_kui': { id: 'day2_gongsun_reveal_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“一百零八星宿散落世间，你无需刻意寻觅。当你靠近那些转世之人，若其内心正经历剧烈的情绪波动——无论是往昔的遗憾、深藏的痛楚，还是难以言说的执念，星魂坠便会发烫。”', background: BG_FOREST, nextId: 'day2_gongsun_reveal_2_kui' },
+  'day2_gongsun_reveal_2_kui': { id: 'day2_gongsun_reveal_2_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“那股灼热便是灵魂的共鸣。当它发烫时，你便知晓，一段尘封的往事正等着你去揭开。好了，此番来意已尽，贫道去也。”', background: BG_FOREST, nextId: 'day2_gongsun_leave_kui' },
+
+  'day2_gongsun_reveal_lu': { id: 'day2_gongsun_reveal_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“一百零八星宿散落世间，你无需刻意寻觅。当你靠近那些转世之人，若其内心正经历剧烈的情绪波动——无论是往昔的遗憾、深藏的痛楚，还是难以言说的执念，星魂坠便会发烫。”', background: BG_FOREST, nextId: 'day2_gongsun_reveal_2_lu' },
+  'day2_gongsun_reveal_2_lu': { id: 'day2_gongsun_reveal_2_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“那股灼热便是灵魂的共鸣。当它发烫时，你便知晓，一段尘封的往事正等着你去揭开。好了，此番来意已尽，贫道去也。”', background: BG_FOREST, nextId: 'day2_gongsun_leave_lu' },
+
+  'day2_gongsun_purpose_kui': { id: 'day2_gongsun_purpose_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“残卷之事，急不得，亦慢不得。贫道观你星力渐稳，但神魂尚缺一物引路，特来相赠。特训固然能壮胆，但要寻回那散落的残卷，光靠蛮力可不够。”', background: BG_FOREST, nextId: 'day2_gongsun_item_1_kui' },
+  'day2_gongsun_purpose_lu': { id: 'day2_gongsun_purpose_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“残卷之事，急不得，亦慢不得。贫道观你星力渐稳，但神魂尚缺一物引路，特来相赠。特训固然能壮胆，但要寻回那散落的残卷，光靠蛮力可不够。”', background: BG_FOREST, nextId: 'day2_gongsun_item_1_lu' },
+
+  'day2_gongsun_item_1_kui': { id: 'day2_gongsun_item_1_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“小友，此物你且收好。”公孙胜从袖中取出一枚晶莹剔透的吊坠，递到你手中。', background: BG_FOREST, nextId: 'day2_gongsun_item_2_kui' },
+  'day2_gongsun_item_1_lu': { id: 'day2_gongsun_item_1_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“小友，此物你且收好。”公孙胜从袖中取出一枚晶莹剔透的吊坠，递到你手中。', background: BG_FOREST, nextId: 'day2_gongsun_item_2_lu' },
+
+  'day2_gongsun_item_2_kui': { id: 'day2_gongsun_item_2_kui', speaker: '{playerName}', content: '“这是……吊坠？是用来防身的法器吗？”你好奇地打量着这枚微微发光的坠子。', background: BG_FOREST, nextId: 'day2_gongsun_item_3_kui' },
+  'day2_gongsun_item_2_lu': { id: 'day2_gongsun_item_2_lu', speaker: '{playerName}', content: '“这是……吊坠？是用来防身的法器吗？”你好奇地打量着这枚微微发光的坠子。', background: BG_FOREST, nextId: 'day2_gongsun_item_3_lu' },
+
+  'day2_gongsun_item_3_kui': { id: 'day2_gongsun_item_3_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“此乃‘星魂坠’。你要找的‘忠、义、勇、谋’四卷残卷，并非实物，而是往往藏在英雄们的‘心魔’或‘遗憾’之中。”', background: BG_FOREST, nextId: 'day2_gongsun_item_4_kui' },
+  'day2_gongsun_item_3_lu': { id: 'day2_gongsun_item_3_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“此乃‘星魂坠’。你要找的‘忠、义、勇、谋’四卷残卷，并非实物，而是往往藏在英雄们的‘心魔’或‘遗憾’之中。”', background: BG_FOREST, nextId: 'day2_gongsun_item_4_lu' },
+
+  'day2_gongsun_item_4_kui': { id: 'day2_gongsun_item_4_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“当你靠近那些星宿转世之人，若对方情绪波动剧烈，吊坠便会发烫。届时你可激活它，进入对方的‘记忆空间’。”', background: BG_FOREST, nextId: 'day2_gongsun_item_5_kui' },
+  'day2_gongsun_item_4_lu': { id: 'day2_gongsun_item_4_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“当你靠近那些星宿转世之人，若对方情绪波动剧烈，吊坠便会发烫。届时你可激活它，进入对方的‘记忆空间’。”', background: BG_FOREST, nextId: 'day2_gongsun_item_5_lu' },
+
+  'day2_gongsun_item_5_kui': { id: 'day2_gongsun_item_5_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“在梦境中，你将以旁观者的身份参与他们的过去。唯有做出正确的抉择，解开他们的心结，残卷的线索才会显现。”', background: BG_FOREST, nextId: 'day2_gongsun_item_6_kui' },
+  'day2_gongsun_item_5_lu': { id: 'day2_gongsun_item_5_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“在梦境中，你将以旁观者的身份参与他们的过去。唯有做出正确的抉择，解开他们的心结，残卷的线索才会显现。”', background: BG_FOREST, nextId: 'day2_gongsun_item_6_lu' },
+
+  'day2_gongsun_item_6_kui': { id: 'day2_gongsun_item_6_kui', speaker: '{playerName}', content: '“也就是说……我要深入他们灵魂最脆弱的地方，去拯救他们？”', background: BG_FOREST, nextId: 'day2_gongsun_item_7_kui' },
+  'day2_gongsun_item_6_lu': { id: 'day2_gongsun_item_6_lu', speaker: '{playerName}', content: '“也就是说……我要深入他们灵魂最脆弱的地方，去拯救他们？”', background: BG_FOREST, nextId: 'day2_gongsun_item_7_lu' },
+
+  'day2_gongsun_item_7_kui': { id: 'day2_gongsun_item_7_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“然也。英雄亦有泪，壮士也断肠。去吧，去读懂他们的心，那才是梁山真正的魂魄所在。”', background: BG_FOREST, nextId: 'day2_gongsun_ask_final_kui' },
+  'day2_gongsun_item_7_lu': { id: 'day2_gongsun_item_7_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“然也。英雄亦有泪，壮士也断肠。去吧，去读懂他们的心，那才是梁山真正的魂魄所在。”', background: BG_FOREST, nextId: 'day2_gongsun_ask_final_lu' },
+
+  'day2_gongsun_ask_final_kui': { id: 'day2_gongsun_ask_final_kui', speaker: '{playerName}', content: '“道长，那我要如何识别谁才是星宿转世……”', background: BG_FOREST, nextId: 'day2_gongsun_leave_kui' },
+  'day2_gongsun_ask_final_lu': { id: 'day2_gongsun_ask_final_lu', speaker: '{playerName}', content: '“道长，那我要如何识别谁才是星宿转世……”', background: BG_FOREST, nextId: 'day2_gongsun_leave_lu' },
+
+  'day2_gongsun_leave_kui': { id: 'day2_gongsun_leave_kui', speaker: '系统', content: '你话音未落，公孙胜的身影已如烟雾般消散在林间。你握紧了手中的星魂坠，感到一股温热的力量在掌心流转。', background: BG_FOREST, nextId: 'day2_night_kui_1' },
+  'day2_gongsun_leave_lu': { id: 'day2_gongsun_leave_lu', speaker: '系统', content: '你话音未落，公孙胜的身影已如烟雾般消散在林间。你握紧了手中的星魂坠，感到一股温热的力量在掌心流转。', background: BG_FOREST, nextId: 'day2_night_lu_1' },
 
   // --- 第二天夜晚：独自复盘与思乡 ---
   'day2_night_kui_1': { id: 'day2_night_kui_1', speaker: '系统', content: '夜深了，梁山的喧嚣渐渐散去。你独自回到房间，坐在桌前，看着摇曳的烛火。', background: BG_NIGHT, nextId: 'day2_night_kui_3' },
@@ -176,7 +232,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day2_choice_accept_lu': { id: 'day2_choice_accept_lu', speaker: '李逵', characterId: 'likui', content: '“呸！那老和尚除了喝酒就是念经，有甚么好见的！”李逵虽然嘴上骂着，还是没松开拽着你手腕的手。', background: BG_FOREST, nextId: 'day2_lu_kui_1' },
   'day2_lu_kui_1': { id: 'day2_lu_kui_1', speaker: '李逵', characterId: 'likui', content: '“答应归答应，今天你还是俺的人！来，给俺扎半个时辰马步！”', background: BG_FOREST, nextId: 'day2_lu_kui_2' },
   'day2_lu_kui_2': { id: 'day2_lu_kui_2', speaker: '{playerName}', content: '“半个时辰？铁牛大哥，我的腿会断的……”你惨叫着被强行按了下去。', background: BG_FOREST, nextId: 'day2_lu_kui_3' },
-  'day2_lu_kui_3': { id: 'day2_lu_kui_3', speaker: '李逵', characterId: 'likui', content: '“断了俺背你！这腰给俺挺直了！扎够了，明天爱找谁找谁去！”', background: BG_FOREST, nextId: 'day2_night_lu_1' },
+  'day2_lu_kui_3': { id: 'day2_lu_kui_3', speaker: '李逵', characterId: 'likui', content: '“断了俺背你！这腰给俺挺直了！扎够了，明天爱找谁找谁去！”', background: BG_FOREST, nextId: 'day2_gongsun_arrive_lu' },
 
   'day2_night_lu_1': { id: 'day2_night_lu_1', speaker: '系统', content: '夜深了，梁山的喧嚣渐渐散去。你独自回到房间，坐在桌前，看着摇曳的烛火。', background: BG_NIGHT, nextId: 'day2_night_lu_3' },
   'day2_night_lu_3': { id: 'day2_night_lu_3', speaker: '{playerName}', content: '（如果是在家里，这时候我应该正刷着手机，喝着冰可乐，吐槽着无脑的剧集吧？而不是在这里担心什么星力暴走，还要被铁牛拽着去跑操，甚至还要学什么“吼出来”……）', background: BG_NIGHT, nextId: 'day2_night_lu_4' },
@@ -205,8 +261,11 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '【抄起板凳反抗】跟你们拼了！', nextId: 'day2_night_attack_rescue_lu', attributeBonus: { strength: 3, weight: 1 } }
   ]},
 
-  'day2_night_attack_rescue_kui': { id: 'day2_night_attack_rescue_kui', speaker: '系统', content: '就在歹徒即将攻击你的刹那，黑暗中一道银光破窗而入！那是长枪的尖刃，精准地挑开了歹徒的短刀。', background: BG_BLACK, nextId: 'day2_night_attack_lin_silhouette_kui' },
-  'day2_night_attack_rescue_lu': { id: 'day2_night_attack_rescue_lu', speaker: '系统', content: '就在歹徒即将攻击你的刹那，黑暗中一道银光破窗而入！那是长枪的尖刃，精准地挑开了歹徒的短刀。', background: BG_BLACK, nextId: 'day2_night_attack_lin_silhouette_lu' },
+  'day2_night_attack_rescue_kui': { id: 'day2_night_attack_rescue_kui', speaker: '系统', content: '就在歹徒即将攻击你的刹那，黑暗中一道银光破窗而入！那是长枪的尖刃，精准地挑开了歹徒的短刀。', background: BG_BLACK, nextId: 'day2_night_attack_pendant_react_kui' },
+  'day2_night_attack_rescue_lu': { id: 'day2_night_attack_rescue_lu', speaker: '系统', content: '就在歹徒即将攻击你的刹那，黑暗中一道银光破窗而入！那是长枪的尖刃，精准地挑开了歹徒的短刀。', background: BG_BLACK, nextId: 'day2_night_attack_pendant_react_lu' },
+
+  'day2_night_attack_pendant_react_kui': { id: 'day2_night_attack_pendant_react_kui', speaker: '系统', content: '就在那银光闪现的瞬间，你胸前的星魂坠忽然变得滚烫，仿佛在感应着某种深沉而压抑的灵魂波动。', background: BG_BLACK, nextId: 'day2_night_attack_lin_silhouette_kui' },
+  'day2_night_attack_pendant_react_lu': { id: 'day2_night_attack_pendant_react_lu', speaker: '系统', content: '就在那银光闪现的瞬间，你胸前的星魂坠忽然变得滚烫，仿佛在感应着某种深沉而压抑的灵魂波动。', background: BG_BLACK, nextId: 'day2_night_attack_lin_silhouette_lu' },
 
   'day2_night_attack_lin_silhouette_kui': { id: 'day2_night_attack_lin_silhouette_kui', speaker: '系统', content: '月光透过的瞬间，你能看到一个披着素色斗篷、身形修长稳健的剪影。他出招极快且克制，仅用枪尖扫过歹徒手腕，便令其痛呼倒地。', background: BG_NIGHT, nextId: 'day2_night_attack_lin_voice_kui' },
   'day2_night_attack_lin_silhouette_lu': { id: 'day2_night_attack_lin_silhouette_lu', speaker: '系统', content: '月光透过的瞬间，你能看到一个披着素色斗篷、身形修长稳健的剪影。他出招极快且克制，仅用枪尖扫过歹徒手腕，便令其痛呼倒地。', background: BG_NIGHT, nextId: 'day2_night_attack_lin_voice_lu' },
