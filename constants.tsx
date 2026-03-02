@@ -24,7 +24,7 @@ const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B
 const BG_NIGHT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%A4%9C%E9%97%B4.png?raw=true";
 const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
 const BG_LIN_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
-const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%B0%B4%E6%B3%8A.png?raw=true";
+const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%B0%B4%E6%B3%8A.png?raw=true";
 const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
 const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1.png?raw=true";
@@ -73,13 +73,13 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'woods_8': { id: 'woods_8', speaker: '李逵', characterId: 'likui', content: '“啰嗦甚! 由不得你! 走你! 把你一人留在这等下就要叫大虫给叼走了!”', background: BG_FOREST, nextId: 'woods_9' },
   'woods_9': { id: 'woods_9', speaker: '系统', content: '李逵像拎小鸡一样把你扛到肩上，不顾你的抗议，大步流星地往山上跑去。', background: BG_FOREST, nextId: 'hall_entry' },
 
-  // --- 聚义厅：对话与公孙胜预言 ---
-  'hall_entry': { id: 'hall_entry', speaker: '系统', content: '（你就这样地扛进了聚义厅，直到被李逵砰地一声丢在地砖上。）', background: BG_CAMP, nextId: 'hall_kui_explain' },
+  // --- 忠义堂：对话与公孙胜预言 ---
+  'hall_entry': { id: 'hall_entry', speaker: '系统', content: '（你就这样地扛进了忠义堂，直到被李逵砰地一声丢在地砖上。）', background: BG_CAMP, nextId: 'hall_kui_explain' },
   'hall_kui_explain': { id: 'hall_kui_explain', speaker: '李逵', characterId: 'likui', content: '“哥哥，俺在林子里打旋，见这丫头从天上‘啪嗒’一下掉在俺脚跟前，俺还以为是个甚么野果，凑近一看才见是个活人！”', background: BG_CAMP, nextId: 'hall_reaction_crowd' },
   'hall_reaction_crowd': { id: 'hall_reaction_crowd', speaker: '系统', content: '堂上众人面面相觑。宋江手捋胡须，神色复杂地打量着你。', background: BG_CAMP, nextId: 'hall_song_ask' },
   'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我梁山泊？”', background: BG_CAMP, nextId: 'hall_inner_monologue' },
-  'hall_inner_monologue': { id: 'hall_inner_monologue', speaker: '系统', content: '你揉了揉眼睛，抬头看了看大厅上方的牌匾，那上面赫然写着“聚义厅”三个大字', background: BG_CAMP, nextId: 'hall_inner_shock' },
-  'hall_inner_shock': { id: 'hall_inner_shock', speaker: '{playerName}', content: '（不会吧...这地方怎么跟我在电视剧里看到的聚义厅完全长一样啊...上面坐着的那个黑哥不会是宋江吧...那个秃子不会是鲁智深吧...我不会真穿进水浒传了吧）', background: BG_CAMP, nextId: 'hall_inner_monologue_2' },
+  'hall_inner_monologue': { id: 'hall_inner_monologue', speaker: '系统', content: '你揉了揉眼睛，抬头看了看大厅上方的牌匾，那上面赫然写着“忠义堂”三个大字', background: BG_CAMP, nextId: 'hall_inner_shock' },
+  'hall_inner_shock': { id: 'hall_inner_shock', speaker: '{playerName}', content: '（不会吧...这地方怎么跟我在电视剧里看到的忠义堂完全长一样啊...上面坐着的那个黑哥不会是宋江吧...那个秃子不会是鲁智深吧...我不会真穿进水浒传了吧）', background: BG_CAMP, nextId: 'hall_inner_monologue_2' },
   'hall_inner_monologue_2': { id: 'hall_inner_monologue_2', speaker: '{playerName}', content: '（冷静，一定要冷静。现在硬碰硬只有死路一条。看宋江的神色，似乎还在权衡。既然如此，不如先暂时配合，保住性命再寻良策……）', background: BG_CAMP, nextId: 'hall_name_input' },
   'hall_name_input': { id: 'hall_name_input', speaker: '系统', content: '请在这尺素纸上写下你的姓名：', background: BG_CAMP, isNameInput: true, nextId: 'hall_self_intro' },
   'hall_self_intro': { id: 'hall_self_intro', speaker: '{playerName}', content: '“我叫{playerName}，来自遥远的未来。我认识你们每一个人，梁山一百零八将的事迹在未来家喻户晓。”', background: BG_CAMP, nextId: 'hall_crowd_doubt_1' },
@@ -93,10 +93,8 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_song_verdict_next': { id: 'hall_song_verdict_next', speaker: '系统', content: '宋江手捋胡须，神情缓和了些。', background: BG_CAMP, nextId: 'hall_kui_support' },
   'hall_kui_support': { id: 'hall_kui_support', speaker: '李逵', characterId: 'likui', content: '“我看{playerName}还算机灵，不如留在梁山干活，正好我们缺人手。”', background: BG_CAMP, nextId: 'hall_hero_oppose' },
   'hall_hero_oppose': { id: 'hall_hero_oppose', speaker: '石秀', content: '“铁牛，你莫要胡闹！咱们梁山好汉顶天立地，虽不杀妇道人家，但山寨重地岂能容来路不明之人久留？依我看，打发她下山便是！”', background: BG_CAMP, nextId: 'hall_kui_rebuttal' },
-  'hall_kui_rebuttal': { id: 'hall_kui_rebuttal', speaker: '李逵', characterId: 'likui', content: '“石秀兄弟，你这厮好生不爽利！这丫头从天而降，定是老天爷送来的，你赶她走，岂不是违了天意？俺偏要留她！”', background: BG_CAMP, nextId: 'hall_kui_leg' },
+  'hall_kui_rebuttal': { id: 'hall_kui_rebuttal', speaker: '李逵', characterId: 'likui', content: '“石秀兄弟，你这厮好生不爽利！这丫头从天而降，定是老天爷送来的，你赶她走，岂不是违了天意？俺偏要留她！”', background: BG_CAMP, nextId: 'hall_song_expel' },
   'game_over_hall': { id: 'game_over_hall', speaker: '宋江', content: '“满口胡言！宋某一生忠义，岂容你这厮在此瞎编乱造！来人，把这骗子赶出山寨，永世不得踏入！”', background: BG_BLACK, nextId: 'restart_game' },
-  'restart_game': { id: 'restart_game', speaker: '系统', content: '【游戏结束】宋江最讨厌骗子。', background: BG_BLACK, choices: [{ text: '重新开始', nextId: 'start' }] },
-  'hall_kui_leg': { id: 'hall_kui_leg', speaker: '李逵', characterId: 'likui', content: '“哥哥！问这许多作甚！你看{playerName}吓得脸都白了，定是好人！饿不饿？俺那儿有刚烤好的羊腿！”', background: BG_CAMP, nextId: 'hall_song_expel' },
   'hall_song_expel': { id: 'hall_song_expel', speaker: '宋江', content: '“石秀兄弟所言亦有理。我梁山虽广纳贤才，却也不留底细不明之人。铁牛，莫要再闹。来人，将这位姑娘带下去，送出山寨，莫要伤了她。”\n\n（两名校尉走上前来，一左一右架住了你的胳膊。）', background: BG_CAMP, choices: [
     { text: '“等等！我真的没有撒谎！”', nextId: 'hall_expel_plead_1' },
     { text: '（拼命挣扎）“放开我！你们这群土匪！”', nextId: 'hall_expel_struggle_1' }
@@ -104,7 +102,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'hall_expel_plead_1': { id: 'hall_expel_plead_1', speaker: '{playerName}', content: '“等等！我真的没有撒谎！我说的每一个字都是真的！你们不能就这样把我赶走！”你急切地大喊，试图挣脱校尉的束缚。', background: BG_CAMP, nextId: 'hall_expel_plead_2' },
   'hall_expel_plead_2': { id: 'hall_expel_plead_2', speaker: '系统', content: '堂上众人或是冷笑，或是摇头，宋江面无表情，只是挥了挥手示意校尉动作快些。', background: BG_CAMP, nextId: 'hall_gongsun_entry' },
   'hall_expel_struggle_1': { id: 'hall_expel_struggle_1', speaker: '{playerName}', content: '“放开我！你们这群土匪！这就是你们所谓的‘替天行道’吗？欺负一个弱女子算什么英雄好汉！”你一边挣扎一边愤怒地控诉。', background: BG_CAMP, nextId: 'hall_expel_struggle_2' },
-  'hall_expel_struggle_2': { id: 'hall_expel_struggle_2', speaker: '系统', content: '“土匪”二字一出，厅内气氛瞬间降至冰点。几名脾气火爆的好汉已经按住了刀柄，李逵更是急得直跳脚，想上前求情却被石秀拦住。', background: BG_CAMP, nextId: 'hall_gongsun_entry' },
+  'hall_expel_struggle_2': { id: 'hall_expel_struggle_2', speaker: '系统', content: '“土匪”二字一出，厅内气氛瞬间降至冰点。', background: BG_CAMP, nextId: 'hall_gongsun_entry' },
   'hall_gongsun_entry': { id: 'hall_gongsun_entry', speaker: '公孙胜', content: '“且慢！动不得，万万动不得！……哥哥，快叫校尉退下！此子非凡间之人！贫道方才观星，见天狗食月，星宿移位，一道异芒坠于后山……竟应在此处！”', background: BG_CAMP, nextId: 'hall_song_scene_desc' },
   'hall_song_scene_desc': { id: 'hall_song_scene_desc', speaker: '系统', content: '只见一位道人疾步入厅。厅中一阵骚动。宋江抬手示意众人安静。', background: BG_CAMP, nextId: 'hall_song_ask_detail' },
   'hall_song_ask_detail': { id: 'hall_song_ask_detail', speaker: '宋江', content: '“公孙先生，且细说。”', background: BG_CAMP, nextId: 'hall_gongsun_reveal' },
@@ -113,13 +111,14 @@ export const STORY_DATA: Record<string, StoryNode> = {
     { text: '啊？？我吗....?', nextId: 'hall_kui_comment' }
   ]},
   'hall_kui_comment': { id: 'hall_kui_comment', speaker: '李逵', characterId: 'likui', content: '“俺就说！俺扛他回来时，觉着背上暖烘烘的，像扛了个小火炉！原来不是细作，是个小星宿？！”', background: BG_CAMP, nextId: 'hall_lu_comment' },
-  'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇，正想劝哥哥莫要急着赶人。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_yan_comment' },
-  'hall_yan_comment': { id: 'hall_yan_comment', speaker: '燕青', characterId: 'yanqing', content: '“铁牛哥哥扛人时，我瞧见了。此人衣着裁剪奇异，面料非丝非麻，口音更是闻所未闻。公孙先生说是‘非凡间之人’，我看……倒像从天外掉下来的。有趣，实在有趣。”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
+  'hall_lu_comment': { id: 'hall_lu_comment', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家方才也觉得稀奇，正想劝哥哥莫要急着赶人。寻常人见了铁牛这黑厮，早吓得尿裤子。{playerName}虽然狼狈，眼里却有光，不似奸邪之辈。若真与我梁山有这等缘分……见死不救，岂是好汉所为？”', background: BG_CAMP, nextId: 'hall_lujunyi_ask' },
   'hall_lujunyi_ask': { id: 'hall_lujunyi_ask', speaker: '林冲', characterId: 'linchong', content: '“先生之意，是必须救？如何救？”', background: BG_CAMP, nextId: 'hall_lujunyi_ask_next' },
   'hall_lujunyi_ask_next': { id: 'hall_lujunyi_ask_next', speaker: '系统', content: '林冲看向公孙胜。', background: BG_CAMP, nextId: 'hall_gongsun_solution' },
-  'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《水浒秘籍》四卷残章。此书乃是上应天命、下契地脉的奇书，记载着一百单八将的真元轨迹。你身为异界之人，魂魄如无根浮萍，唯有集齐这四卷残章，借其中蕴含的‘四象星元’之力，方能构筑起跨越虚空的‘星桥’。若无此桥，纵使你有通天之能，也无法穿透这重重位面，寻回故土。”', background: BG_CAMP, nextId: 'hall_player_ask_home' },
+  'hall_gongsun_solution': { id: 'hall_gongsun_solution', speaker: '公孙胜', content: '“唯有寻回散落四方的《天罡星谱》四卷残章。此书乃是上应天命、下契地脉的奇书，记载着一百单八将的真元轨迹。你身为异界之人，魂魄如无根浮萍，唯有集齐这四卷残章，借其中蕴含的‘四象星元’之力，方能构筑起跨越虚空的‘星桥’。若无此桥，纵使你有通天之能，也无法穿透这重重位面，寻回故土。”', background: BG_CAMP, nextId: 'hall_player_ask_home' },
   'hall_player_ask_home': { id: 'hall_player_ask_home', speaker: '{playerName}', content: '“公孙先生，如果我真的集齐了那四卷残章，是不是就一定能回到我原来的世界？”你紧紧盯着公孙胜，声音中带着一丝颤抖和希冀。', background: BG_CAMP, nextId: 'hall_gongsun_uncertain' },
-  'hall_gongsun_uncertain': { id: 'hall_gongsun_uncertain', speaker: '公孙胜', content: '公孙胜沉默了片刻，轻轻摇了摇头：“天机变幻莫测，贫道亦不敢断言。集齐残章只是给了你一个‘可能’，至于最终能否功成……唯有尽人事，听天命。但若不试这一试，你便连这万分之一的机会也将失去。”', background: BG_CAMP, nextId: 'hall_song_command' },
+  'hall_gongsun_uncertain': { id: 'hall_gongsun_uncertain', speaker: '公孙胜', content: '公孙胜沉默了片刻，轻轻摇了摇头：“天机变幻莫测，贫道亦不敢断言。集齐残章只是给了你一个‘可能’，至于最终能否功成……唯有尽人事，听天命。但若不试这一试，你便连这万分之一的机会也将失去。”', background: BG_CAMP, nextId: 'hall_song_ask_backlash' },
+  'hall_song_ask_backlash': { id: 'hall_song_ask_backlash', speaker: '宋江', content: '“公孙先生，宋某还有一事不明。为何这位小友身上的星力，会反噬我梁山诸位兄弟？这其中究竟有何因果？”', background: BG_CAMP, nextId: 'hall_gongsun_backlash_reply' },
+  'hall_gongsun_backlash_reply': { id: 'hall_gongsun_backlash_reply', speaker: '公孙胜', content: '“回哥哥，这其中的因果牵连极深，贫道目前亦未能窥见全貌。或许是因为此子并非本界之人，其魂魄与我等星宿本源产生了某种奇特的共振……贫道还需要些时间，开坛做法，仔细推演一番。”', background: BG_CAMP, nextId: 'hall_song_command' },
   'hall_song_command': { id: 'hall_song_command', speaker: '宋江', content: '“众位兄弟都听到了。此事，关乎这位小友的生死，亦关乎我梁山气运根基. 小友，你虽来路奇异，但既怀我梁山星力，便与我等有了因果. 我梁山泊替天行道，讲的是一个‘义’字. 今日，这桩事，宋江管了。”', background: BG_CAMP, nextId: 'hall_song_welcome' },
   'hall_song_welcome': { id: 'hall_song_welcome', speaker: '宋江', content: '“{playerName}小友，从今日起，梁山便是你暂时安身之所. 望你与我等兄弟，同心协力，共渡此劫.”', background: BG_CAMP, choices: [
     { text: '为了活命，我愿意留在梁山！', nextId: 'hall_player_sigh' }
@@ -129,9 +128,7 @@ export const STORY_DATA: Record<string, StoryNode> = {
   // --- 第二天：特训 ---
   'day2_start': { id: 'day2_start', speaker: '系统', content: '第二天清晨。门砰地一声被撞开了，李逵闯了进来。', background: BG_CAVE, nextId: 'day2_kui_naked' },
   'day2_kui_naked': { id: 'day2_kui_naked', speaker: '{playerName}', content: '“哇！李铁牛你进屋不敲门吗！”你还没穿好衣服，手忙脚乱地抓过外褂。', background: BG_CAVE, nextId: 'day2_kui_oblivious' },
-  'day2_kui_oblivious': { id: 'day2_kui_oblivious', speaker: '李逵', characterId: 'likui', content: '“敲甚么门！俺要带你去特训！快穿上衣服，迟了俺就扛你走！”', background: BG_CAVE, nextId: 'day2_kui_ask_why' },
-  'day2_kui_ask_why': { id: 'day2_kui_ask_why', speaker: '{playerName}', content: '“等等！铁牛大哥，你总得告诉我为什么要特训吧？我只是个拿笔的，又不上阵杀敌。”', background: BG_CAVE, nextId: 'day2_kui_explain' },
-  'day2_kui_explain': { id: 'day2_kui_explain', speaker: '李逵', characterId: 'likui', content: '“你这细皮嫩肉的，懂个甚么！公孙哥哥说了，那劳什子残卷邪门得很，你要去寻它们，少不得要经受各路考验。若是没个好身子骨，半路被那劳什子心魔给吞了，俺铁牛上哪儿找你去？练好这筋骨，才是保命的本钱！少废话，快走！”', background: BG_CAVE, nextId: 'day2_kui_monologue' },
+  'day2_kui_oblivious': { id: 'day2_kui_oblivious', speaker: '李逵', characterId: 'likui', content: '“敲甚么门！俺要带你去特训！快穿上衣服，迟了俺就扛你走！”', background: BG_CAVE, nextId: 'day2_kui_monologue' },
   'day2_kui_monologue': { id: 'day2_kui_monologue', speaker: '{playerName}', content: '“。。。真是无语。”看着铁牛风风火火的背影，你叹了口气，只能认命地跟上。', background: BG_CAVE, nextId: 'day2_kui_black_forest' },
   'day2_kui_black_forest': { id: 'day2_kui_black_forest', speaker: '系统', content: '树林中', background: BG_BLACK, nextId: 'day2_kui_pre_1' },
   'day2_kui_pre_1': { id: 'day2_kui_pre_1', speaker: '李逵', characterId: 'likui', content: '“跑起来！别磨蹭！这山路要是都走不动，以后怎么跟着俺杀敌！”', background: BG_FOREST, nextId: 'day2_kui_pre_2' },
@@ -176,13 +173,10 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day2_gongsun_chat_1_kui': { id: 'day2_gongsun_chat_1_kui', speaker: '李逵', characterId: 'likui', content: '“公孙哥哥！你来得正好，俺正带这小文书特训呢！”', background: BG_FOREST, nextId: 'day2_gongsun_chat_2_kui' },
   'day2_gongsun_chat_1_lu': { id: 'day2_gongsun_chat_1_lu', speaker: '李逵', characterId: 'likui', content: '“公孙哥哥！你来得正好，俺正带这小文书特训呢！”', background: BG_FOREST, nextId: 'day2_gongsun_chat_2_lu' },
 
-  'day2_gongsun_chat_2_kui': { id: 'day2_gongsun_chat_2_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“呵呵，铁牛，贫道此番前来并非偶遇，而是专程为这位小友而来。”', background: BG_FOREST, nextId: 'day2_gongsun_interaction_kui' },
-  'day2_gongsun_chat_2_lu': { id: 'day2_gongsun_chat_2_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“呵呵，铁牛，贫道此番前来并非偶遇，而是专程为这位小友而来。”', background: BG_FOREST, nextId: 'day2_gongsun_interaction_lu' },
-
-  'day2_gongsun_interaction_kui': { id: 'day2_gongsun_interaction_kui', speaker: '系统', content: '公孙胜目光深邃地看着你，你心中一动，开口问道：', background: BG_FOREST, choices: [
+  'day2_gongsun_chat_2_kui': { id: 'day2_gongsun_chat_2_kui', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“呵呵，铁牛，贫道此番前来并非偶遇，而是专程为这位小友而来。”', background: BG_FOREST, choices: [
     { text: '“专程为我而来？难道是残卷有了消息？”', nextId: 'day2_gongsun_purpose_kui' }
   ]},
-  'day2_gongsun_interaction_lu': { id: 'day2_gongsun_interaction_lu', speaker: '系统', content: '公孙胜目光深邃地看着你，你心中一动，开口问道：', background: BG_FOREST, choices: [
+  'day2_gongsun_chat_2_lu': { id: 'day2_gongsun_chat_2_lu', speaker: '公孙胜', characterId: 'gongsunsheng', content: '“呵呵，铁牛，贫道此番前来并非偶遇，而是专程为这位小友而来。”', background: BG_FOREST, choices: [
     { text: '“专程为我而来？难道是残卷有了消息？”', nextId: 'day2_gongsun_purpose_lu' }
   ]},
 
