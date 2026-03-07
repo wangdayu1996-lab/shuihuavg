@@ -572,7 +572,7 @@ const App: React.FC = () => {
   const [typedContent, setTypedContent] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [showChoices, setShowChoices] = useState<boolean>(false);
-  const [playerName, setPlayerName] = useState('小文书');
+  const [playerName, setPlayerName] = useState('你');
   const [tempName, setPlayerNameTemp] = useState('');
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
@@ -608,9 +608,30 @@ const App: React.FC = () => {
   const [spriteLoaded, setSpriteLoaded] = useState(false);
 
   const [hasSave, setHasSave] = useState<boolean>(false);
-
   const [isWaitFinished, setIsWaitFinished] = useState(true);
   const [faintPhase, setFaintPhase] = useState<'none' | 'stay' | 'anim'>('none');
+
+  const prevSpriteRef = useRef<string | undefined>(undefined);
+
+  // --- 资源预加载 ---
+  useEffect(() => {
+    const imagesToPreload = new Set<string>();
+    CHARACTERS.forEach(c => {
+      if (c.sprite) imagesToPreload.add(c.sprite);
+      if (c.portrait) imagesToPreload.add(c.portrait);
+      if (c.avatar) imagesToPreload.add(c.avatar);
+    });
+    Object.values(STORY_DATA).forEach(node => {
+      if (node.background) imagesToPreload.add(node.background);
+      if (node.sprite) imagesToPreload.add(node.sprite);
+    });
+    imagesToPreload.forEach(src => {
+      if (src && src.startsWith('http')) {
+        const img = new Image();
+        img.src = src;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -683,7 +704,7 @@ const App: React.FC = () => {
     setActionPoints(3);
     setDivinationUsedToday(false);
     setHistory([]);
-    setPlayerName('小文书');
+    setPlayerName('你');
     setIsAutoPlay(false);
     setLastCharacterId(undefined);
     setArcheryLevel(1);
@@ -705,13 +726,18 @@ const App: React.FC = () => {
     : (currentNode.characterId || (currentNode.speaker === '{playerName}' ? lastCharacterId : undefined));
 
   useEffect(() => {
+    const currentSprite = currentNode.sprite || characters.find(c => c.id === spriteToDisplay)?.sprite;
+    if (currentSprite !== prevSpriteRef.current) {
+      setSpriteLoaded(false);
+      prevSpriteRef.current = currentSprite;
+    }
+
     if (currentNode.characterId && currentNode.speaker !== '系统') {
       setLastCharacterId(currentNode.characterId);
     } else if (currentNode.speaker === '系统' || (currentNode.speaker !== '{playerName}' && !currentNode.characterId) || currentNodeId === 'day4_kui_drill_pan_start') {
       setLastCharacterId(undefined);
     }
-    setSpriteLoaded(false);
-  }, [currentNodeId, currentNode.characterId, currentNode.speaker]);
+  }, [currentNodeId, currentNode.characterId, currentNode.speaker, currentNode.sprite]);
 
   useEffect(() => {
     setTypedContent('');
@@ -950,7 +976,13 @@ const App: React.FC = () => {
       );
     }
 
-    const isFightNode = ['day3_kui_yiling_10', 'day3_kui_help_1', 'day3_kui_help_5', 'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5'].includes(currentNodeId);
+    const isFightNode = [
+      'woods_new_2',
+      'day3_kui_yiling_10', 'day3_kui_help_1', 'day3_kui_help_5', 
+      'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5',
+      'day2_night_attack_breakin_kui', 'day2_night_attack_breakin_lu',
+      'day2_night_attack_lin_silhouette_kui', 'day2_night_attack_lin_silhouette_lu'
+    ].includes(currentNodeId);
     const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player' || currentNodeId === 'day4_kui_train_faint';
     
     const isScaleCG = displayBackground.includes('scalenew.jpg');
@@ -966,6 +998,8 @@ const App: React.FC = () => {
     );
 
     const isStorytellingNode = STORYTELLING_NODES.includes(currentNodeId);
+
+    const activeSprite = currentNode.sprite || (spriteToDisplay ? characters.find(c => c.id === spriteToDisplay)?.sprite : undefined);
 
     return (
       <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode || (faintPhase === 'anim') ? 'animate-shake' : ''}`} onClick={handleNextDialogue}>
@@ -1031,13 +1065,13 @@ const App: React.FC = () => {
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
         </div>
-        {spriteToDisplay && !isFaintSequence && (
+        {activeSprite && !isFaintSequence && (
           <div className="absolute inset-x-0 bottom-0 h-screen z-10 pointer-events-none overflow-hidden flex items-end justify-center">
             <img 
-              key={spriteToDisplay}
-              src={characters.find(c => c.id === spriteToDisplay)?.sprite} 
+              src={activeSprite} 
               onLoad={() => setSpriteLoaded(true)}
-              className={`w-auto animate-fade-up object-contain origin-bottom transition-opacity duration-1000 ${spriteLoaded ? 'opacity-100' : 'opacity-0'} ${['linchong', 'yanqing', 'luzhishen'].includes(spriteToDisplay) ? 'h-[91.35vh]' : 'h-[105vh]'}`} 
+              className={`w-auto object-contain origin-bottom transition-all duration-700 ease-in-out ${spriteLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${['linchong', 'yanqing', 'luzhishen'].includes(spriteToDisplay || '') ? 'h-[91.35vh]' : (activeSprite.includes('%E6%9D%8E%E9%80%B5%E7%94%9F%E6%B0%94.png') ? 'h-[99.75vh]' : 'h-[105vh]')}`} 
+              style={{ willChange: 'transform, opacity' }}
               alt="portrait" 
             />
           </div>

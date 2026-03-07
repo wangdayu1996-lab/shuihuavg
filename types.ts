@@ -56,6 +56,7 @@ export interface StoryNode {
   content: string;
   background: string;
   characterId?: string;
+  sprite?: string;
   choices?: Choice[];
   nextId?: string;
   isNameInput?: boolean;

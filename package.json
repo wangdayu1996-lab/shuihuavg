@@ -1,4 +1,3 @@
-
 {
   "name": "shuihu-heart-avg",
   "private": true,
@@ -12,6 +11,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.38.0",
+    "motion": "^12.35.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
