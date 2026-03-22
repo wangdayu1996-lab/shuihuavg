@@ -6,8 +6,8 @@ const LIKUI_ANGRY_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/ma
 const LIKUI_JPG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5.jpg?raw=true";
 const LUZHISHEN_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%B2%81%E6%99%BA%E6%B7%B1%E5%AF%B9%E8%AF%9D.jpg?raw=true";
 const LUZHISHEN_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9%B2%81%E6%99%BA%E6%B7%B1png.png?raw=true";
-const LINCHONG_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/lujunyiduihua.jpg?raw=true";
-const LINCHONG_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89png.png?raw=true";
+const LINCHONG_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9E%97%E5%86%B2.png?raw=true";
+const LINCHONG_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9E%97%E5%86%B2.png?raw=true";
 const YANQING_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92lihui.jpg?raw=true";
 const YANQING_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92png.png?raw=true";
 const HUYANZHUO_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.png?raw=true";
@@ -45,7 +45,7 @@ export const DIVINATION_BUFFS: DivinationBuff[] = [
 ];
 
 export const CHARACTERS: Character[] = [
-  { id: 'linchong', name: '林冲', title: '豹子头', description: '八十万禁军教头，枪法绝伦。', avatar: LINCHONG_IMAGE, portrait: LINCHONG_IMAGE, sprite: '', personality: '隐忍、刚毅、深情', affection: 0, interactionCount: 0, difficulty: 3, archetype: '导师', heartbeatEvents: [] },
+  { id: 'linchong', name: '林冲', title: '豹子头', description: '八十万禁军教头，枪法绝伦。', avatar: LINCHONG_IMAGE, portrait: LINCHONG_IMAGE, sprite: LINCHONG_PNG, personality: '隐忍、刚毅、深情', affection: 0, interactionCount: 0, difficulty: 3, archetype: '导师', heartbeatEvents: [] },
   { id: 'yanqing', name: '燕青', title: '浪子', description: '梁山第一特工，情趣大师。', avatar: YANQING_IMAGE, portrait: YANQING_IMAGE, sprite: YANQING_PNG, personality: '狡黠、浪漫', affection: 0, interactionCount: 0, difficulty: 4, archetype: '竹马', heartbeatEvents: [] },
   { id: 'luzhishen', name: '鲁智深', title: '花和尚', description: '大智若愚，你的随身保镖。', avatar: LUZHISHEN_IMAGE, portrait: LUZHISHEN_IMAGE, sprite: LUZHISHEN_PNG, personality: '豪爽、赤诚', affection: 0, interactionCount: 0, difficulty: 2, archetype: '守护者', heartbeatEvents: [] },
   { id: 'likui', name: '李逵', title: '黑旋风', description: '直球之王，单纯得让人头疼。', avatar: LIKUI_PNG, portrait: LIKUI_JPG, sprite: LIKUI_PNG, personality: '狂放、憨直', affection: 0, interactionCount: 0, difficulty: 1, archetype: '犬系', heartbeatEvents: [] },
@@ -448,5 +448,10 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day5_marsh_desc': { id: 'day5_marsh_desc', speaker: '{playerName}', content: '“好壮阔的水域……这就是梁山的天然屏障吗？”你深深吸了一口带着水汽的清凉空气，感觉精神为之一振。', background: BG_MARSH, nextId: 'day5_marsh_unlock' },
   'day5_marsh_unlock': { id: 'day5_marsh_unlock', speaker: '李逵', characterId: 'likui', content: '“那是自然！以后你想来，随时跟俺说，或者你自己顺着这条路溜达过来也成。这水泊大得很，够你逛的！”', background: BG_MARSH, nextId: 'day6_start' },
   'stroll_marsh_start': { id: 'stroll_marsh_start', speaker: '系统', content: '你独自来到梁山水泊边。微风拂过，水面波光粼粼，芦苇丛中偶尔惊起几只水鸟。在这里闲逛，你的心情变得舒畅了许多。', background: BG_MARSH, choices: [{ text: '返回', nextId: 'back' }] },
-  'day6_start': { id: 'day6_start', speaker: '系统', content: '第六天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
+  'day6_start': { id: 'day6_start', speaker: '系统', content: '第六天。未完待续...', background: BG_CAMP, nextId: 'linchong_demo_intro' },
+  'linchong_demo_intro': { id: 'linchong_demo_intro', speaker: '系统', content: '梁山泊的日常仍在继续，新的星宿羁绊即将开启。', background: BG_CAMP, choices: [ { text: '点击开始进入林冲部分demo', nextId: 'linchong_demo_1' } ] },
+  'linchong_demo_1': { id: 'linchong_demo_1', speaker: '系统', content: '后山翠竹林。清晨的阳光穿透竹叶，洒在厚厚的落叶堆上。你正随鲁智深大师闭目禅修，四周只有风吹竹叶的沙沙声。', background: BG_BAMBOO, nextId: 'linchong_demo_2' },
+  'linchong_demo_2': { id: 'linchong_demo_2', speaker: '鲁智深', characterId: 'luzhishen', content: '“气沉丹田，莫要被外物乱了心神……嗯？有人来了。”', background: BG_BAMBOO, nextId: 'linchong_demo_3' },
+  'linchong_demo_3': { id: 'linchong_demo_3', speaker: '系统', content: '你睁开眼，只见竹林深处走出一道素色身影。那人手提长枪，步履稳健，眉宇间虽带着几分忧郁，却掩不住那股禁军教头的凌厉英气。', background: BG_BAMBOO, characterId: 'linchong', nextId: 'linchong_demo_4' },
+  'linchong_demo_4': { id: 'linchong_demo_4', speaker: '林冲', characterId: 'linchong', content: '“智深兄弟，原来你在此处。这位便是公孙先生提到的那位异界小友吧？”', background: BG_BAMBOO, choices: [ { text: '“见过林教头。”', nextId: 'start' } ] }
 };
