@@ -515,8 +515,9 @@ const LandingPage: React.FC<{
   onStart: () => void,
   onLoad: () => void,
   hasSave: boolean,
-  onGallery: () => void
-}> = ({ onStart, onLoad, hasSave, onGallery }) => {
+  onGallery: () => void,
+  onLinChongDemo: () => void
+}> = ({ onStart, onLoad, hasSave, onGallery, onLinChongDemo }) => {
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden flex flex-col items-center justify-center">
       <div className="absolute inset-0 z-0">
@@ -540,6 +541,12 @@ const LandingPage: React.FC<{
             className="w-full py-4 bg-yellow-800/80 text-white font-calligraphy text-2xl rounded-lg border-2 border-yellow-600/50 hover:bg-yellow-700 hover:scale-105 transition-all shadow-xl"
           >
             开启新章
+          </button>
+          <button 
+            onClick={onLinChongDemo} 
+            className="w-full py-4 bg-red-900/80 text-white font-calligraphy text-2xl rounded-lg border-2 border-red-600/50 hover:bg-red-800 hover:scale-105 transition-all shadow-xl"
+          >
+            林冲部分Demo
           </button>
           {hasSave && (
             <button 
@@ -690,6 +697,21 @@ const App: React.FC = () => {
     if (savedStrollUnlocked) setIsStrollUnlocked(savedStrollUnlocked === 'true');
     
     setGameState(GameState.STORY);
+  };
+
+  const handleStartLinChongDemo = () => {
+    setCurrentNodeId('day6_start');
+    setCurrentDay(6);
+    setPlayerAttributes({ weight: 5, intelligence: 6, strength: 2, spirit: 4 });
+    setChatHistory({});
+    setGameState(GameState.STORY);
+    setActionPoints(3);
+    setDivinationUsedToday(false);
+    setHistory([]);
+    setPlayerName('你');
+    setIsAutoPlay(false);
+    setLastCharacterId(undefined);
+    setArcheryLevel(1);
   };
 
   const handleStartNew = () => {
@@ -943,7 +965,13 @@ const App: React.FC = () => {
     const romanceableCharacters = characters.filter(c => ROMANCEABLE_IDS.includes(c.id));
 
     if (gameState === GameState.START) {
-      return <LandingPage onStart={handleStartNew} onLoad={handleLoadGame} hasSave={hasSave} onGallery={() => setGameState(GameState.GALLERY)} />;
+      return <LandingPage 
+        onStart={handleStartNew} 
+        onLoad={handleLoadGame} 
+        hasSave={hasSave} 
+        onGallery={() => setGameState(GameState.GALLERY)} 
+        onLinChongDemo={handleStartLinChongDemo}
+      />;
     }
     if (gameState === GameState.GALLERY) {
       return <GalleryPage characters={romanceableCharacters} onBack={() => setGameState(GameState.STORY)} onSelect={(c) => {setSelectedCharForChat(c); setIsChatWindowOpen(true);}} />;
@@ -981,7 +1009,8 @@ const App: React.FC = () => {
       'day3_kui_yiling_10', 'day3_kui_help_1', 'day3_kui_help_5', 
       'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5',
       'day2_night_attack_breakin_kui', 'day2_night_attack_breakin_lu',
-      'day2_night_attack_lin_silhouette_kui', 'day2_night_attack_lin_silhouette_lu'
+      'day2_night_attack_lin_silhouette_kui', 'day2_night_attack_lin_silhouette_lu',
+      'day6_start', 'day6_kui_noise_1'
     ].includes(currentNodeId);
     const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player' || currentNodeId === 'day4_kui_train_faint';
     
