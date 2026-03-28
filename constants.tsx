@@ -11,6 +11,7 @@ const LINCHONG_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/
 const YANQING_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92lihui.jpg?raw=true";
 const YANQING_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92png.png?raw=true";
 const HUYANZHUO_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.png?raw=true";
+const GONGSUNSHENG_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%85%AC%E5%AD%99%E8%83%9C%E5%AF%B9%E8%AF%9D%E7%AB%8B%E7%BB%98.png?raw=true";
 
 export const BG_MOUNTAIN = "https://images.unsplash.com/photo-1505506005708-3058a94639e7?auto=format&fit=crop&q=80&w=2000";
 export const BG_CAMP = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%81%9A%E4%B9%89%E5%8E%85.png?raw=true";
@@ -36,6 +37,7 @@ const CG_BUNS_5 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E9
 const CG_BUNS_3 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%83%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true"; 
 const CG_BUNS_1 = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E4%B8%80%E4%B8%AA%E9%A6%92%E5%A4%B4.png?raw=true";
 const CG_BUNS_EMPTY = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%92%B8%E7%AC%BC.png?raw=true";
+const CG_LIN_BLEED = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%B5%81%E8%A1%80.jpg?raw=true";
 
 export const DIVINATION_BUFFS: DivinationBuff[] = [
   { id: 'tianxi', name: '上上签 · 天喜星动', description: '鸿运当头！今日传信互动好感额外+5。', effectType: 'affection', icon: '🏮' },
@@ -49,7 +51,8 @@ export const CHARACTERS: Character[] = [
   { id: 'yanqing', name: '燕青', title: '浪子', description: '梁山第一特工，情趣大师。', avatar: YANQING_IMAGE, portrait: YANQING_IMAGE, sprite: YANQING_PNG, personality: '狡黠、浪漫', affection: 0, interactionCount: 0, difficulty: 4, archetype: '竹马', heartbeatEvents: [] },
   { id: 'luzhishen', name: '鲁智深', title: '花和尚', description: '大智若愚，你的随身保镖。', avatar: LUZHISHEN_IMAGE, portrait: LUZHISHEN_IMAGE, sprite: LUZHISHEN_PNG, personality: '豪爽、赤诚', affection: 0, interactionCount: 0, difficulty: 2, archetype: '守护者', heartbeatEvents: [] },
   { id: 'likui', name: '李逵', title: '黑旋风', description: '直球之王，单纯得让人头疼。', avatar: LIKUI_PNG, portrait: LIKUI_JPG, sprite: LIKUI_PNG, personality: '狂放、憨直', affection: 0, interactionCount: 0, difficulty: 1, archetype: '犬系', heartbeatEvents: [] },
-  { id: 'huyanzhuo', name: '呼延灼', title: '双鞭', description: '名将后人，治军极严。', avatar: HUYANZHUO_PNG, portrait: HUYANZHUO_PNG, sprite: HUYANZHUO_PNG, personality: '冷酷、坚毅', affection: 0, interactionCount: 0, difficulty: 5, archetype: '教官', heartbeatEvents: [] }
+  { id: 'huyanzhuo', name: '呼延灼', title: '双鞭', description: '名将后人，治军极严。', avatar: HUYANZHUO_PNG, portrait: HUYANZHUO_PNG, sprite: HUYANZHUO_PNG, personality: '冷酷、坚毅', affection: 0, interactionCount: 0, difficulty: 5, archetype: '教官', heartbeatEvents: [] },
+  { id: 'gongsunsheng', name: '公孙胜', title: '入云龙', description: '道法高深，能呼风唤雨。', avatar: GONGSUNSHENG_PNG, portrait: GONGSUNSHENG_PNG, sprite: GONGSUNSHENG_PNG, personality: '超脱、睿智', affection: 0, interactionCount: 0, difficulty: 4, archetype: '智者', heartbeatEvents: [] }
 ];
 
 export const STORY_DATA: Record<string, StoryNode> = {
@@ -493,12 +496,28 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'linchong_demo_10_5': { id: 'linchong_demo_10_5', speaker: '鲁智深', characterId: 'luzhishen', content: '鲁智深皱了皱眉：“洒家也不甚清楚，只听说是跟那‘智多星’吴用有些干系。具体的，怕是只有当事人才知道了。”', background: BG_BAMBOO, nextId: 'linchong_demo_11' },
   'linchong_demo_11': { id: 'linchong_demo_11', speaker: '{playerName}', content: '你一边听着鲁大师的讲述，一边在心里暗自思忖：这和书里写的一点都不一样。这到底是为什么。', background: BG_BAMBOO, nextId: 'gongsun_visit_1' },
   'gongsun_visit_1': { id: 'gongsun_visit_1', speaker: '系统', content: '下午，你怀着满腹疑虑，来到了公孙胜的住处。', background: BG_CAVE, nextId: 'gongsun_visit_2' },
-  'gongsun_visit_2': { id: 'gongsun_visit_2', speaker: '系统', content: '公孙胜正盘膝而坐，闭目养神。见你到来，他缓缓睁开眼，目光深邃，仿佛早已洞悉你的来意。', background: BG_CAVE, nextId: 'gongsun_visit_3' },
+  'gongsun_visit_2': { id: 'gongsun_visit_2', speaker: '系统', content: '公孙胜正盘膝而坐，闭目养神。见你到来，他缓缓睁开眼，目光深邃，仿佛早已洞悉你的来意。', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_3' },
   'gongsun_visit_3': { id: 'gongsun_visit_3', speaker: '{playerName}', content: '你开门见山地问道：“一清先生，我有一事不明。为何林教头等人的过往，与我所知晓的完全不同？”', background: BG_CAVE, nextId: 'gongsun_visit_4' },
-  'gongsun_visit_4': { id: 'gongsun_visit_4', speaker: '公孙胜', content: '公孙胜微微一笑，指了指窗外的流云：“你可知这梁山一百单八将，皆是上界星辰感应下凡？”', background: BG_CAVE, nextId: 'gongsun_visit_5' },
-  'gongsun_visit_5': { id: 'gongsun_visit_5', speaker: '公孙胜', content: '“星辰之位虽定，但下界之人的心境与气数却会受外力干扰。如今林冲星光黯淡，隐忍太过，已失了那份‘豹子头’的锐气。”', background: BG_CAVE, nextId: 'gongsun_visit_6' },
-  'gongsun_visit_6': { id: 'gongsun_visit_6', speaker: '公孙胜', content: '“若他继续这般消沉下去，天罡地煞之气便无法汇聚。到那时，梁山必将四分五裂，而你作为‘天降异人’，也将因气数断绝而魂飞魄散。”', background: BG_CAVE, nextId: 'gongsun_visit_7' },
+  'gongsun_visit_4': { id: 'gongsun_visit_4', speaker: '公孙胜', content: '公孙胜微微一笑，指了指窗外的流云：“你可知这梁山一百单八将，皆是上界星辰感应下凡？”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_5' },
+  'gongsun_visit_5': { id: 'gongsun_visit_5', speaker: '公孙胜', content: '“星辰之位虽定，但下界之人的心境与气数却会受外力干扰。如今林冲星光黯淡，隐忍太过，已失了那份‘豹子头’的锐气。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_6' },
+  'gongsun_visit_6': { id: 'gongsun_visit_6', speaker: '公孙胜', content: '“若他继续这般消沉下去，天罡地煞之气便无法汇聚。到那时，梁山必将四分五裂，而你作为‘天降异人’，也将因气数断绝而魂飞魄散。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_7' },
   'gongsun_visit_7': { id: 'gongsun_visit_7', speaker: '{playerName}', content: '（你听得冷汗直流，原来这不仅关乎林冲的命运，更关乎自己的性命……）', background: BG_CAVE, nextId: 'gongsun_visit_8' },
-  'gongsun_visit_8': { id: 'gongsun_visit_8', speaker: '公孙胜', content: '“唯有唤醒他内心的热血，让他重拾英雄本色，方能保住梁山，亦能保住你自己。”', background: BG_CAVE, nextId: 'linchong_demo_14' },
-  'linchong_demo_14': { id: 'linchong_demo_14', speaker: '系统', content: '第六天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
+  'gongsun_visit_8': { id: 'gongsun_visit_8', speaker: '公孙胜', content: '“唯有唤醒他内心的热血，让他重拾英雄本色，方能保住梁山，亦能保住你自己。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_9' },
+  'gongsun_visit_9': { id: 'gongsun_visit_9', speaker: '{playerName}', content: '你深吸一口气，追问道：“那林教头……他真的就是那颗星宿转世之人吗？”', background: BG_CAVE, nextId: 'gongsun_visit_10' },
+  'gongsun_visit_10': { id: 'gongsun_visit_10', speaker: '公孙胜', content: '公孙胜的目光变得有些暧昧不明，他轻轻摩挲着指尖：“这梁山之上的好汉，皆是星辰转世，这一点毋庸置疑。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_11' },
+  'gongsun_visit_11': { id: 'gongsun_visit_11', speaker: '公孙胜', content: '“但究竟谁才是真正的‘天选之人’，还需要你自己去发现。因为，只有特定的人，才会与你手中的‘星魂坠’产生感应。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'gongsun_visit_12' },
+  'gongsun_visit_12': { id: 'gongsun_visit_12', speaker: '{playerName}', content: '你下意识地握紧了胸前的吊坠，心中波澜起伏。原来，一切的答案，都藏在未来的相处之中。', background: BG_CAVE, nextId: 'night_thought_1' },
+  'night_thought_1': { id: 'night_thought_1', speaker: '{playerName}', content: '（深夜，你躺在床上，翻来覆去无法入眠。窗外的月光洒在被褥上，冷清而寂静。）', background: BG_NIGHT, nextId: 'night_thought_2' },
+  'night_thought_2': { id: 'night_thought_2', speaker: '{playerName}', content: '（脑海里全是公孙胜的话，还有鲁智深描述的那个“隐忍”的林教头。他到底经历了多少痛苦，才会变成现在这种麻木的样子？）', background: BG_NIGHT, nextId: 'night_thought_3' },
+  'night_thought_3': { id: 'night_thought_3', speaker: '{playerName}', content: '（好奇心和一种说不清道不明的心疼在胸腔里交织。那个曾经意气风发的豹子头，真的回不来了吗……）', background: BG_NIGHT, nextId: 'day7_start' },
+  'day7_start': { id: 'day7_start', speaker: '系统', content: '第七天。清晨的阳光透过窗棂，你顶着淡淡的黑眼圈坐了起来。为了让自己精神一点，你决定去校场活动下筋骨。', background: BG_CAMP, nextId: 'day7_drill_1' },
+  'day7_drill_1': { id: 'day7_drill_1', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“哦？今日起得倒是早。既然来了，便别闲着，随我操练一番！”', background: BG_DRILL, nextId: 'day7_drill_2' },
+  'day7_drill_2': { id: 'day7_drill_2', speaker: '系统', content: '呼延灼不由分说，长鞭一挥便攻了过来。你在密集的攻势中左右闪躲，额头渐渐渗出汗水。', background: BG_DRILL, nextId: 'day7_drill_3' },
+  'day7_drill_3': { id: 'day7_drill_3', speaker: '{playerName}', content: '（就在你格挡呼延灼的一次重击时，眼角的余光忽然瞥见校场最偏僻的角落里，有一个熟悉的身影。）', background: BG_DRILL, nextId: 'day7_drill_4' },
+  'day7_drill_4': { id: 'day7_drill_4', speaker: '系统', content: '那是林冲。他正一个人对着木桩练习枪法，动作虽然缓慢，却透着一种近乎自虐的执着。', background: BG_DRILL, characterId: 'linchong', nextId: 'day7_drill_5' },
+  'day7_drill_5': { id: 'day7_drill_5', speaker: '{playerName}', content: '（你心中暗想：看来林教头还没有完全堕落嘛，至少他还没有放下手中的枪。）', background: BG_DRILL, nextId: 'day7_drill_6' },
+  'day7_drill_6': { id: 'day7_drill_6', speaker: '系统', content: '突然，林冲的枪尖在木桩上剧烈一震，他的虎口似乎被震裂了，鲜血瞬间染红了手掌。', background: CG_LIN_BLEED, characterId: 'linchong', nextId: 'day7_drill_7' },
+  'day7_drill_7': { id: 'day7_drill_7', speaker: '系统', content: '但他只是麻木地看了看伤口，眼神中没有任何波澜，随即像没事人一样继续挥枪练习。', background: CG_LIN_BLEED, characterId: 'linchong', nextId: 'day7_drill_8' },
+  'day7_drill_8': { id: 'day7_drill_8', speaker: '{playerName}', content: '（你愣住了。鲜血顺着枪杆一滴滴落在地上，他却连眉头都没皱一下，仿佛那具身体根本不是他自己的一样……）', background: CG_LIN_BLEED, nextId: 'linchong_demo_15' },
+  'linchong_demo_15': { id: 'linchong_demo_15', speaker: '系统', content: '第七天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
 };

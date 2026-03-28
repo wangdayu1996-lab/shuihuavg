@@ -117,6 +117,13 @@
         .animate-breathing {
             animation: breathing 4s ease-in-out infinite;
         }
+        @keyframes cgFadeIn {
+            0% { opacity: 0; filter: brightness(1.2) blur(5px); transform: scale(1.05); }
+            100% { opacity: 1; filter: brightness(1) blur(0); transform: scale(1); }
+        }
+        .animate-cg-fade-in {
+            animation: cgFadeIn 2s ease-out forwards;
+        }
         .choice-btn:hover {
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
             transform: scale(1.02);

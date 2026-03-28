@@ -1023,6 +1023,7 @@ const App: React.FC = () => {
       displayBackground.includes('CG') ||
       displayBackground.includes('%E9%A6%92%E5%A4%B4') || 
       displayBackground.includes('%E8%92%B8%E7%AC%BC') || 
+      displayBackground.includes('%E6%B5%81%E8%A1%80') ||
       isScaleCG || isHuyanPan || currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player' || currentNodeId === 'day5_start'
     );
 
@@ -1097,7 +1098,7 @@ const App: React.FC = () => {
             key={displayBackground}
             src={displayBackground} 
             onLoad={() => setBgLoaded(true)}
-            className={`w-full h-full object-cover transition-all ${displayBackground === BG_BAMBOO ? 'duration-0' : 'duration-1000'} ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
+            className={`w-full h-full object-cover transition-all ${displayBackground === BG_BAMBOO ? 'duration-0' : 'duration-1000'} ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${displayBackground.includes('%E6%B5%81%E8%A1%80') ? 'animate-cg-fade-in' : ''} ${
               isFullBrightness && !isFaintSequence ? '!filter-none' : (isFullBrightness && isFaintSequence && currentNodeId !== 'day4_kui_train_faint' && faintPhase !== 'anim') ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
             } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${(currentNodeId === 'day5_start' || currentNodeId === 'day6_start') ? 'animate-eyes-opening' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
