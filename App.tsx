@@ -1091,7 +1091,7 @@ const App: React.FC = () => {
             onLoad={() => setBgLoaded(true)}
             className={`w-full h-full object-cover transition-all ${displayBackground === BG_BAMBOO ? 'duration-0' : 'duration-1000'} ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
               isFullBrightness && !isFaintSequence ? '!filter-none' : (isFullBrightness && isFaintSequence && currentNodeId !== 'day4_kui_train_faint' && faintPhase !== 'anim') ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
-            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${currentNodeId === 'day5_start' ? 'animate-eyes-opening' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
+            } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${(currentNodeId === 'day5_start' || currentNodeId === 'day6_start') ? 'animate-eyes-opening' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 
           />
           <div className={`absolute inset-0 bg-black transition-opacity duration-1000 z-[15] pointer-events-none ${isBlackout ? 'opacity-100' : 'opacity-0'}`} />
