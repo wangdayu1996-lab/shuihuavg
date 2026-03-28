@@ -101,6 +101,14 @@
             animation: panDownOnce 7s ease-in-out forwards;
             will-change: transform;
         }
+        @keyframes flash {
+            0% { filter: brightness(1); }
+            10% { filter: brightness(3) contrast(1.2); }
+            100% { filter: brightness(1); }
+        }
+        .animate-flash {
+            animation: flash 0.5s ease-out forwards;
+        }
         .choice-btn:hover {
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
             transform: scale(1.02);

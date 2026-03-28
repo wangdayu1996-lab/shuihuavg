@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, Character, StoryNode, Choice, Message, HeartbeatEvent, DivinationBuff, PlayerAttributes } from './types';
-import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS } from './constants';
+import { CHARACTERS, STORY_DATA, DIVINATION_BUFFS, BG_BAMBOO } from './constants';
 import { generateCharacterResponse } from './services/gemini';
 
 // --- 子组件：属性面板 ---
@@ -1010,7 +1010,7 @@ const App: React.FC = () => {
       'day3_kui_watch_3', 'day3_kui_watch_4', 'day3_kui_watch_5',
       'day2_night_attack_breakin_kui', 'day2_night_attack_breakin_lu',
       'day2_night_attack_lin_silhouette_kui', 'day2_night_attack_lin_silhouette_lu',
-      'day6_start', 'day6_kui_noise_1'
+      'day6_start', 'day6_kui_noise_1', 'day6_lu_roar', 'linchong_demo_3_4'
     ].includes(currentNodeId);
     const isFaintSequence = currentNodeId === 'day4_kui_train_8' || currentNodeId === 'day4_kui_train_8_player' || currentNodeId === 'day4_kui_train_faint';
     
@@ -1030,8 +1030,10 @@ const App: React.FC = () => {
 
     const activeSprite = currentNode.sprite || (spriteToDisplay ? characters.find(c => c.id === spriteToDisplay)?.sprite : undefined);
 
+    const isFlashNode = currentNodeId === 'linchong_demo_3_5';
+
     return (
-      <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode || (faintPhase === 'anim') ? 'animate-shake' : ''}`} onClick={handleNextDialogue}>
+      <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode || (faintPhase === 'anim') ? 'animate-shake' : ''} ${isFlashNode ? 'animate-flash' : ''}`} onClick={handleNextDialogue}>
         {saveTooltip && <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] bg-yellow-600 text-white px-8 py-2 rounded-full font-calligraphy text-xl shadow-2xl animate-fade-up">笔墨已收，录入丹青</div>}
         
         {isStorytellingNode && (
@@ -1087,7 +1089,7 @@ const App: React.FC = () => {
             key={displayBackground}
             src={displayBackground} 
             onLoad={() => setBgLoaded(true)}
-            className={`w-full h-full object-cover transition-all duration-1000 ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
+            className={`w-full h-full object-cover transition-all ${displayBackground === BG_BAMBOO ? 'duration-0' : 'duration-1000'} ${isScaleCG ? 'scale-[1.2]' : ''} ${isHuyanPan ? 'animate-pan-down-once' : ''} ${
               isFullBrightness && !isFaintSequence ? '!filter-none' : (isFullBrightness && isFaintSequence && currentNodeId !== 'day4_kui_train_faint' && faintPhase !== 'anim') ? '!filter-none' : isFaintSequence ? '' : 'brightness-[0.45]'
             } ${bgLoaded ? 'opacity-100' : 'opacity-0'} ${currentNodeId === 'day4_kui_train_8_player' && faintPhase === 'anim' ? 'animate-eyes-closing' : ''} ${currentNodeId === 'day5_start' ? 'animate-eyes-opening' : ''} ${isFaintSequence && currentNodeId === 'day4_kui_train_faint' ? 'brightness-0 grayscale' : ''}`} 
             alt="bg" 

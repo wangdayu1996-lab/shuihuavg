@@ -12,21 +12,21 @@ const YANQING_IMAGE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main
 const YANQING_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%87%95%E9%9D%92png.png?raw=true";
 const HUYANZHUO_PNG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.png?raw=true";
 
-const BG_MOUNTAIN = "https://images.unsplash.com/photo-1505506005708-3058a94639e7?auto=format&fit=crop&q=80&w=2000";
-const BG_CAMP = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%81%9A%E4%B9%89%E5%8E%85.png?raw=true";
-const BG_DRILL = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true";
-const BG_DRILL_SCALE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true";
-const BG_HUYAN_CG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true";
-const BG_FAINT_CG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/jiaochang.jpg?raw=true";
-const BG_FOREST = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A3%AE%E6%9E%97.png?raw=true";
-const BG_BAMBOO = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97.png?raw=true";
-const BG_MARKET = "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=2000";
-const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B1%8B%E5%86%85.png?raw=true";
-const BG_NIGHT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%A4%9C%E9%97%B4.png?raw=true";
-const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
-const BG_LIN_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
-const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%B0%B4%E6%B3%8A.png?raw=true";
-const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+export const BG_MOUNTAIN = "https://images.unsplash.com/photo-1505506005708-3058a94639e7?auto=format&fit=crop&q=80&w=2000";
+export const BG_CAMP = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E8%81%9A%E4%B9%89%E5%8E%85.png?raw=true";
+export const BG_DRILL = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A2%81%E5%B1%B1%E6%A0%A1%E5%9C%BA.png?raw=true";
+export const BG_DRILL_SCALE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BCscalenew.jpg?raw=true";
+export const BG_HUYAN_CG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%91%BC%E5%BB%B6%E7%81%BC.jpg?raw=true";
+export const BG_FAINT_CG = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/jiaochang.jpg?raw=true";
+export const BG_FOREST = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%A3%AE%E6%9E%97.png?raw=true";
+export const BG_BAMBOO = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97.png?raw=true";
+export const BG_MARKET = "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=2000";
+export const BG_CAVE = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%B1%8B%E5%86%85.png?raw=true";
+export const BG_NIGHT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%A4%9C%E9%97%B4.png?raw=true";
+export const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
+export const BG_LIN_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
+export const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%B0%B4%E6%B3%8A.png?raw=true";
+export const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
 const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1.png?raw=true";
 
@@ -451,24 +451,42 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'day6_start': { id: 'day6_start', speaker: '系统', content: '（清晨，你还在梦乡，门外突然传来一阵震天响的砸门声，“砰砰砰”地仿佛要把门板直接卸下来……）', background: BG_CAVE, nextId: 'day6_kui_noise_1' },
   'day6_kui_noise_1': { id: 'day6_kui_noise_1', speaker: '李逵', characterId: 'likui', content: '“小文书！快起！快起！俺在后山发现个巨大的马蜂窝，快随俺去收蜜，去晚了那帮憨鸟就要来抢了！”', background: BG_CAVE, nextId: 'day6_player_silent' },
   'day6_player_silent': { id: 'day6_player_silent', speaker: '{playerName}', content: '......', background: BG_CAVE, nextId: 'day6_kui_noise_2' },
-  'day6_kui_noise_2': { id: 'day6_kui_noise_2', speaker: '李逵', characterId: 'likui', content: '“咦？怎么没动静？莫不是睡死了？有好吃的俺都是记挂着你”', background: BG_CAVE, nextId: 'day6_player_silent_2' },
+  'day6_kui_noise_2': { id: 'day6_kui_noise_2', speaker: '李逵', characterId: 'likui', content: '“咦？怎么没动静？莫不是睡死了？你这丫头，有好吃的俺都是记挂着你！”', background: BG_CAVE, nextId: 'day6_player_silent_2' },
   'day6_player_silent_2': { id: 'day6_player_silent_2', speaker: '{playerName}', content: '......', background: BG_CAVE, nextId: 'day6_kui_noise_3' },
   'day6_kui_noise_3': { id: 'day6_kui_noise_3', speaker: '李逵', characterId: 'likui', content: '“不说话俺就当你答应了，俺先去准备火把，你快些出来！”', background: BG_CAVE, nextId: 'day6_decision' },
   'day6_decision': { id: 'day6_decision', speaker: '{playerName}', content: '“怎么会有精力这么充沛的人，难道忘了我最近刚晕倒过一次吗......”', background: BG_CAVE, nextId: 'day6_get_ready' },
-  'day6_get_ready': { id: 'day6_get_ready', speaker: '{playerName}', content: '（……不行，绝对不能去捅马蜂窝。与其在这里等着被他第二次破门而入，还不如主动出击找个清静地方躲躲。去找鲁大师吧，佛门清净之地，铁牛总不敢在那儿乱来。）', background: BG_CAVE, nextId: 'day6_get_up' },
+  'day6_get_ready': { id: 'day6_get_ready', speaker: '{playerName}', content: '（……与其在这里等着被他第二次破门而入，还不如主动出击找个清静地方躲躲。去找鲁大师吧。）', background: BG_CAVE, nextId: 'day6_get_up' },
   'day6_get_up': { id: 'day6_get_up', speaker: '系统', content: '你在床上盯着天花板又发了一会儿呆，终于认命地翻身下床，慢吞吞地穿好衣服，悄悄推开房门往后山走去。', background: BG_CAVE, nextId: 'day6_mountain_path' },
-  'day6_mountain_path': { id: 'day6_mountain_path', speaker: '系统', content: '清晨的山间小路被薄雾笼罩，空气中弥漫着泥土与草木的芬芳。脚下的落叶还带着晶莹的露珠，踩上去发出轻微的沙沙声。远处偶尔传来几声清脆的鸟鸣，让这静谧的早晨显得格外清新。', background: BG_FOREST, nextId: 'linchong_demo_1' },
+  'day6_mountain_path': { id: 'day6_mountain_path', speaker: '系统', content: '清晨的山间小路被薄雾笼罩，空气中弥漫着泥土与草木的芬芳。', background: BG_BAMBOO, nextId: 'day6_mountain_path_2' },
+  'day6_mountain_path_2': { id: 'day6_mountain_path_2', speaker: '系统', content: '脚下的落叶还带着晶莹的露珠，踩上去发出轻微的沙沙声。远处偶尔传来几声清脆的鸟鸣，让这静谧的早晨显得格外清新。', background: BG_BAMBOO, nextId: 'day6_lu_roar' },
+  'day6_lu_roar': { id: 'day6_lu_roar', speaker: '鲁智深', characterId: 'luzhishen', content: '“大哥！洒家真看不下去了！”', background: BG_BAMBOO, nextId: 'day6_player_stunned' },
+  'day6_player_stunned': { id: 'day6_player_stunned', speaker: '系统', content: '你停下了脚步。原本正要靠近与鲁大师约定好的禅修地点，却被这突如其来的吼声震在了原地。', background: BG_BAMBOO, nextId: 'linchong_demo_1' },
   'linchong_demo_intro': { id: 'linchong_demo_intro', speaker: '系统', content: '梁山泊的日常仍在继续，新的星宿羁绊即将开启。', background: BG_CAMP, choices: [ { text: '点击开始进入林冲部分demo', nextId: 'day6_start' } ] },
   'linchong_demo_1': { id: 'linchong_demo_1', speaker: '系统', content: '当你走近翠竹林时，却听到深处传来一阵激烈的争吵声。其中一个声音粗犷豪迈，正是鲁智深；而另一个声音则显得低沉而压抑。', background: BG_BAMBOO, choices: [{ text: '藏在石头后偷听', nextId: 'linchong_demo_2' }] },
-  'linchong_demo_2': { id: 'linchong_demo_2', speaker: '鲁智深', characterId: 'luzhishen', content: '“你这厮！当初那个威震京师的教头哪去了？如今只知道在这山野间消磨志气，你的斗志都被那场大火烧光了吗？”', background: BG_BAMBOO, nextId: 'linchong_demo_3' },
-  'linchong_demo_3': { id: 'linchong_demo_3', speaker: '神秘人', content: '那素色身影沉默良久，发出一声轻叹：“智深兄弟，往事已矣。如今我只想在这梁山安稳度日，那些功名利禄、血海深仇，不提也罢。”', background: BG_BAMBOO, nextId: 'linchong_demo_4' },
-  'linchong_demo_4': { id: 'linchong_demo_4', speaker: '系统', content: '鲁智深气得直跺脚，那人却不再多言，提着长枪转身没入竹林深处。你正想再多听几句，却只看到一个落寞的背影渐行渐远。', background: BG_BAMBOO, nextId: 'linchong_demo_5' },
-  'linchong_demo_5': { id: 'linchong_demo_5', speaker: '{playerName}', content: '你从竹林后走出，看着鲁智深大师无奈的神情，忍不住问道：“大师，刚才那位先生是谁？为何您如此动怒？”', background: BG_BAMBOO, nextId: 'linchong_demo_6' },
-  'linchong_demo_6': { id: 'linchong_demo_6', speaker: '鲁智深', characterId: 'luzhishen', content: '鲁智深叹了口气，看向你：“那是林冲。曾是京城八十万禁军教头，人称‘豹子头’。可惜，一个顶天立地的汉子，却被这世道折磨成了这副模样。”', background: BG_BAMBOO, nextId: 'linchong_demo_7' },
-  'linchong_demo_7': { id: 'linchong_demo_7', speaker: '{playerName}', content: '你听罢，忍不住脱口而出：“我听闻林教头在风雪山神庙手刃了陆谦那贼人，随后雪夜上梁山，火并了那心胸狭隘的王伦，这才坐了梁山的交椅。难道不是这样吗？”', background: BG_BAMBOO, nextId: 'linchong_demo_8' },
-  'linchong_demo_8': { id: 'linchong_demo_8', speaker: '鲁智深', characterId: 'luzhishen', content: '鲁智深闻言，苦笑着摇了摇头：“手刃陆谦？火并王伦？洒家倒希望那是真的。可现实是，那陆谦在那场大火后便逃之夭夭，如今还在京城享着荣华富贵呢。林兄弟他……他只是默默忍下了这一切。”', background: BG_BAMBOO, nextId: 'linchong_demo_9' },
-  'linchong_demo_9': { id: 'linchong_demo_9', speaker: '鲁智深', characterId: 'luzhishen', content: '“至于那王伦，林兄弟上山后受尽了他的百般刁难，却始终逆来顺受。最后是那赤发鬼刘唐看不下去，一刀结果了那厮，林兄弟这才得以安身。他这一生，实在是太憋屈了……”', background: BG_BAMBOO, nextId: 'linchong_demo_10' },
-  'linchong_demo_10': { id: 'linchong_demo_10', speaker: '{playerName}', content: '你听得目瞪口呆，心中充满了疑惑与惊讶。这和你记忆中那个快意恩仇的“豹子头”完全不同。这个世界的林冲，似乎被某种无形的枷锁束缚得更深。', background: BG_BAMBOO, nextId: 'linchong_demo_11' },
-  'linchong_demo_11': { id: 'linchong_demo_11', speaker: '系统', content: '那个落寞的背影再次浮现在你脑海中。如果原著中的热血被现实的冰冷取代，你又能为他做些什么呢？', background: BG_BAMBOO, nextId: 'linchong_demo_12' },
-  'linchong_demo_12': { id: 'linchong_demo_12', speaker: '系统', content: '第六天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
+  'linchong_demo_2': { id: 'linchong_demo_2', speaker: '鲁智深', characterId: 'luzhishen', content: '“大哥！如今全梁山都在为攻打大名府做准备，人人摩拳擦掌，唯独你整日消沉！”', background: BG_BAMBOO, nextId: 'linchong_demo_2_1' },
+  'linchong_demo_2_1': { id: 'linchong_demo_2_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“你再这样下去，只会越来越边缘化！现在连那些新上山的小喽啰，都快不把你放在眼里了！”', background: BG_BAMBOO, nextId: 'linchong_demo_3' },
+  'linchong_demo_3': { id: 'linchong_demo_3', speaker: '神秘人', content: '那素色身影沉默良久，发出一声轻叹：“智深兄弟，大名府也好，梁山也罢，不过是换个地方苟活。”', background: BG_BAMBOO, nextId: 'linchong_demo_3_1' },
+  'linchong_demo_3_1': { id: 'linchong_demo_3_1', speaker: '神秘人', content: '“那些虚名，丢了便丢了吧。血海深仇……提它又有何用？”', background: BG_BAMBOO, nextId: 'linchong_demo_3_2' },
+  'linchong_demo_3_2': { id: 'linchong_demo_3_2', speaker: '鲁智深', characterId: 'luzhishen', content: '“洒家知道，你是看到了过去那个自己的不幸，才一直这么消沉……觉得争也没用，斗也没用。”', background: BG_BAMBOO, nextId: 'linchong_demo_3_2_1' },
+  'linchong_demo_3_2_1': { id: 'linchong_demo_3_2_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“但你不能一直这样下去啊！你是林教头，不是这山里的缩头乌龟！”', background: BG_BAMBOO, nextId: 'linchong_demo_3_3' },
+  'linchong_demo_3_3': { id: 'linchong_demo_3_3', speaker: '系统', content: '那素色身影没有回答，只是紧了紧手中的长枪，步履沉重地向竹林深处走去。', background: BG_BAMBOO, nextId: 'linchong_demo_3_4' },
+  'linchong_demo_3_4': { id: 'linchong_demo_3_4', speaker: '鲁智深', characterId: 'luzhishen', content: '“林冲！你给洒家站住！”', background: BG_BAMBOO, nextId: 'linchong_demo_3_5' },
+  'linchong_demo_3_5': { id: 'linchong_demo_3_5', speaker: '{playerName}', content: '（林冲？！那个传说中的“豹子头”林冲……竟然就是他？）', background: BG_BAMBOO, nextId: 'linchong_demo_4' },
+  'linchong_demo_4': { id: 'linchong_demo_4', speaker: '系统', content: '鲁智深气得直跺脚，可林冲却仍然没有回头，提着长枪没入竹林深处。你正想再多看几句，却只看到一个落寞的背影渐行渐远。', background: BG_BAMBOO, nextId: 'linchong_demo_5' },
+  'linchong_demo_5': { id: 'linchong_demo_5', speaker: '{playerName}', content: '你从竹林后走出，看着鲁智深大师无奈的神情，忍不住问道：“大师……刚才那位，真的是‘豹子头’林教头吗？”', background: BG_BAMBOO, nextId: 'linchong_demo_6' },
+  'linchong_demo_6': { id: 'linchong_demo_6', speaker: '鲁智深', characterId: 'luzhishen', content: '鲁智深叹了口气，看向你：“没错，他就是林冲。曾是京城八十万禁军教头，人称‘豹子头’。”', background: BG_BAMBOO, nextId: 'linchong_demo_6_1' },
+  'linchong_demo_6_1': { id: 'linchong_demo_6_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“可惜，一个顶天立地的汉子，却被这世道折磨成了这副模样。”', background: BG_BAMBOO, nextId: 'linchong_demo_7' },
+  'linchong_demo_7': { id: 'linchong_demo_7', speaker: '{playerName}', content: '你忍不住问道：“大师，刚才听您说……林教头他，在山上过得并不好吗？”', background: BG_BAMBOO, nextId: 'linchong_demo_7_1' },
+  'linchong_demo_7_1': { id: 'linchong_demo_7_1', speaker: '鲁智深', characterId: 'luzhishen', content: '鲁智深怒道：“何止是不好！那些小喽啰在校场上，竟敢当面嘲笑他是‘缩头豹子’。洒家实在看不下去，当场就把那几个鸟人打得满地找牙！”', background: BG_BAMBOO, nextId: 'linchong_demo_7_2' },
+  'linchong_demo_7_2': { id: 'linchong_demo_7_2', speaker: '{playerName}', content: '你皱眉道：“那宋公明哥哥呢？他身为梁山之主，难道就不出来主持公道吗？”', background: BG_BAMBOO, nextId: 'linchong_demo_7_3' },
+  'linchong_demo_7_3': { id: 'linchong_demo_7_3', speaker: '鲁智深', characterId: 'luzhishen', content: '“公明哥哥？哼，他只会两边和稀泥，说什么‘兄弟和睦为重’，反倒劝洒家莫要冲动，坏了山寨规矩！”', background: BG_BAMBOO, nextId: 'linchong_demo_8' },
+  'linchong_demo_8': { id: 'linchong_demo_8', speaker: '{playerName}', content: '（不应该啊……在原著里，林教头火并王伦后地位极高，宋江对他也是礼遇有加。怎么在这个世界，宋江反而不重视他了？）', background: BG_BAMBOO, nextId: 'linchong_demo_9' },
+  'linchong_demo_9': { id: 'linchong_demo_9', speaker: '{playerName}', content: '你试探着问道：“大师，那林教头以前的事……真的像传闻中那样，是手刃仇人后才上山的吗？”', background: BG_BAMBOO, nextId: 'linchong_demo_9_1' },
+  'linchong_demo_9_1': { id: 'linchong_demo_9_1', speaker: '{playerName}', content: '你一边听着鲁大师的讲述，一边在心里暗自思忖：这和书里写的一点都不一样。', background: BG_BAMBOO, nextId: 'linchong_demo_10' },
+  'linchong_demo_10': { id: 'linchong_demo_10', speaker: '鲁智深', characterId: 'luzhishen', content: '鲁智深闻言，苦笑着摇了摇头：“手刃陆谦？火并王伦？洒家倒希望那是真的。”', background: BG_BAMBOO, nextId: 'linchong_demo_10_1' },
+  'linchong_demo_10_1': { id: 'linchong_demo_10_1', speaker: '鲁智深', characterId: 'luzhishen', content: '“可现实是，那陆谦在那场大火后便逃之夭夭，如今还在京城享着荣华富贵呢。林兄弟他……他只是默默忍下了这一切。”', background: BG_BAMBOO, nextId: 'linchong_demo_11' },
+  'linchong_demo_11': { id: 'linchong_demo_11', speaker: '鲁智深', characterId: 'luzhishen', content: '“至于那王伦，林兄弟上山后受尽了他的百般刁难，却始终逆来顺受。最后是那赤发鬼刘唐看不下去，一刀结果了那厮。”', background: BG_BAMBOO, nextId: 'linchong_demo_12' },
+  'linchong_demo_12': { id: 'linchong_demo_12', speaker: '{playerName}', content: '你听得目瞪口呆，心中充满了疑惑与惊讶。这和你记忆中那个快意恩仇的“豹子头”完全不同。', background: BG_BAMBOO, nextId: 'linchong_demo_13' },
+  'linchong_demo_13': { id: 'linchong_demo_13', speaker: '系统', content: '那个落寞的背影再次浮现在你脑海中。如果原著中的热血被现实的冰冷取代，你又能为他做些什么呢？', background: BG_BAMBOO, nextId: 'linchong_demo_14' },
+  'linchong_demo_14': { id: 'linchong_demo_14', speaker: '系统', content: '第六天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
 };
