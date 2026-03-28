@@ -1031,6 +1031,11 @@ const App: React.FC = () => {
     const activeSprite = currentNode.sprite || (spriteToDisplay ? characters.find(c => c.id === spriteToDisplay)?.sprite : undefined);
 
     const isFlashNode = currentNodeId === 'linchong_demo_3_5';
+    const isBreathingNode = [
+      'day6_lu_roar', 'day6_player_stunned', 'linchong_demo_1', 'linchong_demo_2', 'linchong_demo_2_1', 
+      'linchong_demo_3', 'linchong_demo_3_1', 'linchong_demo_3_2', 
+      'linchong_demo_3_2_1', 'linchong_demo_3_3', 'linchong_demo_3_4'
+    ].includes(currentNodeId);
 
     return (
       <div className={`relative w-full h-screen bg-black overflow-hidden font-serif ${isFightNode || (faintPhase === 'anim') ? 'animate-shake' : ''} ${isFlashNode ? 'animate-flash' : ''}`} onClick={handleNextDialogue}>
@@ -1084,7 +1089,10 @@ const App: React.FC = () => {
             </button>
           </div>
         )}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        <div 
+          key={isBreathingNode ? 'breathing_bg' : displayBackground}
+          className={`absolute inset-0 z-0 overflow-hidden ${isBreathingNode ? 'animate-breathing' : ''}`}
+        >
           <img 
             key={displayBackground}
             src={displayBackground} 
