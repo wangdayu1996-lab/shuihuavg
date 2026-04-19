@@ -930,6 +930,24 @@ export const STORY_DATA: Record<string, StoryNode> = {
     contentEn: 'Why on this Liangshan has he become someone mocked by low-level grunts and pushed to the fringes?',
     contentJa: 'なぜこの梁山では、彼は下っ端の者たちに嘲笑され、縁に追いやられる存在になってしまったのだろうか？',
     background: BG_NIGHT,
+    nextId: 'day7_night_8_1'
+  },
+  'day7_night_8_1': {
+    id: 'day7_night_8_1',
+    speaker: '{playerName}',
+    content: '难道我穿越的这个梁山，不是书里那个梁山...',
+    contentEn: 'Could it be that this Liangshan I\'ve traveled to isn\'t the one from the books...',
+    contentJa: '私がタイムスリップしたこの梁山は、本の中の梁山ではないのだろうか……',
+    background: BG_NIGHT,
+    nextId: 'day7_night_8_2'
+  },
+  'day7_night_8_2': {
+    id: 'day7_night_8_2',
+    speaker: '{playerName}',
+    content: '难道...',
+    contentEn: 'Could it be...',
+    contentJa: 'まさか……',
+    background: BG_NIGHT,
     nextId: 'day7_night_9'
   },
   'day7_night_9': {
@@ -979,14 +997,16 @@ export const STORY_DATA: Record<string, StoryNode> = {
     contentEn: '"If you can\'t even handle this intensity, you can pack your bags and leave right now! The company doesn\'t feed idlers. Have you met your KPIs?"',
     contentJa: '「この程度の強度も耐えられないなら、今すぐ荷物をまとめて出て行け！会社は無能を養わない。KPIは達成したのか？」',
     background: BG_BLACK,
-    nextId: 'day7_flashback_2'
+    nextId: 'day7_flashback_1_1'
   },
-  'day7_flashback_2': {
-    id: 'day7_flashback_2',
-    speaker: '{playerName}',
-    content: '当时的你，只能低着头，死死咬着嘴唇，双手在桌下攥得发白。',
-    contentEn: 'Back then, you could only lower your head, biting your lip hard, your hands clenched white under the desk.',
-    contentJa: 'あの時のあなたは、ただ頭を下げ、唇を強く噛みしめ、机の下で両手を真っ白になるまで握りしめることしかできなかった。',
+  'day7_flashback_1_1': {
+    id: 'day7_flashback_1_1',
+    speaker: '主管',
+    speakerEn: 'Supervisor',
+    speakerJa: '上司',
+    content: '“看什么看？还不快滚回去干活！明早我看不到报告，你就别干了！”',
+    contentEn: '"What are you looking at? Get back to work! If I don\'t see the report tomorrow morning, you\'re finished!"',
+    contentJa: '「何を見ている？さっさと仕事に戻れ！明日の朝までに報告書が間に合わなければ、もう来なくていい！」',
     background: BG_BLACK,
     nextId: 'day7_flashback_3'
   },
@@ -997,6 +1017,57 @@ export const STORY_DATA: Record<string, StoryNode> = {
     contentEn: '(...Clearly he was talking nonsense, clearly he was shifting the blame... yet besides silently fuming, I didn\'t dare do anything.)',
     contentJa: '（……明らかに彼はデタラメを言っていたし、責任転嫁をしていただけなのに……私は黙って腹を立てる以外、何もできなかった。）',
     background: BG_BLACK,
+    nextId: 'day7_night_walk_1'
+  },
+  'day7_night_walk_1': {
+    id: 'day7_night_walk_1',
+    speaker: '系统',
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '你从压抑的回忆中抽离神来，发现自己不知不觉已绕着校场走了一大圈。',
+    contentEn: 'Snapping out of your oppressive memories, you find you\'ve unconsciously walked a full circle around the drill grounds.',
+    contentJa: '重苦しい記憶から意識を戻すと、知らず知らずのうちに演武場を大きく一周していたことに気づいた。',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_night_walk_1_1'
+  },
+  'day7_night_walk_1_1': {
+    id: 'day7_night_walk_1_1',
+    speaker: '{playerName}',
+    content: '“嘶...好冷，不会有鬼吧...”',
+    contentEn: '"Hiss... so cold, there won\'t be ghosts, right...?"',
+    contentJa: '「くっ……寒い、お化けとか出ないよね……？」',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_night_walk_2'
+  },
+  'day7_night_walk_2': {
+    id: 'day7_night_walk_2',
+    speaker: '系统',
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '在那排漆黑的兵器架后面，你隐约看到一个模糊的身影，在惨淡的月光下缓缓晃动。',
+    contentEn: 'Behind that row of pitch-black weapon racks, you vaguely see a blurry figure swaying slowly in the dismal moonlight.',
+    contentJa: '真っ暗な兵器棚の列の向こうに、惨澹たる月光を浴びてゆっくりと動く人影がぼんやりと見えた。',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_night_walk_3'
+  },
+  'day7_night_walk_3': {
+    id: 'day7_night_walk_3',
+    speaker: '{playerName}',
+    content: '（那是……林教头？）你屏住呼吸，悄悄躲在阴影里，果然看到林冲正独自一人在那里默默练枪。',
+    contentEn: '(Is that... Instructor Lin?) Holding your breath, you hide quietly in the shadows and sure enough, see Lin Chong practicing his spear alone.',
+    contentJa: '（あれは……林教頭？）息を殺して影に隠れると、案の定、林冲が一人で黙々と槍の稽古をしていた。',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_night_walk_4'
+  },
+  'day7_night_walk_4': {
+    id: 'day7_night_walk_4',
+    speaker: '系统',
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '只见长枪在他手中如银龙穿梭，枪尖划破寒风发出阵阵厉响。他的身形在夜色中既极快又极稳，每一记突刺都带着排山倒海般的决绝，仿佛要将眼前的黑暗彻底贯穿。',
+    contentEn: 'The long spear in his hand moved like a silver dragon weaving through the air, the tip whistling and cutting through the cold wind. His form in the darkness was both lightning-fast and rock-steady, each thrust carrying an overwhelming decisiveness, as if to pierce through the darkness entirely.',
+    contentJa: '長槍は彼の手の中で銀龍が往来するように舞い、矛先が寒風を切り裂いて鋭い音を立てている。夜闇の中の彼の身のこなしは極めて速く、かつ極めて安定しており、一突き一突きが山を崩し海を覆すような断固とした勢いを帯び、目の前の闇を完全に貫こうとしているかのようだった。',
+    background: BG_NIGHT_DRILL,
     nextId: 'linchong_demo_15'
   },
   'linchong_demo_15': { 
