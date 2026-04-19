@@ -8,6 +8,12 @@ export enum GameState {
   ARCHERY_MINIGAME = 'ARCHERY_MINIGAME' 
 }
 
+export enum Language {
+  ZH = 'ZH',
+  EN = 'EN',
+  JA = 'JA'
+}
+
 export interface PlayerAttributes {
   weight: number;
   intelligence: number;
@@ -53,9 +59,13 @@ export interface Character {
 export interface StoryNode {
   id: string;
   speaker: string;
+  speakerEn?: string;
+  speakerJa?: string;
   content: string;
+  contentEn?: string;
+  contentJa?: string;
   background: string;
-  characterId?: string;
+  characterId?: string | null;
   sprite?: string;
   choices?: Choice[];
   nextId?: string;
@@ -64,6 +74,8 @@ export interface StoryNode {
 
 export interface Choice {
   text: string;
+  textEn?: string;
+  textJa?: string;
   nextId: string;
   affectionBonus?: {
     charId: string;

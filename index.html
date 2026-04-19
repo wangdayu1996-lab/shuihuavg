@@ -101,13 +101,22 @@
             animation: panDownOnce 7s ease-in-out forwards;
             will-change: transform;
         }
-        @keyframes flash {
-            0% { filter: brightness(1); }
-            10% { filter: brightness(3) contrast(1.2); }
-            100% { filter: brightness(1); }
+        @keyframes flashEffect {
+            0% { opacity: 0; }
+            15% { opacity: 1; }
+            100% { opacity: 0; }
         }
-        .animate-flash {
-            animation: flash 0.5s ease-out forwards;
+        .animate-flash::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            z-index: 9999;
+            pointer-events: none;
+            animation: flashEffect 0.6s ease-out forwards;
         }
         @keyframes breathing {
             0% { transform: scale(1); }
@@ -123,6 +132,37 @@
         }
         .animate-cg-fade-in {
             animation: cgFadeIn 2s ease-out forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(8px); }
+        }
+        .animate-fade-out {
+            animation: fadeOut 1.5s ease-in-out forwards;
+        }
+        @keyframes pulseOnce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-pulse-once {
+            animation: pulseOnce 1.5s ease-in-out forwards;
+        }
+        @keyframes flashbackEntry {
+            0% { filter: brightness(0.45) blur(0); transform: scale(1); }
+            50% { filter: brightness(2) blur(10px); transform: scale(1.1); }
+            100% { filter: brightness(0.45) blur(0); transform: scale(1); }
+        }
+        .animate-flashback-entry {
+            animation: flashbackEntry 1.5s ease-in-out forwards;
+        }
+        @keyframes flashbackExit {
+            0% { filter: brightness(1) blur(0); transform: scale(1); }
+            50% { filter: brightness(0) blur(10px); transform: scale(0.9); }
+            100% { filter: brightness(1) blur(0); transform: scale(1); }
+        }
+        .animate-flashback-exit {
+            animation: flashbackExit 1.5s ease-in-out forwards;
         }
         .choice-btn:hover {
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);

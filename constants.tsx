@@ -27,6 +27,7 @@ export const BG_NIGHT = "https://github.com/wangdayu1996-lab/mygameasset/blob/ma
 export const BG_KITCHEN_REALLY_NEW = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8E%A8%E6%88%BF.png?raw=true";
 export const BG_LIN_ROOM = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%8D%A2%E4%BF%8A%E4%B9%89%E6%88%BF.png?raw=true";
 export const BG_MARSH = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%B0%B4%E6%B3%8A.png?raw=true";
+export const BG_NIGHT_DRILL = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E5%A4%9C%E9%97%B4%E6%BC%94%E6%AD%A6%E5%9C%BA.png?raw=true";
 export const BG_BLACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQACAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 const CG_KUI_HEARTBEAT = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E6%9D%8E%E9%80%B5%E5%BF%83%E5%8A%A8%E7%89%B9%E5%85%B81.png?raw=true";
 const CG_LU_MEDITATION = "https://github.com/wangdayu1996-lab/mygameasset/blob/main/%E7%AB%B9%E6%9E%97%E7%A6%85%E4%BF%AE1.png?raw=true";
@@ -57,41 +58,338 @@ export const CHARACTERS: Character[] = [
 
 export const STORY_DATA: Record<string, StoryNode> = {
   // --- 第一章：林中初遇 ---
-  'start': { id: 'start', speaker: '{playerName}', content: '（意识像被卷入了一台失控的碎纸机，五彩斑斓的黑暗在眼前疯狂旋转……）', background: BG_MOUNTAIN, nextId: 'trans_os_2' },
-  'trans_os_2': { id: 'trans_os_2', speaker: '{playerName}', content: '（最后的记忆是主管那张吐着唾沫星子的脸，还有永远写不完的KPI……）', background: BG_MOUNTAIN, nextId: 'trans_os_3' },
-  'trans_os_3': { id: 'trans_os_3', speaker: '{playerName}', content: '（渐渐地，耳边的嘈杂消失了，取而值之的是泥土的芬芳，以及一种沉重的呼吸声。）', background: BG_MOUNTAIN, nextId: 'woods_1' },
-  'woods_1': { id: 'woods_1', speaker: '{playerName}', content: '（猛地睁开眼，首先映入眼帘的是一片遮天蔽日的古怪森林，然后是一张黑得像锅底一样的巨脸。）', background: BG_FOREST, nextId: 'woods_2' },
-  'woods_2': { id: 'woods_2', speaker: '{playerName}', content: '“哇啊啊啊啊！！鬼啊!！”（你连滚带爬地向后缩去）', background: BG_FOREST, nextId: 'woods_3' },
-  'woods_3': { id: 'woods_3', speaker: '黑大汉', content: '“嚷甚么！闭嘴！再嚷俺一斧头劈了你这丫头！”（你眼前的黑大汉瞪圆了牛眼，腰间板斧泛着寒光）', background: BG_FOREST, characterId: 'likui', nextId: 'woods_4' },
-  'woods_4': { id: 'woods_4', speaker: '{playerName}', content: '“别劈我! 这是哪? 我是不是加班加疯了产生的幻觉?”', background: BG_FOREST, nextId: 'woods_5' },
-  'woods_5': { id: 'woods_5', speaker: '李逵', characterId: 'likui', content: '“甚么班不班的? 这里是俺们梁山泊的地界! 俺看你这Y头穿得古怪，倒长得像个俏文书。”', background: BG_FOREST, nextId: 'woods_5_os' },
-  'woods_5_os': { id: 'woods_5_os', speaker: '{playerName}', content: '“梁山，什么梁山。。。这是什么朝代，你穿的什么衣服这是？啊啊啊啊啊！救命啊！”', background: BG_FOREST, nextId: 'woods_new_1' },
-  'woods_new_1': { id: 'woods_new_1', speaker: '李逵', characterId: 'likui', content: '“嚷甚！现在是大宋宣和年间！俺这身是好汉穿的劲装，你这Y头懂个屁！别在这没命地叫，省得招来野兽！”', background: BG_FOREST, nextId: 'woods_new_2' },
-  'woods_new_2': { id: 'woods_new_2', speaker: '{playerName}', content: '“大宋。。。宣和。。。（头好痛，像炸开了一样。。。我想起来了，刚才下班路上电闪雷鸣，我好像被一道雷直接劈中了。。。难道我没死，而是穿越了？！）”', background: BG_FOREST, nextId: 'woods_new_3' },
-  'woods_new_3': { id: 'woods_new_3', speaker: '{playerName}', content: '“宋朝。。。梁山。。。黑脸大汉。。。天哪，我这是掉进《水浒传》的故事里了？！”', background: BG_FOREST, nextId: 'woods_new_3_inner' },
-  'woods_new_3_inner': { id: 'woods_new_3_inner', speaker: '{playerName}', content: '（不可能，怎么会有这种事情！这一定是在电视剧拍摄现场，对，一定是那种整蛊综艺或者秘密剧组。我难道是被拐卖到什么深山老林的影城了？）', background: BG_FOREST, nextId: 'woods_new_4' },
-  'woods_new_4': { id: 'woods_new_4', speaker: '李逵', characterId: 'likui', content: '“甚么书不书的！听好了，俺乃梁山泊黑旋风李逵！你这Y头到底叫甚名字？看你这打扮，非僧非俗的，莫不又是山下派来的奸细？”', background: BG_FOREST, nextId: 'woods_new_5' },
-  'woods_new_5': { id: 'woods_new_5', speaker: '{playerName}', content: '“无可奉告！我凭什么告诉你？谁知道你们是不是什么非法组织？少拿这种吓人的剧本忽悠我，赶紧把导演叫出来，否则我报警了！”', background: BG_FOREST, nextId: 'woods_6' },
-  'woods_6': { id: 'woods_6', speaker: '李逵', characterId: 'likui', content: '“啧，净说些疯话！甚么警察导游的，俺听不懂！既然你不肯自报家门，那正好，哥哥最近正缺个端茶递水、誊写账目的。你这细身板虽然砍不了人，派点文书用场倒也行。”', background: BG_FOREST, nextId: 'woods_7' },
-  'woods_7': { id: 'woods_7', speaker: '{playerName}', content: '“文书? 你是说宋江缺个秘书? 我……我不入伙! 你们这是非法拘禁！我要回去写报告……”', background: BG_FOREST, nextId: 'woods_8' },
-  'woods_8': { id: 'woods_8', speaker: '李逵', characterId: 'likui', content: '“啰嗦甚! 由不得你! 走你! 把你一人留在这等下就要叫大虫给叼走了!”', background: BG_FOREST, nextId: 'woods_9' },
-  'woods_9': { id: 'woods_9', speaker: '系统', content: '李逵像拎小鸡一样把你扛到肩上，不顾你的抗议，大步流星地往山上跑去。', background: BG_FOREST, nextId: 'hall_entry' },
+  'start': { 
+    id: 'start', 
+    speaker: '{playerName}', 
+    content: '（意识像被卷入了一台失控的碎纸机，五彩斑斓的黑暗在眼前疯狂旋转……）',
+    contentEn: '(My consciousness feels like it\'s being sucked into an out-of-control paper shredder, colorful darkness spinning wildly before my eyes...)',
+    contentJa: '（意識が制御不能なシュレッダーに巻き込まれたようで、色とりどりの暗闇が目の前で激しく回転している……）',
+    background: BG_MOUNTAIN, 
+    nextId: 'trans_os_2' 
+  },
+  'trans_os_2': { 
+    id: 'trans_os_2', 
+    speaker: '{playerName}', 
+    content: '（最后的记忆是主管那张吐着唾沫星子的脸，还有永远写不完的KPI……）',
+    contentEn: '(My last memory is my supervisor\'s spitting face, and the never-ending KPIs...)',
+    contentJa: '（最後の記憶は、唾を飛ばす上司の顔と、永遠に終わらないKPI……）',
+    background: BG_MOUNTAIN, 
+    nextId: 'trans_os_3' 
+  },
+  'trans_os_3': { 
+    id: 'trans_os_3', 
+    speaker: '{playerName}', 
+    content: '（渐渐地，耳边的嘈杂消失了，取而值之的是泥土的芬芳，以及一种沉重的呼吸声。）',
+    contentEn: '(Gradually, the noise in my ears fades away, replaced by the fragrance of soil and a heavy breathing sound.)',
+    contentJa: '（次第に耳元の騒がしさが消え、代わりに土の香りと重い呼吸音が聞こえてきた。）',
+    background: BG_MOUNTAIN, 
+    nextId: 'woods_1' 
+  },
+  'woods_1': { 
+    id: 'woods_1', 
+    speaker: '{playerName}', 
+    content: '（猛地睁开眼，首先映入眼帘的是一片遮天蔽日的古怪森林，然后是一张黑得像锅底一样的巨脸。）',
+    contentEn: '(Opening my eyes suddenly, the first thing I see is a strange forest blotting out the sun, and then a giant face as black as the bottom of a pot.)',
+    contentJa: '（不意に目を開けると、まず目に飛び込んできたのは日を遮る奇妙な森、そして鍋の底のように真っ黒な巨大な顔だった。）',
+    background: BG_FOREST, 
+    nextId: 'woods_2' 
+  },
+  'woods_2': { 
+    id: 'woods_2', 
+    speaker: '{playerName}', 
+    content: '“哇啊啊啊啊！！鬼啊!！”（你连滚带爬地向后缩去）',
+    contentEn: '"Waaaaah!! Ghost!!" (You scramble backward in terror)',
+    contentJa: '「うわああああ！！お化けだ！！」（あなたは転がるように後ろへ下がった）',
+    background: BG_FOREST, 
+    nextId: 'woods_3' 
+  },
+  'woods_3': { 
+    id: 'woods_3', 
+    speaker: '黑大汉', 
+    speakerEn: 'Burly Man',
+    speakerJa: '大男',
+    content: '“嚷甚么！闭嘴！再嚷俺一斧头劈了你这丫头！”（你眼前的黑大汉瞪圆了牛眼，腰间板斧泛着寒光）',
+    contentEn: '"What are you shouting for! Shut up! Shout again and I\'ll split you in two with my axe, girl!" (The burly man before you glares with wide eyes, his axe gleaming coldly at his waist)',
+    contentJa: '「何を騒いでやがる！黙れ！これ以上騒いだら、この斧でお前を真っ二つにしてやるぞ、小娘！」（目の前の大男が牛のような目を剥き、腰の斧が冷たく光っている）',
+    background: BG_FOREST, 
+    characterId: 'likui', 
+    nextId: 'woods_4' 
+  },
+  'woods_4': { 
+    id: 'woods_4', 
+    speaker: '{playerName}', 
+    content: '“别劈我! 这是哪? 我是不是加班加疯了产生的幻觉?”',
+    contentEn: '"Don\'t split me! Where is this? Am I hallucinating from working too much overtime?"',
+    contentJa: '「斬らないで！ここはどこ？残業のしすぎで頭がおかしくなった幻覚なの？」',
+    background: BG_FOREST, 
+    nextId: 'woods_5' 
+  },
+  'woods_5': { 
+    id: 'woods_5', 
+    speaker: '李逵', 
+    speakerEn: 'Li Kui',
+    speakerJa: '李逵',
+    characterId: 'likui', 
+    content: '“甚么班不班的? 这里是俺们梁山泊的地界! 俺看你这Y头穿得古怪，倒长得像个俏文书。”',
+    contentEn: '"What overtime? This is our Liangshan Marsh territory! I see you\'re dressed strangely, girl, but you look like a pretty scribe."',
+    contentJa: '「残業だか何だか知らねえが、ここは俺たち梁山泊の縄張りだ！妙な格好をしてやがるが、なかなかに別嬪な書記官に見えるぜ。」',
+    background: BG_FOREST, 
+    nextId: 'woods_5_os' 
+  },
+  'woods_5_os': { 
+    id: 'woods_5_os', 
+    speaker: '{playerName}', 
+    content: '“梁山，什么梁山。。。这是什么朝代，你穿的什么衣服这是？啊啊啊啊啊！救命啊！”',
+    contentEn: '"Liangshan? What Liangshan... What dynasty is this? What kind of clothes are you wearing? Aaaaah! Help!"',
+    contentJa: '「梁山？梁山って何……これ、いつの時代？その服は何？あああああ！助けて！」',
+    background: BG_FOREST, 
+    nextId: 'woods_new_1' 
+  },
+  'woods_new_1': { 
+    id: 'woods_new_1', 
+    speaker: '李逵', 
+    speakerEn: 'Li Kui',
+    speakerJa: '李逵',
+    characterId: 'likui', 
+    content: '“嚷甚！现在是大宋宣和年间！俺这身是好汉穿的劲装，你这Y头懂个屁！别在这没命地叫，省得招来野兽！”',
+    contentEn: '"What are you yelling for! It\'s the Xuanhe era of the Great Song! This is the sturdy gear of a hero, you know nothing, girl! Stop screaming like your life depends on it, or you\'ll attract wild beasts!"',
+    contentJa: '「うるせえ！今は大宋の宣和年間だ！これは英雄が着る装束だ、お前のような小娘に何がわかる！そんなに叫ぶな、獣が寄ってくるだろうが！」',
+    background: BG_FOREST, 
+    nextId: 'woods_new_2' 
+  },
+  'woods_new_2': { 
+    id: 'woods_new_2', 
+    speaker: '{playerName}', 
+    content: '“大宋。。。宣和。。。（头好痛，像炸开了一样。。。我想起来了，刚才下班路上电闪雷鸣，我好像被一道雷直接劈中了。。。难道我没死，而是穿越了？！）”',
+    contentEn: '"Great Song... Xuanhe... (My head hurts, like it\'s exploding... I remember now, there was thunder and lightning on my way home from work, and I think I was struck by lightning... Did I not die, but travel through time?!)"',
+    contentJa: '「大宋……宣和……（頭が痛い、割れそうだ……思い出した、仕事帰りに雷が鳴っていて、直撃を受けたんだ……死なずにタイムスリップしたっていうの？！）」',
+    background: BG_FOREST, 
+    nextId: 'woods_new_3' 
+  },
+  'woods_new_3': { 
+    id: 'woods_new_3', 
+    speaker: '{playerName}', 
+    content: '“宋朝。。。梁山。。。黑脸大汉。。。天哪，我这是掉进《水浒传》的故事里了？！”',
+    contentEn: '"Song Dynasty... Liangshan... Black-faced burly man... Oh my god, have I fallen into the story of \'Water Margin\'?!"',
+    contentJa: '「宋の時代……梁山……黒い顔の大男……まさか、『水滸伝』の世界に迷い込んだの？！」',
+    background: BG_FOREST, 
+    nextId: 'woods_new_3_inner' 
+  },
+  'woods_new_3_inner': { 
+    id: 'woods_new_3_inner', 
+    speaker: '{playerName}', 
+    content: '（不可能，怎么会有这种事情！这一定是在电视剧拍摄现场，对，一定是那种整蛊综艺或者秘密剧组。我难道是被拐卖到什么深山老林的影城了？）',
+    contentEn: '(Impossible, how could this happen! This must be a TV set, yes, one of those prank shows or a secret film crew. Have I been kidnapped to some remote film studio in the mountains?)',
+    contentJa: '（ありえない、そんなこと！これはきっとドラマの撮影現場だ、そうに違いない。ドッキリ番組か秘密のロケ隊だ。山奥の映画村にでも連れてこられたの？）',
+    background: BG_FOREST, 
+    nextId: 'woods_new_4' 
+  },
+  'woods_new_4': { 
+    id: 'woods_new_4', 
+    speaker: '李逵', 
+    speakerEn: 'Li Kui',
+    speakerJa: '李逵',
+    characterId: 'likui', 
+    content: '“甚么书不书的！听好了，俺乃梁山泊黑旋风李逵！你这Y头到底叫甚名字？看你这打扮，非僧非俗的，莫不又是山下派来的奸细？”',
+    contentEn: '"What books! Listen up, I am Li Kui, the Black Whirlwind of Liangshan Marsh! What is your name, girl? Looking at your outfit, neither monk nor commoner, are you a spy sent from below?"',
+    contentJa: '「本だか何だか知らねえが！よく聞け、俺は梁山泊の黒旋風、李逵だ！お前、名前は何てんだ？その格好、僧でも俗人でもねえ、ふもとから送られてきたスパイじゃねえだろうな？」',
+    background: BG_FOREST, 
+    nextId: 'woods_new_5' 
+  },
+  'woods_new_5': { 
+    id: 'woods_new_5', 
+    speaker: '{playerName}', 
+    content: '“无可奉告！我凭什么告诉你？谁知道你们是不是什么非法组织？少拿这种吓人的剧本忽悠我，赶紧把导演叫出来，否则我报警了！”',
+    contentEn: '"No comment! Why should I tell you? Who knows if you\'re some illegal organization? Stop trying to fool me with this scary script, call the director out now, or I\'m calling the police!"',
+    contentJa: '「ノーコメント！何で教えなきゃいけないの？あなたたちが違法な組織かどうかもわからないのに。こんな怖い台本で私を騙そうとしないで、早くディレクターを呼んで。じゃないと警察を呼ぶわよ！」',
+    background: BG_FOREST, 
+    nextId: 'woods_6' 
+  },
+  'woods_6': { 
+    id: 'woods_6', 
+    speaker: '李逵', 
+    speakerEn: 'Li Kui',
+    speakerJa: '李逵',
+    characterId: 'likui', 
+    content: '“啧，净说些疯话！甚么警察导游的，俺听不懂！既然你不肯自报家门，那正好，哥哥最近正缺个端茶递水、誊写账目的。你这细身板虽然砍不了人，派点文书用场倒也行。”',
+    contentEn: '"Tsk, nothing but crazy talk! Police, directors, I don\'t understand! Since you won\'t give your name, perfect, Brother has been needing someone to serve tea and keep the accounts. You might not be able to chop people with that thin frame, but you\'ll do fine as a scribe."',
+    contentJa: '「チッ、わけのわからねえことばかり言いやがって！警察だのディレクターだの、知るか！名前を言わねえならちょうどいい、兄貴が最近、茶を運んだり帳簿をつけたりする人間を探してたんだ。その細い体じゃ人は斬れねえだろうが、書記くらいなら務まるだろう。」',
+    background: BG_FOREST, 
+    nextId: 'woods_7' 
+  },
+  'woods_7': { 
+    id: 'woods_7', 
+    speaker: '{playerName}', 
+    content: '“文书? 你是说宋江缺个秘书? 我……我不入伙! 你们这是非法拘禁！我要回去写报告……”',
+    contentEn: '"Scribe? You mean Song Jiang needs a secretary? I... I\'m not joining! This is illegal detention! I need to go back and write my report..."',
+    contentJa: '「書記？宋江が秘書を探してるってこと？私……仲間になんてならないわよ！これは不当な拘束よ！帰ってレポートを書かなきゃいけないんだから……」',
+    background: BG_FOREST, 
+    nextId: 'woods_8' 
+  },
+  'woods_8': { 
+    id: 'woods_8', 
+    speaker: '李逵', 
+    speakerEn: 'Li Kui',
+    speakerJa: '李逵',
+    characterId: 'likui', 
+    content: '“啰嗦甚! 由不得你! 走你! 把你一人留在这等下就要叫大虫给叼走了!”',
+    contentEn: '"Stop your blathering! You have no choice! Let\'s go! If I leave you here alone, a tiger will snatch you up in no time!"',
+    contentJa: '「つべこべ言うな！お前に拒否権はねえ！行くぞ！こんなところに一人で残してたら、すぐに虎に食われちまうぞ！」',
+    background: BG_FOREST, 
+    nextId: 'woods_9' 
+  },
+  'woods_9': { 
+    id: 'woods_9', 
+    speaker: '系统', 
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '李逵像拎小鸡一样把你扛到肩上，不顾你的抗议，大步流星地往山上跑去。',
+    contentEn: 'Li Kui hoists you onto his shoulder like a little chick, ignoring your protests, and strides up the mountain with great speed.',
+    contentJa: '李逵は抗議を無視して、あなたを雛鳥のように肩に担ぎ上げ、大股で山を駆け上がっていった。',
+    background: BG_FOREST, 
+    nextId: 'hall_entry' 
+  },
 
   // --- 忠义堂：对话与公孙胜预言 ---
-  'hall_entry': { id: 'hall_entry', speaker: '系统', content: '（你就这样地扛进了忠义堂，直到被李逵砰地一声丢在地砖上。）', background: BG_CAMP, nextId: 'hall_kui_explain' },
-  'hall_kui_explain': { id: 'hall_kui_explain', speaker: '李逵', characterId: 'likui', content: '“哥哥，俺在林子里打旋，见这丫头从天上‘啪嗒’一下掉在俺脚跟前，俺还以为是个甚么野果，凑近一看才见是个活人！”', background: BG_CAMP, nextId: 'hall_reaction_crowd' },
-  'hall_reaction_crowd': { id: 'hall_reaction_crowd', speaker: '系统', content: '堂上众人面面相觑。宋江手捋胡须，神色复杂地打量着你。', background: BG_CAMP, nextId: 'hall_song_ask' },
-  'hall_song_ask': { id: 'hall_song_ask', speaker: '宋江', content: '“你是何人？从何而来？为何突然现于我梁山泊？”', background: BG_CAMP, nextId: 'hall_inner_monologue' },
-  'hall_inner_monologue': { id: 'hall_inner_monologue', speaker: '系统', content: '你揉了揉眼睛，抬头看了看大厅上方的牌匾，那上面赫然写着“忠义堂”三个大字', background: BG_CAMP, nextId: 'hall_inner_shock' },
-  'hall_inner_shock': { id: 'hall_inner_shock', speaker: '{playerName}', content: '（不会吧...这地方怎么跟我在电视剧里看到的忠义堂完全长一样啊...上面坐着的那个黑哥不会是宋江吧...那个秃子不会是鲁智深吧...我不会真穿进水浒传了吧）', background: BG_CAMP, nextId: 'hall_inner_monologue_2' },
-  'hall_inner_monologue_2': { id: 'hall_inner_monologue_2', speaker: '{playerName}', content: '（冷静，一定要冷静。现在硬碰硬只有死路一条。看宋江的神色，似乎还在权衡。既然如此，不如先暂时配合，保住性命再寻良策……）', background: BG_CAMP, nextId: 'hall_name_input' },
-  'hall_name_input': { id: 'hall_name_input', speaker: '系统', content: '请在这尺素纸上写下你的姓名：', background: BG_CAMP, isNameInput: true, nextId: 'hall_self_intro' },
-  'hall_self_intro': { id: 'hall_self_intro', speaker: '{playerName}', content: '“我叫{playerName}，来自遥远的未来。我认识你们每一个人，梁山一百零八将的事迹在未来家喻户晓。”', background: BG_CAMP, nextId: 'hall_crowd_doubt_1' },
-  'hall_crowd_doubt_1': { id: 'hall_crowd_doubt_1', speaker: '众好汉', content: '“来自未来？简直是一派胡言！我看这丫头满口疯话，定是官府派来的细作，想以此脱身！”', background: BG_CAMP, nextId: 'hall_crowd_doubt_2' },
-  'hall_crowd_doubt_2': { id: 'hall_crowd_doubt_2', speaker: '刘唐', content: '“就是！瞧她这身奇装异服，非僧非俗，若不是妖人，便是奸细！哥哥，莫要听她胡诌，先关进大牢审个明白！”', background: BG_CAMP, nextId: 'hall_song_test' },
-  'hall_song_test': { id: 'hall_song_test', speaker: '宋江', content: '（堂下一片哗然，众人议论纷纷，宋江微微眯起眼）“既然你自称认识我们，那我且问你，宋江当年究竟是如何上的这梁山？”', background: BG_CAMP, choices: [
-    { text: '因怒杀阎婆惜被发配江州，后在浔阳楼题反诗被救上山。', nextId: 'hall_song_verdict' },
-    { text: '因为在京城卖保险赔个精光，为了躲债才跑来投奔晁盖。', nextId: 'game_over_hall' }
+  'hall_entry': { 
+    id: 'hall_entry', 
+    speaker: '系统', 
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '（你就这样地扛进了忠义堂，直到被李逵砰地一声丢在地砖上。）',
+    contentEn: '(You were carried into the Hall of Loyalty and Justice just like that, until Li Kui tossed you onto the floor tiles with a thud.)',
+    contentJa: '（あなたはそのまま忠義堂へと担ぎ込まれ、李逵によって床の上にドサリと放り出された。）',
+    background: BG_CAMP, 
+    nextId: 'hall_kui_explain' 
+  },
+  'hall_kui_explain': { 
+    id: 'hall_kui_explain', 
+    speaker: '李逵', 
+    speakerEn: 'Li Kui',
+    speakerJa: '李逵',
+    characterId: 'likui', 
+    content: '“哥哥，俺在林子里打旋，见这丫头从天上‘啪嗒’一下掉在俺脚跟前，俺还以为是个甚么野果，凑近一看才见是个活人！”',
+    contentEn: '"Brother, I was wandering in the woods when this girl dropped from the sky right in front of me! I thought it was some kind of wild fruit, but when I looked closer, it was a living person!"',
+    contentJa: '「兄貴、森をぶらついてたら、この小娘が空から俺の足元に降ってきたんだ！最初は何か珍しい果実かと思ったが、よく見たら生きた人間だったぜ！」',
+    background: BG_CAMP, 
+    nextId: 'hall_reaction_crowd' 
+  },
+  'hall_reaction_crowd': { 
+    id: 'hall_reaction_crowd', 
+    speaker: '系统', 
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '堂上众人面面相觑。宋江手捋胡须，神色复杂地打量着你。',
+    contentEn: 'Everyone in the hall looks at each other in bewilderment. Song Jiang strokes his beard, observing you with a complex expression.',
+    contentJa: '堂内の人々は顔を見合わせた。宋江は髭をなでながら、複雑な表情であなたを観察している。',
+    background: BG_CAMP, 
+    nextId: 'hall_song_ask' 
+  },
+  'hall_song_ask': { 
+    id: 'hall_song_ask', 
+    speaker: '宋江', 
+    speakerEn: 'Song Jiang',
+    speakerJa: '宋江',
+    content: '“你是何人？从何而来？为何突然现于我梁山泊？”',
+    contentEn: '"Who are you? Where do you come from? Why did you suddenly appear in our Liangshan Marsh?"',
+    contentJa: '「お前は何者だ？どこから来た？なぜ突然、我が梁山泊に現れたのだ？」',
+    background: BG_CAMP, 
+    nextId: 'hall_inner_monologue' 
+  },
+  'hall_inner_monologue': { 
+    id: 'hall_inner_monologue', 
+    speaker: '系统', 
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '你揉了揉眼睛，抬头看了看大厅上方的牌匾，那上面赫然写着“忠义堂”三个大字',
+    contentEn: 'You rub your eyes and look up at the plaque above the hall, where the three large characters "Hall of Loyalty and Justice" are clearly written.',
+    contentJa: 'あなたは目をこすり、ホールの上にある扁額を見上げた。そこには「忠義堂」の三文字がはっきりと刻まれていた。',
+    background: BG_CAMP, 
+    nextId: 'hall_inner_shock' 
+  },
+  'hall_inner_shock': { 
+    id: 'hall_inner_shock', 
+    speaker: '{playerName}', 
+    content: '（不会吧...这地方怎么跟我在电视剧里看到的忠义堂完全长一样啊...上面坐着的那个黑哥不会是宋江吧...那个秃子不会是鲁智深吧...我不会真穿进水浒传了吧）',
+    contentEn: '(No way... How does this place look exactly like the Hall of Loyalty and Justice I saw on TV... That dark guy sitting up there can\'t be Song Jiang, can he... and that bald guy can\'t be Lu Zhishen... Have I really traveled into Water Margin?)',
+    contentJa: '（嘘でしょ……ここ、テレビで見た忠義堂とそっくりじゃない……あそこに座ってる色黒の人はまさか宋江？あの坊主頭の人は魯智深？本当に水滸伝の世界に来ちゃったの？）',
+    background: BG_CAMP, 
+    nextId: 'hall_inner_monologue_2' 
+  },
+  'hall_inner_monologue_2': { 
+    id: 'hall_inner_monologue_2', 
+    speaker: '{playerName}', 
+    content: '（冷静，一定要冷静。现在硬碰硬只有死路一条。看宋江的神色，似乎还在权衡。既然如此，不如先暂时配合，保住性命再寻良策……）',
+    contentEn: '(Calm down, I must stay calm. Going head-to-head now is a dead end. Looking at Song Jiang\'s expression, he seems to be weighing his options. In that case, I should cooperate for now, save my life, and then find a way...)',
+    contentJa: '（落ち着け、落ち着くんだ。今ここで逆らっても死ぬだけ。宋江の様子を見る限り、まだ測りかねているみたい。だったら、今は協力するふりをして、命を守りながら策を練るしかない……）',
+    background: BG_CAMP, 
+    nextId: 'hall_name_input' 
+  },
+  'hall_name_input': { 
+    id: 'hall_name_input', 
+    speaker: '系统', 
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '请在这尺素纸上写下你的姓名：', 
+    contentEn: 'Please write your name on this piece of paper:',
+    contentJa: 'この紙にあなたの名前を書いてください：',
+    background: BG_CAMP, 
+    isNameInput: true, 
+    nextId: 'hall_self_intro' 
+  },
+  'hall_self_intro': { 
+    id: 'hall_self_intro', 
+    speaker: '{playerName}', 
+    content: '“我叫{playerName}，来自遥远的未来。我认识你们每一个人，梁山一百零八将的事迹在未来家喻户晓。”',
+    contentEn: '"My name is {playerName}, and I come from the distant future. I know every one of you; the deeds of the 108 heroes of Liangshan are known to everyone in the future."',
+    contentJa: '「私の名前は{playerName}、遠い未来から来ました。あなたたちのことは全員知っています。梁山泊百八星の物語は、未来では誰もが知る伝説なのです。」',
+    background: BG_CAMP, 
+    nextId: 'hall_crowd_doubt_1' 
+  },
+  'hall_crowd_doubt_1': { 
+    id: 'hall_crowd_doubt_1', 
+    speaker: '众好汉', 
+    speakerEn: 'Heroes',
+    speakerJa: '好漢たち',
+    content: '“来自未来？简直是一派胡言！我看这丫头满口疯话，定是官府派来的细作，想以此脱身！”',
+    contentEn: '"From the future? What utter nonsense! I think this girl is full of crazy talk, surely a spy sent by the government, trying to use this to escape!"',
+    contentJa: '「未来から来ただと？デタラメを言うな！この小娘、狂ったふりをして逃げようとしている官府の間者に違いねえ！」',
+    background: BG_CAMP, 
+    nextId: 'hall_crowd_doubt_2' 
+  },
+  'hall_crowd_doubt_2': { 
+    id: 'hall_crowd_doubt_2', 
+    speaker: '刘唐', 
+    speakerEn: 'Liu Tang',
+    speakerJa: '劉唐',
+    content: '“就是！瞧她这身奇装异服，非僧非俗，若不是妖人，便是奸细！哥哥，莫要听她胡诌，先关进大牢审个明白！”',
+    contentEn: '"Exactly! Look at her strange clothes, neither monk nor commoner. If she isn\'t a sorceress, she\'s a spy! Brother, don\'t listen to her nonsense, throw her in the dungeon and interrogate her!"',
+    contentJa: '「その通りだ！その妙な格好を見ろ、僧でも俗人でもねえ。妖術使いか間者のどちらかだ！兄貴、こいつのデタラメに耳を貸す必要はねえ、まずは牢にぶち込んで白状させようぜ！」',
+    background: BG_CAMP, 
+    nextId: 'hall_song_test' 
+  },
+  'hall_song_test': { 
+    id: 'hall_song_test', 
+    speaker: '宋江', 
+    speakerEn: 'Song Jiang',
+    speakerJa: '宋江',
+    content: '（堂下一片哗然，众人议论纷纷，宋江微微眯起眼）“既然你自称认识我们，那我且问你，宋江当年究竟是如何上的这梁山？”',
+    contentEn: '(The hall erupts in an uproar, everyone talking at once. Song Jiang narrows his eyes slightly.) "Since you claim to know us, let me ask you: how exactly did Song Jiang come to join Liangshan back then?"',
+    contentJa: '（堂内は騒然となり、人々が口々に言い合う中、宋江はわずかに目を細めた）「我々のことを知っていると言うなら、一つ聞こう。この宋江が、かつていかにしてこの梁山泊に加わったか、答えてみよ。」',
+    background: BG_CAMP, 
+    choices: [
+    { 
+      text: '因怒杀阎婆惜被发配江州，后在浔阳楼题反诗被救上山。', 
+      textEn: 'Banished to Jiangzhou for killing Yan Poxi in anger, then rescued and brought to the mountain after writing a rebellious poem at Xunyang Tower.',
+      textJa: '閻婆惜を殺害した罪で江州へ流され、その後、潯陽楼で反詩を詠んだために救い出され、山へ迎えられた。',
+      nextId: 'hall_song_verdict' 
+    },
+    { 
+      text: '因为在京城卖保险赔个精光，为了躲债才跑来投奔晁盖。', 
+      textEn: 'Because you lost everything selling insurance in the capital and fled to join Chao Gai to escape debt.',
+      textJa: '都で保険を売って大損し、借金から逃れるために晁蓋を頼って逃げてきた。',
+      nextId: 'game_over_hall' 
+    }
   ]},
   'hall_song_verdict': { id: 'hall_song_verdict', speaker: '宋江', content: '“嗯。。。有点意思。诸位兄弟怎么看？”', background: BG_CAMP, nextId: 'hall_song_verdict_next' },
   'hall_song_verdict_next': { id: 'hall_song_verdict_next', speaker: '系统', content: '宋江手捋胡须，神情缓和了些。', background: BG_CAMP, nextId: 'hall_kui_support' },
@@ -511,13 +809,212 @@ export const STORY_DATA: Record<string, StoryNode> = {
   'night_thought_2': { id: 'night_thought_2', speaker: '{playerName}', content: '（脑海里全是公孙胜的话，还有鲁智深描述的那个“隐忍”的林教头。他到底经历了多少痛苦，才会变成现在这种麻木的样子？）', background: BG_NIGHT, nextId: 'night_thought_3' },
   'night_thought_3': { id: 'night_thought_3', speaker: '{playerName}', content: '（好奇心和一种说不清道不明的心疼在胸腔里交织。那个曾经意气风发的豹子头，真的回不来了吗……）', background: BG_NIGHT, nextId: 'day7_start' },
   'day7_start': { id: 'day7_start', speaker: '系统', content: '第七天。清晨的阳光透过窗棂，你顶着淡淡的黑眼圈坐了起来。为了让自己精神一点，你决定去校场活动下筋骨。', background: BG_CAMP, nextId: 'day7_drill_1' },
-  'day7_drill_1': { id: 'day7_drill_1', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“哦？今日起得倒是早。既然来了，便别闲着，随我操练一番！”', background: BG_DRILL, nextId: 'day7_drill_2' },
-  'day7_drill_2': { id: 'day7_drill_2', speaker: '系统', content: '呼延灼不由分说，长鞭一挥便攻了过来。你在密集的攻势中左右闪躲，额头渐渐渗出汗水。', background: BG_DRILL, nextId: 'day7_drill_3' },
-  'day7_drill_3': { id: 'day7_drill_3', speaker: '{playerName}', content: '（就在你格挡呼延灼的一次重击时，眼角的余光忽然瞥见校场最偏僻的角落里，有一个熟悉的身影。）', background: BG_DRILL, nextId: 'day7_drill_4' },
-  'day7_drill_4': { id: 'day7_drill_4', speaker: '系统', content: '那是林冲。他正一个人对着木桩练习枪法，动作虽然缓慢，却透着一种近乎自虐的执着。', background: BG_DRILL, characterId: 'linchong', nextId: 'day7_drill_5' },
-  'day7_drill_5': { id: 'day7_drill_5', speaker: '{playerName}', content: '（你心中暗想：看来林教头还没有完全堕落嘛，至少他还没有放下手中的枪。）', background: BG_DRILL, nextId: 'day7_drill_6' },
-  'day7_drill_6': { id: 'day7_drill_6', speaker: '系统', content: '突然，林冲的枪尖在木桩上剧烈一震，他的虎口似乎被震裂了，鲜血瞬间染红了手掌。', background: CG_LIN_BLEED, characterId: 'linchong', nextId: 'day7_drill_7' },
-  'day7_drill_7': { id: 'day7_drill_7', speaker: '系统', content: '但他只是麻木地看了看伤口，眼神中没有任何波澜，随即像没事人一样继续挥枪练习。', background: CG_LIN_BLEED, characterId: 'linchong', nextId: 'day7_drill_8' },
-  'day7_drill_8': { id: 'day7_drill_8', speaker: '{playerName}', content: '（你愣住了。鲜血顺着枪杆一滴滴落在地上，他却连眉头都没皱一下，仿佛那具身体根本不是他自己的一样……）', background: CG_LIN_BLEED, nextId: 'linchong_demo_15' },
-  'linchong_demo_15': { id: 'linchong_demo_15', speaker: '系统', content: '第七天。未完待续...', background: BG_CAMP, choices: [ { text: '重新开始', nextId: 'start' } ] }
+  'day7_drill_1': { id: 'day7_drill_1', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“哦？今日起得倒是早。既然来了，便别闲着，随我操练一番！”', background: BG_DRILL, nextId: 'day7_player_annoyed' },
+  'day7_player_annoyed': { id: 'day7_player_annoyed', speaker: '{playerName}', content: '“你有毛病吧？我才刚起床，还没吃早饭呢，操练什么操练！”你翻了个白眼，没好气地怼了回去。', background: BG_DRILL, nextId: 'day7_huyan_nagging' },
+  'day7_huyan_nagging': { id: 'day7_huyan_nagging', speaker: '呼延灼', characterId: 'huyanzhuo', content: '“你这丫头，简直不可理喻！身为梁山一员，怎能如此懈怠？想当年我统领连环马时，将士们闻鸡起舞……”', background: BG_DRILL, nextId: 'day7_drill_3' },
+  'day7_drill_3': { id: 'day7_drill_3', speaker: '{playerName}', content: '（你根本没心思听他啰嗦，正要转身离开，眼角的余光却忽然瞥见校场最偏僻的角落里，有一个熟悉的身影。）', background: BG_DRILL, nextId: 'day7_drill_4' },
+  'day7_drill_4': { id: 'day7_drill_4', speaker: '系统', content: '那是林冲。他正一个人对着木桩练习枪法，动作虽然缓慢，却透着一种近乎自虐的执着。', background: BG_DRILL, nextId: 'day7_drill_5' },
+  'day7_drill_5': { id: 'day7_drill_5', speaker: '{playerName}', content: '（你心中暗想：看来林教头还没有完全堕落嘛，至少他还没有放下手中的枪。）', background: BG_DRILL, nextId: 'day7_drill_5_1' },
+  'day7_drill_5_1': { id: 'day7_drill_5_1', speaker: '系统', content: '只见他身形微晃，手中长枪如银龙出海，带起阵阵劲风，每一式都沉稳有力。', background: BG_DRILL, nextId: 'day7_drill_6' },
+  'day7_drill_6': { id: 'day7_drill_6', speaker: '系统', content: '突然，林冲的枪尖在木桩上剧烈一震，他的虎口似乎被震裂了，鲜血瞬间染红了手掌。', background: CG_LIN_BLEED, nextId: 'day7_drill_7' },
+  'day7_drill_7': { id: 'day7_drill_7', speaker: '系统', content: '但他只是麻木地看了看伤口，眼神中没有任何波澜，随即像没事人一样继续挥枪练习。', background: CG_LIN_BLEED, nextId: 'day7_drill_8' },
+  'day7_drill_8': { id: 'day7_drill_8', speaker: '{playerName}', content: '（你愣住了。鲜血顺着枪杆一滴滴落在地上，他却连眉头都没皱一下，仿佛那具身体根本不是他自己的一样……）', background: CG_LIN_BLEED, nextId: 'day7_linchong_approach' },
+  'day7_linchong_approach': { id: 'day7_linchong_approach', speaker: '{playerName}', content: '你忍不住停下脚步，鬼使神差般地朝着那个偏僻的角落走去。', background: CG_LIN_BLEED, nextId: 'day7_linchong_call' },
+  'day7_linchong_call': { id: 'day7_linchong_call', speaker: '{playerName}', content: '“林教头……”你轻声唤道，声音里带着一丝连你自己都没察觉的颤抖。', background: CG_LIN_BLEED, nextId: 'day7_linchong_response_1' },
+  'day7_linchong_response_1': { id: 'day7_linchong_response_1', speaker: '林冲', characterId: 'linchong', content: '林冲手中的长枪猛地一顿，他缓缓转过头，那双曾经锐利如电的眼睛此刻却像是一潭死水，毫无生气。', background: BG_DRILL, nextId: 'day7_linchong_dialogue_1' },
+  'day7_linchong_dialogue_1': { id: 'day7_linchong_dialogue_1', speaker: '{playerName}', content: '“你的手……在流血。”你指了指他那只被鲜血染红的右手，心里一阵揪紧。”', background: BG_DRILL, nextId: 'day7_linchong_response_2' },
+  'day7_linchong_response_2': { id: 'day7_linchong_response_2', speaker: '林冲', characterId: 'linchong', content: '他低头看了看，仿佛那是别人的手一样，语气平淡得令人心惊：“无碍，习惯了。”', background: BG_DRILL, nextId: 'day7_linchong_dialogue_2' },
+  'day7_linchong_dialogue_2': { id: 'day7_linchong_dialogue_2', speaker: '{playerName}', content: '“可是……”你还想说些什么，却被他冷淡的目光堵了回去。', background: BG_DRILL, nextId: 'day7_linchong_response_3' },
+  'day7_linchong_response_3': { id: 'day7_linchong_response_3', speaker: '林冲', characterId: 'linchong', content: '“姑娘若是来练武的，便去寻呼延将军。林某还有事，先行告退。”', background: BG_DRILL, nextId: 'day7_linchong_leave' },
+  'day7_linchong_leave': { id: 'day7_linchong_leave', speaker: '系统', content: '他微微颔首，甚至没有等你回应，便提着那杆染血的长枪，步履蹒跚地消失在校场的尽头。', background: BG_DRILL, nextId: 'day7_pendant_react' },
+  'day7_pendant_react': { id: 'day7_pendant_react', speaker: '{playerName}', content: '你呆呆地立在原地，被他那股近乎死寂的冷峻气场震得半晌说不出话来。就在这时，你紧紧握在手心里的星魂坠忽然微微跳动了一下。', background: BG_DRILL, nextId: 'day7_monologue_1' },
+  'day7_monologue_1': { id: 'day7_monologue_1', speaker: '{playerName}', content: '咦？星魂坠动了...我记得公孙先生说过...', background: BG_DRILL, nextId: 'day7_flashback_9' },
+  'day7_flashback_9': { id: 'day7_flashback_9', speaker: '公孙胜', content: '“唯有唤醒他内心的热血，让他重拾英雄本色，方能保住梁山，亦能保住你自己。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'day7_flashback_10' },
+  'day7_flashback_10': { id: 'day7_flashback_10', speaker: '{playerName}', content: '你深吸一口气，追问道：“那林教头……他真的就是那颗星宿转世之人吗？”', background: BG_CAVE, nextId: 'day7_flashback_11' },
+  'day7_flashback_11': { id: 'day7_flashback_11', speaker: '公孙胜', content: '公孙胜的目光变得有些暧昧不明，他轻轻摩挲着指尖：“这梁山之上的好汉，皆是星辰转世，这一点毋庸置疑。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'day7_flashback_12' },
+  'day7_flashback_12': { id: 'day7_flashback_12', speaker: '公孙胜', content: '“但究竟谁才是真正的‘天选之人’，还需要你自己去发现。因为，只有特定的人，才会与你手中的‘星魂坠’产生感应。”', background: BG_CAVE, characterId: 'gongsunsheng', nextId: 'day7_monologue_2' },
+  'day7_monologue_2': { 
+    id: 'day7_monologue_2', 
+    speaker: '{playerName}', 
+    content: '林教头，难道...', 
+    contentEn: 'Instructor Lin, could it be...',
+    contentJa: '林教頭、まさか……',
+    background: BG_DRILL, 
+    characterId: null, 
+    nextId: 'day7_huyanzhuo_shout_1' 
+  },
+  'day7_huyanzhuo_shout_1': {
+    id: 'day7_huyanzhuo_shout_1',
+    speaker: '呼延灼',
+    speakerEn: 'Huyan Zhuo',
+    speakerJa: '呼延灼',
+    content: '“喂！那个魂不守舍的丫头！你在那儿对着空气发什么愁呢？没看到后边马队过来了吗！想被踩成柿子饼吗！”',
+    contentEn: '"Hey! You there, girl with your head in the clouds! What are you fretting about into thin air? Didn\'t you see the cavalry coming up behind you! Do you want to be flattened like a persimmon cake?!"',
+    contentJa: '「おい！そこの魂の抜けたような小娘！空中を見つめて何をボサっとしているんだ？後ろから馬隊が来ているのが見えないのか！柿の種みたいに踏みつぶされたいのか！」',
+    background: BG_DRILL,
+    characterId: 'huyanzhuo',
+    nextId: 'day7_huyanzhuo_shout_2'
+  },
+  'day7_huyanzhuo_shout_2': {
+    id: 'day7_huyanzhuo_shout_2',
+    speaker: '{playerName}',
+    content: '“啊...是！呼延将军！”',
+    contentEn: '"Ah... Yes! General Huyan!"',
+    contentJa: '「あ……はい！呼延将軍！」',
+    background: BG_DRILL,
+    characterId: null,
+    nextId: 'day7_night_1'
+  },
+  'day7_night_1': {
+    id: 'day7_night_1',
+    speaker: '系统',
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '深夜，你回到了房间。窗外的月光清冷如霜，照在简陋的床铺上。',
+    contentEn: 'Late at night, you returned to your room. The cold moonlight shone like frost upon the simple bedding.',
+    contentJa: '深夜、あなたは部屋に戻った。窓の外の冷たい月光が、質素な寝床に霜のように降り注いでいる。',
+    background: BG_NIGHT,
+    nextId: 'day7_night_2'
+  },
+  'day7_night_2': {
+    id: 'day7_night_2',
+    speaker: '{playerName}',
+    content: '你翻来覆去，却怎么也睡不着。一闭上眼，白天的画面就在脑海中乱转。',
+    contentEn: 'You tossed and turned, unable to sleep. Every time you closed your eyes, the day\'s images spun through your mind.',
+    contentJa: '何度も寝返りを打つばかりで、どうしても眠れない。目を閉じると、昼間の光景が脳裏を駆け巡る。',
+    background: BG_NIGHT,
+    nextId: 'day7_night_3'
+  },
+  'day7_night_3': {
+    id: 'day7_night_3',
+    speaker: '{playerName}',
+    content: '脑海中挥之不去的，是林教头那只紧握着长枪、却满是鲜血的手。',
+    contentEn: 'What haunts my mind is Instructor Lin\'s hand, gripping the spear tightly yet covered in blood.',
+    contentJa: '脳裏から離れないのは、長槍を固く握りしめ、血にまみれた林教頭の手だ。',
+    background: BG_NIGHT,
+    nextId: 'day7_night_4'
+  },
+  'day7_night_4': {
+    id: 'day7_night_4',
+    speaker: '{playerName}',
+    content: '鲜血顺着冰冷的枪头滑落，一滴，两滴……他却像是感觉不到痛一般，只是机械地挥舞。',
+    contentEn: 'Blood slid down the cold spearhead, drop by drop... yet he seemed to feel no pain, only swinging mechanically.',
+    contentJa: '血が冷たい矛先を伝って滴る。一滴、二滴……彼は痛みを感じていないかのように、ただ機械的に槍を振るっていた。',
+    background: BG_NIGHT,
+    nextId: 'day7_night_6'
+  },
+  'day7_night_6': {
+    id: 'day7_night_6',
+    speaker: '鲁智深',
+    speakerEn: 'Lu Zhishen',
+    speakerJa: '魯智深',
+    content: '“但你不能一直这样下去啊！你是林教头，不是这山里的缩头乌龟！”',
+    contentEn: '"But you can\'t go on like this! You are Instructor Lin, not some shrinking turtle in these mountains!"',
+    contentJa: '「だが、いつまでもこうしているわけにはいかん！お主は林教頭だ、この山の縮こまった亀ではないのだ！」',
+    background: BG_NIGHT,
+    nextId: 'day7_night_7'
+  },
+  'day7_night_7': {
+    id: 'day7_night_7',
+    speaker: '{playerName}',
+    content: '小时候看《水浒传》电视剧和连环画里，林冲火并王伦后，在梁山明明有很高的地位，是位极重要的元老……',
+    contentEn: 'In the Water Margin TV shows and picture books I saw as a kid, Lin Chong had a high status on Liangshan after killing Wang Lun, a very important veteran...',
+    contentJa: '子供の頃に見た「水滸伝」のドラマや絵本では、林冲は王倫を火並（かへい）した後に梁山で高い地位にあり、非常に重要な元老だったはずなのに……',
+    background: BG_NIGHT,
+    nextId: 'day7_night_8'
+  },
+  'day7_night_8': {
+    id: 'day7_night_8',
+    speaker: '{playerName}',
+    content: '为什么在这个梁山，他会变成被小喽啰嘲笑、甚至被排挤到边缘的存在？',
+    contentEn: 'Why on this Liangshan has he become someone mocked by low-level grunts and pushed to the fringes?',
+    contentJa: 'なぜこの梁山では、彼は下っ端の者たちに嘲笑され、縁に追いやられる存在になってしまったのだろうか？',
+    background: BG_NIGHT,
+    nextId: 'day7_night_9'
+  },
+  'day7_night_9': {
+    id: 'day7_night_9',
+    speaker: '{playerName}',
+    content: '这觉彻底睡不了了，我还是去校场散步消消食吧...',
+    contentEn: 'I clearly can\'t sleep at all; I might as well go for a stroll at the drill grounds...',
+    contentJa: 'もう全然眠れそうにない。演武場にでも行って散歩してこようかな……',
+    background: BG_NIGHT,
+    nextId: 'day7_walk_1'
+  },
+  'day7_walk_1': {
+    id: 'day7_walk_1',
+    speaker: '系统',
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '深夜的演武场空旷而寂静。寒风呼啸着穿过兵器架，发出阵阵如咽如泣的声响。',
+    contentEn: 'The drill grounds at night were vast and silent. The cold wind whistled through the weapon racks, making a weeping sound.',
+    contentJa: '深夜の演武場は広々としていて静まり返っている。寒風が兵器棚を吹き抜け、すすり泣くような音を立てている。',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_walk_2'
+  },
+  'day7_walk_2': {
+    id: 'day7_walk_2',
+    speaker: '{playerName}',
+    content: '“嘶……好冷……”你不堪严寒，缩了缩肩膀，重重地打了两个冷颤。',
+    contentEn: '"Hiss... so cold..." You huddled your shoulders against the biting cold, shivering violently twice.',
+    contentJa: '「くっ……寒い……」寒さに耐えかねて、肩をすぼめ、激しく二度身震いした。',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_walk_3'
+  },
+  'day7_walk_3': {
+    id: 'day7_walk_3',
+    speaker: '{playerName}',
+    content: '以前我上班的时候连上司的一句重话都不敢顶撞，现在竟然敢在深夜的梁山泊校场散步，我也太勇了。',
+    contentEn: 'Back when I was working, I didn\'t even dare to talk back to my boss. Now I\'m actually strolling in the Liangshan drill grounds late at night... I\'m so brave.',
+    contentJa: '会社員だった頃は上司に言い返すこともできなかったのに、今は深夜の梁山泊で散歩してるなんて……私、勇気ありすぎ。',
+    background: BG_NIGHT_DRILL,
+    nextId: 'day7_flashback_1'
+  },
+  'day7_flashback_1': {
+    id: 'day7_flashback_1',
+    speaker: '主管',
+    speakerEn: 'Supervisor',
+    speakerJa: '上司',
+    content: '“如果你连这点强度都吃不消，你可以现在就卷铺盖走人！公司不养闲人，你的KPI达标了吗？”',
+    contentEn: '"If you can\'t even handle this intensity, you can pack your bags and leave right now! The company doesn\'t feed idlers. Have you met your KPIs?"',
+    contentJa: '「この程度の強度も耐えられないなら、今すぐ荷物をまとめて出て行け！会社は無能を養わない。KPIは達成したのか？」',
+    background: BG_BLACK,
+    nextId: 'day7_flashback_2'
+  },
+  'day7_flashback_2': {
+    id: 'day7_flashback_2',
+    speaker: '{playerName}',
+    content: '当时的你，只能低着头，死死咬着嘴唇，双手在桌下攥得发白。',
+    contentEn: 'Back then, you could only lower your head, biting your lip hard, your hands clenched white under the desk.',
+    contentJa: 'あの時のあなたは、ただ頭を下げ、唇を強く噛みしめ、机の下で両手を真っ白になるまで握りしめることしかできなかった。',
+    background: BG_BLACK,
+    nextId: 'day7_flashback_3'
+  },
+  'day7_flashback_3': {
+    id: 'day7_flashback_3',
+    speaker: '{playerName}',
+    content: '（……明明他在胡说八道，明明全是他在甩锅……可我除了默默生闷气，竟然什么都不敢做。）',
+    contentEn: '(...Clearly he was talking nonsense, clearly he was shifting the blame... yet besides silently fuming, I didn\'t dare do anything.)',
+    contentJa: '（……明らかに彼はデタラメを言っていたし、責任転嫁をしていただけなのに……私は黙って腹を立てる以外、何もできなかった。）',
+    background: BG_BLACK,
+    nextId: 'linchong_demo_15'
+  },
+  'linchong_demo_15': { 
+    id: 'linchong_demo_15', 
+    speaker: '系统', 
+    speakerEn: 'System',
+    speakerJa: 'システム',
+    content: '第七天。未完待续...', 
+    contentEn: 'Day 7. To be continued...',
+    contentJa: '七日目。続く……',
+    background: BG_CAMP, 
+    choices: [ 
+      { 
+        text: '重新开始', 
+        textEn: 'Restart',
+        textJa: 'リスタート',
+        nextId: 'start' 
+      } 
+    ] 
+  }
 };
